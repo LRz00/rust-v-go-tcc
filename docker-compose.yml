@@ -18,6 +18,11 @@ services:
       retries: 5
 
   go-api:
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 128M
     build: ./go-api
     container_name: tcc_go_api
     ports:
@@ -27,6 +32,11 @@ services:
         condition: service_healthy
 
   rust-api:
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 128M    
     build: ./rust-api
     container_name: tcc_rust_api
     ports:
