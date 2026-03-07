@@ -1,0 +1,33 @@
+# Resultados de benchmark (não versionar)
+benchmark_results/
+
+# Backups
+*.old.md
+*.backup
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker volumes (se usar bind mount)
+postgres-data/
+
+# Logs
+*.log
