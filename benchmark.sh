@@ -59,20 +59,56 @@ parse_wrk_output() {
     local wrk_output=$1
     local output_json=$2
     
-    # Extrai métricas do wrk usando awk/grep
-    local latency_avg=$(echo "$wrk_output" | grep "Latency" | awk '{print $2}')
-    local latency_stdev=$(echo "$wrk_output" | grep "Latency" | awk '{print $3}')
-    local latency_max=$(echo "$wrk_output" | grep "Latency" | awk '{print $4}')
+    # Extrai métricas do wrk - versão melhorada
+    # Latency line format: "    Latency   727.82ms  396.17ms   1.29s"
+    local latency_line=$(echo "$wrk_output" | grep -E "^\s+Latency" | head -1)
+    local latency_avg=$(echo "$latency_line" | awk '{print $2}')
+    local latency_stdev=$(echo "$latency_line" | awk '{print $3}')
+    local latency_max=$(echo "$latency_line" | awk '{print $4}')
     
-    local req_sec=$(echo "$wrk_output" | grep "Req/Sec" | awk '{print $2}')
-    local req_stdev=$(echo "$wrk_output" | grep "Req/Sec" | awk '{print $3}')
-    local req_max=$(echo "$wrk_output" | grep "Req/Sec" | awk '{print $4}')
+    # Req/Sec line format: "    Req/Sec     4.25      3.68    10.00"
+    local req_line=$(echo "$wrk_output" | grep -E "^\s+Req/Sec" | head -1)
+    local req_sec=$(echo "$req_line" | awk '{print $2}')
+    local req_stdev=$(echo "$req_line" | awk '{print $3}')
+    local req_max=$(echo "$req_line" | awk '{print $4}')
     
+    # Total requests line format: "  17 requests in 1.00m, 2.34KB read"
     local total_requests=$(echo "$wrk_output" | grep "requests in" | awk '{print $1}')
-    local total_time=$(echo "$wrk_output" | grep "requests in" | awk '{print $3}')
+    local total_time=$(echo "$wrk_output" | grep "requests in" | awk '{print $4}' | tr -d ',')
+    
+    # Transfer line format: "Transfer/sec:      39.95B"
     local total_read=$(echo "$wrk_output" | grep "Transfer/sec:" | awk '{print $2}')
     
-    local errors=$(echo "$wrk_output" | grep -i "Socket errors\|Non-2xx" || echo "0")
+    # Errors - procura por socket errors ou non-2xx
+    local socket_errors=$(echo "$wrk_output" | grep "Socket errors" | grep -oE "[0-9]+" | head -1)
+    local non2xx=$(echo "$wrk_output" | grep "Non-2xx" | grep -oE "[0-9]+" | head -1)
+    local total_errors=0
+    
+    if [ -n "$socket_errors" ]; then
+        total_errors=$((total_errors + socket_errors))
+    fi
+    if [ -n "$non2xx" ]; then
+        total_errors=$((total_errors + non2xx))
+    fi
+    
+    # Requests/sec line format: "Requests/sec:      0.28"
+    local requests_per_sec=$(echo "$wrk_output" | grep "Requests/sec:" | awk '{print $2}')
+    
+    # Define defaults se valores vazios
+    latency_avg=${latency_avg:-"0ms"}
+    latency_stdev=${latency_stdev:-"0ms"}
+    latency_max=${latency_max:-"0ms"}
+    
+    # Se req_sec vazio, usa Requests/sec
+    if [ -z "$req_sec" ] && [ -n "$requests_per_sec" ]; then
+        req_sec="$requests_per_sec"
+    fi
+    req_sec=${req_sec:-"0"}
+    req_stdev=${req_stdev:-"0"}
+    req_max=${req_max:-"0"}
+    total_requests=${total_requests:-"0"}
+    total_time=${total_time:-"0s"}
+    total_read=${total_read:-"0"}
     
     # Cria JSON estruturado
     cat > "$output_json" <<EOF
@@ -92,7 +128,7 @@ parse_wrk_output() {
         "duration": "$total_time",
         "transfer": "$total_read"
     },
-    "errors": "$errors"
+    "errors": "$total_errors"
 }
 EOF
 }
