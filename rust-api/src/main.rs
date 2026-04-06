@@ -1,6 +1,6 @@
 use actix_web::{web, App, HttpResponse, HttpServer, Responder};
 use chrono::{NaiveDate, Utc};
-use deadpool_postgres::{Config, Pool};
+use deadpool_postgres::{Config, Pool, PoolConfig};
 use serde::Serialize;
 use tokio_postgres::NoTls;
 use std::env;
@@ -157,6 +157,10 @@ async fn main() -> std::io::Result<()> {
     cfg.user = Some(db_user);
     cfg.password = Some(db_pass);
     cfg.dbname = Some(db_name);
+    cfg.pool = Some(PoolConfig {
+        max_size: 50,
+        ..Default::default()
+    });
 
     let pool = cfg.create_pool(NoTls).unwrap();
 

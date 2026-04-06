@@ -56,6 +56,7 @@ Cinco hipóteses operacionalizáveis que guiam todo o Design experimental:
 | Ambiente | Docker | Mesma versão SO, kernel, recursos |
 | Endpoints | Funcionalmente equivalentes | Garantir comparabilidade |
 | Payload | Idêntico | Eliminar viés de tamanho de requisição |
+| Pool de conexões DB | 50 conexões máximas (Go e Rust) | Eliminar viés de throughput/latência por configuração de pool |
 | Duração | 60 segundos | Tempo suficiente para estabilização |
 | Threads wrk | 4 | Fixo em todas as execuções |
 
