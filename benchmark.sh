@@ -9,6 +9,8 @@ set -e
 # Configurações
 RESULTS_DIR="benchmark_results"
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PERCENTILES_SCRIPT="$SCRIPT_DIR/percentiles.lua"
 GO_URL="http://localhost:8080"
 RUST_URL="http://localhost:8081"
 WRK_THREADS=4
@@ -93,11 +95,17 @@ parse_wrk_output() {
     
     # Requests/sec line format: "Requests/sec:      0.28"
     local requests_per_sec=$(echo "$wrk_output" | grep "Requests/sec:" | awk '{print $2}')
+
+    # Percentis customizados via script Lua do wrk
+    local latency_p95=$(echo "$wrk_output" | awk -F'P95: ' '/P95:/ {print $2}' | tail -1 | tr -d '\r')
+    local latency_p99=$(echo "$wrk_output" | awk -F'P99: ' '/P99:/ {print $2}' | tail -1 | tr -d '\r')
     
     # Define defaults se valores vazios
     latency_avg=${latency_avg:-"0ms"}
     latency_stdev=${latency_stdev:-"0ms"}
     latency_max=${latency_max:-"0ms"}
+    latency_p95=${latency_p95:-"0"}
+    latency_p99=${latency_p99:-"0"}
     
     # Se req_sec vazio, usa Requests/sec
     if [ -z "$req_sec" ] && [ -n "$requests_per_sec" ]; then
@@ -116,7 +124,9 @@ parse_wrk_output() {
     "latency": {
         "avg": "$latency_avg",
         "stdev": "$latency_stdev",
-        "max": "$latency_max"
+        "max": "$latency_max",
+        "p95": "$latency_p95",
+        "p99": "$latency_p99"
     },
     "requests_per_sec": {
         "avg": "$req_sec",
@@ -152,7 +162,7 @@ run_benchmark() {
     
     # Executa wrk e salva output completo
     echo "Executando wrk (threads=$WRK_THREADS, connections=$connections, duration=$DURATION)..."
-    local wrk_output=$(wrk -t$WRK_THREADS -c$connections -d$DURATION --latency "$url/days-since" 2>&1)
+    local wrk_output=$(wrk -t$WRK_THREADS -c$connections -d$DURATION --latency -s "$PERCENTILES_SCRIPT" "$url/days-since" 2>&1)
     echo "$wrk_output" > "$run_dir/wrk_output.txt"
     
     # Parseia resultados
@@ -200,7 +210,7 @@ run_benchmark_heavy() {
     
     # Executa wrk no endpoint heavy
     echo "Executando wrk no endpoint allocation-heavy..."
-    local wrk_output=$(wrk -t$WRK_THREADS -c$connections -d$DURATION --latency "$url/days-since-heavy" 2>&1)
+    local wrk_output=$(wrk -t$WRK_THREADS -c$connections -d$DURATION --latency -s "$PERCENTILES_SCRIPT" "$url/days-since-heavy" 2>&1)
     echo "$wrk_output" > "$run_dir/wrk_output.txt"
     
     parse_wrk_output "$wrk_output" "$run_dir/wrk_summary.json"
