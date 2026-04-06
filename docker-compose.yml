@@ -21,8 +21,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.50"
-          memory: 128M
+          cpus: "1.0"
+          memory: 512M
     build: ./go-api
     container_name: tcc_go_api
     ports:
@@ -35,8 +35,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.50"
-          memory: 128M    
+          cpus: "1.0"
+          memory: 512M    
     build: ./rust-api
     container_name: tcc_rust_api
     ports:
