@@ -48,8 +48,8 @@ struct HeavyResp {
 
 async fn days_since_heavy(pool: web::Data<Pool>) -> impl Responder {
     // Workload sintético de alocação
-    // Aloca 10MB de dados temporários
-    const ALLOC_SIZE: usize = 10 * 1024 * 1024; // 10MB
+    // Aloca 1MB de dados temporários
+    const ALLOC_SIZE: usize = 1 * 1024 * 1024; // 1MB
     let mut buffer = vec![0u8; ALLOC_SIZE];
     
     // Preenche o buffer para forçar alocação real

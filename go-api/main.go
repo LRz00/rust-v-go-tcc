@@ -76,8 +76,8 @@ func daysSinceHeavyHandler(w http.ResponseWriter, r *http.Request) {
 	defer cancel()
 
 	// Workload sintético de alocação
-	// Aloca 10MB de dados temporários
-	const allocSize = 10 * 1024 * 1024 // 10MB
+	// Aloca 1MB de dados temporários
+	const allocSize = 1 * 1024 * 1024 // 1MB
 	buffer := make([]byte, allocSize)
 
 	// Preenche o buffer para forçar alocação real
