@@ -16,6 +16,30 @@ import (
 
 var db *sql.DB
 
+func waitForDB(db *sql.DB, maxWait time.Duration) error {
+	deadline := time.Now().Add(maxWait)
+	attempt := 0
+
+	for {
+		attempt++
+		ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+		err := db.PingContext(ctx)
+		cancel()
+		if err == nil {
+			return nil
+		}
+
+		if time.Now().After(deadline) {
+			return fmt.Errorf("db not ready after %s: %w", maxWait, err)
+		}
+
+		if attempt == 1 || attempt%5 == 0 {
+			log.Printf("DB not ready yet (attempt %d): %v", attempt, err)
+		}
+		time.Sleep(1 * time.Second)
+	}
+}
+
 func main() {
 	dsn := os.Getenv("DATABASE_URL")
 	if dsn == "" {
@@ -27,13 +51,11 @@ func main() {
 	if err != nil {
 		log.Fatalf("open db: %v", err)
 	}
-	db.SetMaxOpenConns(50)
-	db.SetMaxIdleConns(10)
+	db.SetMaxOpenConns(25)
+	db.SetMaxIdleConns(5)
 	db.SetConnMaxLifetime(5 * time.Minute)
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-	if err := db.PingContext(ctx); err != nil {
+	if err := waitForDB(db, 60*time.Second); err != nil {
 		log.Fatalf("ping db: %v", err)
 	}
 

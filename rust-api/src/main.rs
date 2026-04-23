@@ -158,7 +158,7 @@ async fn main() -> std::io::Result<()> {
     cfg.password = Some(db_pass);
     cfg.dbname = Some(db_name);
     cfg.pool = Some(PoolConfig {
-        max_size: 50,
+        max_size: 25,
         ..Default::default()
     });
 
