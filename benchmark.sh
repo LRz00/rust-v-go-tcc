@@ -17,7 +17,7 @@ WRK_THREADS=4
 DURATION="60s"
 
 # Cenários de carga progressivos (conexões simultâneas)
-SCENARIOS=(10 50 100 200 500 1000)
+SCENARIOS=(10 25 50 100 200 400)
 
 # Função para criar diretório de resultados
 setup_results_dir() {

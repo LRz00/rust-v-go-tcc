@@ -31,17 +31,27 @@ setup_results_dir() {
 check_services() {
     echo "Verificando disponibilidade dos serviços..."
 
-    for i in {1..10}; do
-        if curl -s "$GO_URL/health" > /dev/null 2>&1 && \
-           curl -s "$RUST_URL/health" > /dev/null 2>&1; then
+    for i in {1..30}; do
+        local go_ok=0
+        local rust_ok=0
+
+        if curl -sS "$GO_URL/health" > /dev/null 2>&1; then
+            go_ok=1
+        fi
+        if curl -sS "$RUST_URL/health" > /dev/null 2>&1; then
+            rust_ok=1
+        fi
+
+        if [ "$go_ok" -eq 1 ] && [ "$rust_ok" -eq 1 ]; then
             echo "✓ APIs online"
             return 0
         fi
-        echo "  Tentativa $i/10..."
+
+        echo "  Tentativa $i/30... (go=$go_ok rust=$rust_ok)"
         sleep 2
     done
 
-    echo "ERRO: APIs não responderam após 20 segundos"
+    echo "ERRO: APIs não responderam após 60 segundos"
     exit 1
 }
 
@@ -126,7 +136,7 @@ fi
 setup_results_dir
 
 echo "Iniciando serviços..."
-docker compose restart > /dev/null 2>&1 || docker compose up -d
+docker compose up -d --build > /dev/null 2>&1
 
 echo "Aguardando inicialização..."
 sleep 10
