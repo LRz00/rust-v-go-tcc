@@ -1,0 +1,20 @@
+{
+    "latency": {
+        "avg": "168.53ms",
+        "stdev": "107.26ms",
+        "max": "990.83ms",
+        "p95": "389836",
+        "p99": "496629"
+    },
+    "requests_per_sec": {
+        "avg": "154.77",
+        "stdev": "72.99",
+        "max": "424.00"
+    },
+    "total": {
+        "requests": "36889",
+        "duration": "1.00m",
+        "transfer": "84.58KB"
+    },
+    "errors": "0"
+}

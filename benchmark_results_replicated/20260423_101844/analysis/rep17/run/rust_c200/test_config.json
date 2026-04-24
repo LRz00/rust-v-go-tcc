@@ -1,0 +1,8 @@
+{
+    "language": "rust",
+    "url": "http://localhost:8081",
+    "connections": 200,
+    "threads": 4,
+    "duration": "60s",
+    "timestamp": "2026-04-23 18:07:36-03:00"
+}

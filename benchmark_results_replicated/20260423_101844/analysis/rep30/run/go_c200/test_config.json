@@ -1,0 +1,8 @@
+{
+    "language": "go",
+    "url": "http://localhost:8080",
+    "connections": 200,
+    "threads": 4,
+    "duration": "60s",
+    "timestamp": "2026-04-24 00:17:39-03:00"
+}

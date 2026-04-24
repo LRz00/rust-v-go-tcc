@@ -1,0 +1,40 @@
+========================================
+RESUMO DO BENCHMARK - 20260424_000708
+========================================
+
+--- Conexões: 10 ---
+Go:
+15.78ms (avg latency), 0.93k (req/s)
+Rust:
+549.46us (avg latency), 3.61k (req/s)
+
+--- Conexões: 25 ---
+Go:
+30.24ms (avg latency), 327.48 (req/s)
+Rust:
+1.55ms (avg latency), 3.87k (req/s)
+
+--- Conexões: 50 ---
+Go:
+31.68ms (avg latency), 583.90 (req/s)
+Rust:
+2.98ms (avg latency), 4.04k (req/s)
+
+--- Conexões: 100 ---
+Go:
+33.79ms (avg latency), 1.04k (req/s)
+Rust:
+6.25ms (avg latency), 4.01k (req/s)
+
+--- Conexões: 200 ---
+Go:
+46.73ms (avg latency), 1.19k (req/s)
+Rust:
+12.77ms (avg latency), 3.93k (req/s)
+
+--- Conexões: 400 ---
+Go:
+93.02ms (avg latency), 1.22k (req/s)
+Rust:
+26.16ms (avg latency), 3.84k (req/s)
+

@@ -1,0 +1,1 @@
+{"timestamp":"2026-04-23T19:23:53Z","alloc_bytes":3916272,"total_alloc_bytes":3019264779440,"sys_bytes":300846160,"heap_alloc_bytes":3916272,"heap_sys_bytes":289865728,"heap_idle_bytes":283058176,"heap_inuse_bytes":6807552,"heap_objects":8552,"num_gc":294383,"num_goroutine":5,"pause_total_ns":1861314399756,"last_pause_ns":620198,"alloc_rate_mb_per_sec":531.8468075029015}

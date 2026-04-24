@@ -1,0 +1,9 @@
+{
+    "language": "go",
+    "url": "http://localhost:8080",
+    "endpoint": "/days-since-heavy",
+    "connections": 10,
+    "threads": 4,
+    "duration": "60s",
+    "timestamp": "2026-04-23 17:42:32-03:00"
+}

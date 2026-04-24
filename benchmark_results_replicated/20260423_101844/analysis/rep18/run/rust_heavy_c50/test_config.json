@@ -1,0 +1,9 @@
+{
+    "language": "rust",
+    "url": "http://localhost:8081",
+    "endpoint": "/days-since-heavy",
+    "connections": 50,
+    "threads": 4,
+    "duration": "60s",
+    "timestamp": "2026-04-23 18:45:30-03:00"
+}
