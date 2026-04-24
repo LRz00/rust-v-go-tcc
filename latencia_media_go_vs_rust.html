@@ -1,0 +1,110 @@
+
+<div style="padding: 1rem 0;">
+
+<h2 style="sr-only: position absolute; width: 1px; height: 1px; overflow: hidden;">Comparativo de latência média Go vs Rust por cenário de carga</h2>
+
+<p style="font-size: 13px; color: var(--color-text-secondary); margin: 0 0 1.5rem;">Latência média (ms) — 25 replicações por cenário, workload normal e allocation-heavy. Barras de erro = ±1 desvio padrão.</p>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 2rem;">
+
+  <div>
+    <p style="font-size: 13px; font-weight: 500; color: var(--color-text-secondary); margin: 0 0 8px;">Workload normal — /days-since</p>
+    <div style="position: relative; height: 280px;">
+      <canvas id="chartNormal" role="img" aria-label="Latência média em ms para Go e Rust no workload normal, de 10 a 400 conexões. Rust é consistentemente mais rápido.">Go: 15.8, 30.1, 31.9, 33.6, 46.8, 93.2 ms. Rust: 0.55, 1.55, 2.94, 6.21, 12.65, 25.84 ms.</canvas>
+    </div>
+  </div>
+
+  <div>
+    <p style="font-size: 13px; font-weight: 500; color: var(--color-text-secondary); margin: 0 0 8px;">Workload allocation-heavy — /days-since-heavy</p>
+    <div style="position: relative; height: 280px;">
+      <canvas id="chartHeavy" role="img" aria-label="Latência média em ms para Go e Rust no workload allocation-heavy, de 10 a 400 conexões. Rust mantém latência muito menor.">Go: 22.8, 52.6, 92.5, 170.1, 353.8, 663.6 ms. Rust: 1.15, 4.71, 10.70, 24.45, 51.67, 105.0 ms.</canvas>
+    </div>
+  </div>
+</div>
+
+<div style="display: flex; gap: 24px; justify-content: center; font-size: 12px; color: var(--color-text-secondary); margin-bottom: 2rem;">
+  <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 14px; height: 3px; background: #185FA5; display: inline-block; border-radius: 2px;"></span> Go</span>
+  <span style="display: flex; align-items: center; gap: 6px;"><span style="width: 14px; height: 3px; background: #0F6E56; display: inline-block; border-radius: 2px; border-top: 2px dashed #0F6E56; background: none;"></span> Rust</span>
+</div>
+
+<p style="font-size: 13px; font-weight: 500; color: var(--color-text-secondary); margin: 0 0 8px;">Throughput médio (req/s) — ambos os workloads</p>
+<div style="position: relative; height: 260px; margin-bottom: 1rem;">
+  <canvas id="chartThroughput" role="img" aria-label="Throughput em requisições por segundo para Go e Rust, normal e heavy, por número de conexões.">Go normal: 927, 329, 579, 1050, 1190, 1219. Rust normal: 3600, 3870, 4094, 4042, 3971, 3887. Go heavy: 188, 136, 144, 154, 151, 145. Rust heavy: 1730, 1276, 1126, 1027, 972, 960.</canvas>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; font-size: 12px; color: var(--color-text-secondary); margin-bottom: 1rem;">
+  <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 10px; height: 10px; border-radius: 2px; background: #185FA5;"></span> Go normal</span>
+  <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 10px; height: 10px; border-radius: 2px; background: #0F6E56;"></span> Rust normal</span>
+  <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 10px; height: 10px; border-radius: 2px; background: #B5D4F4;"></span> Go heavy</span>
+  <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 10px; height: 10px; border-radius: 2px; background: #9FE1CB;"></span> Rust heavy</span>
+</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const labels = ['10', '25', '50', '100', '200', '400'];
+
+const goNormalLat  = [15.78, 30.14, 31.89, 33.63, 46.78, 93.16];
+const rustNormalLat= [0.55,  1.55,  2.94,  6.21,  12.65, 25.84];
+const goHeavyLat   = [22.78, 52.57, 92.49, 170.06, 353.82, 663.56];
+const rustHeavyLat = [1.15,  4.71,  10.70, 24.45,  51.67,  105.00];
+
+const goNormalThr   = [927,  329,  579,  1050, 1190, 1219];
+const rustNormalThr = [3600, 3870, 4094, 4042, 3971, 3887];
+const goHeavyThr    = [188,  136,  144,  154,  151,  145];
+const rustHeavyThr  = [1730, 1276, 1126, 1027, 972,  960];
+
+const opts = (yLabel) => ({
+  responsive: true, maintainAspectRatio: false,
+  plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => c.dataset.label + ': ' + c.parsed.y.toFixed(2) + (yLabel === 'ms' ? ' ms' : ' req/s') } } },
+  scales: {
+    x: { title: { display: true, text: 'Conexões simultâneas', font: { size: 11 } }, grid: { color: 'rgba(128,128,128,0.15)' } },
+    y: { title: { display: true, text: yLabel, font: { size: 11 } }, grid: { color: 'rgba(128,128,128,0.15)' } }
+  }
+});
+
+new Chart(document.getElementById('chartNormal'), {
+  type: 'line',
+  data: {
+    labels,
+    datasets: [
+      { label: 'Go', data: goNormalLat, borderColor: '#185FA5', backgroundColor: 'rgba(24,95,165,0.1)', pointRadius: 4, tension: 0.3, borderWidth: 2 },
+      { label: 'Rust', data: rustNormalLat, borderColor: '#0F6E56', backgroundColor: 'rgba(15,110,86,0.1)', pointRadius: 4, tension: 0.3, borderWidth: 2, borderDash: [6,3] }
+    ]
+  },
+  options: opts('ms')
+});
+
+new Chart(document.getElementById('chartHeavy'), {
+  type: 'line',
+  data: {
+    labels,
+    datasets: [
+      { label: 'Go heavy', data: goHeavyLat, borderColor: '#185FA5', backgroundColor: 'rgba(24,95,165,0.1)', pointRadius: 4, tension: 0.3, borderWidth: 2 },
+      { label: 'Rust heavy', data: rustHeavyLat, borderColor: '#0F6E56', backgroundColor: 'rgba(15,110,86,0.1)', pointRadius: 4, tension: 0.3, borderWidth: 2, borderDash: [6,3] }
+    ]
+  },
+  options: opts('ms')
+});
+
+new Chart(document.getElementById('chartThroughput'), {
+  type: 'bar',
+  data: {
+    labels,
+    datasets: [
+      { label: 'Go normal',   data: goNormalThr,   backgroundColor: '#185FA5' },
+      { label: 'Rust normal', data: rustNormalThr,  backgroundColor: '#0F6E56' },
+      { label: 'Go heavy',    data: goHeavyThr,    backgroundColor: '#B5D4F4' },
+      { label: 'Rust heavy',  data: rustHeavyThr,  backgroundColor: '#9FE1CB' }
+    ]
+  },
+  options: {
+    ...opts('req/s'),
+    scales: {
+      x: { title: { display: true, text: 'Conexões simultâneas', font: { size: 11 } }, grid: { color: 'rgba(128,128,128,0.15)' } },
+      y: { title: { display: true, text: 'req/s', font: { size: 11 } }, grid: { color: 'rgba(128,128,128,0.15)' } }
+    }
+  }
+});
+</script>
