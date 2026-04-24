@@ -11,6 +11,18 @@ from pathlib import Path
 from typing import Dict, List, Tuple
 import statistics
 
+
+METRIC_FIELDS: Tuple[str, ...] = (
+    'latency_avg_ms',
+    'latency_max_ms',
+    'requests_per_sec',
+    'total_requests',
+    'errors',
+    'memory_before_mb',
+    'memory_after_mb',
+    'memory_growth_mb',
+)
+
 def load_json(filepath: Path) -> Dict:
     """Carrega arquivo JSON"""
     try:
@@ -171,6 +183,91 @@ def analyze_benchmark_run(run_path: Path) -> Tuple[List[Dict], List[Dict]]:
     rust_results.sort(key=lambda x: x['connections'])
     
     return go_results, rust_results
+
+
+def _is_replicated_run_dir(run_path: Path) -> bool:
+    """Detecta se o diretório é um 'run/' dentro de benchmark_replicated."""
+    if not run_path.exists() or not run_path.is_dir():
+        return False
+    # benchmark_replicated.sh move o diretório de resultados original para repX/run
+    # que contém pastas go_c10, rust_c10 etc.
+    for child in run_path.iterdir():
+        if child.is_dir() and (child.name.startswith('go_c') or child.name.startswith('rust_c')):
+            return True
+    return False
+
+
+def find_replicate_run_dirs(replicated_timestamp_dir: Path, category: str = 'analysis') -> List[Path]:
+    """Lista diretórios 'run/' de cada replicação dentro de benchmark_results_replicated/<ts>.
+
+    Estrutura esperada:
+      <ts>/analysis/rep6/run/
+      <ts>/analysis/rep7/run/
+      ...
+    """
+    base = replicated_timestamp_dir / category
+    if not base.exists() or not base.is_dir():
+        return []
+
+    run_dirs: List[Path] = []
+    for rep_dir in sorted(base.iterdir()):
+        if not rep_dir.is_dir() or not rep_dir.name.startswith('rep'):
+            continue
+        run_dir = rep_dir / 'run'
+        if _is_replicated_run_dir(run_dir):
+            run_dirs.append(run_dir)
+    return run_dirs
+
+
+def _mean(values: List[float]) -> float:
+    return statistics.mean(values) if values else 0.0
+
+
+def _stdev(values: List[float]) -> float:
+    return statistics.stdev(values) if len(values) > 1 else 0.0
+
+
+def aggregate_replicates(all_results: List[List[Dict]]) -> List[Dict]:
+    """Agrega resultados de várias replicações.
+
+    Entrada: lista de listas, onde cada sublista é o output (go_results OU rust_results)
+    de uma replicação específica.
+
+    Saída: lista de dicts no mesmo formato base do analyze_run, porém com métricas
+    representando a média e campos extras '*_stdev' + 'n'.
+    """
+    buckets: Dict[Tuple[str, int], List[Dict]] = {}
+    for replicate_results in all_results:
+        for r in replicate_results:
+            key = (r.get('language', ''), int(r.get('connections', 0)))
+            buckets.setdefault(key, []).append(r)
+
+    aggregated: List[Dict] = []
+    for (lang, connections), items in sorted(buckets.items(), key=lambda x: (x[0][0], x[0][1])):
+        agg: Dict = {
+            'language': lang,
+            'connections': connections,
+            'n': len(items),
+        }
+
+        # Preserva chaves esperadas pelo print atual, usando média
+        for field in METRIC_FIELDS:
+            vals: List[float] = []
+            for it in items:
+                v = it.get(field, 0.0)
+                try:
+                    vals.append(float(v))
+                except (TypeError, ValueError):
+                    vals.append(0.0)
+
+            agg[field] = _mean(vals)
+            agg[f'{field}_stdev'] = _stdev(vals)
+
+        aggregated.append(agg)
+
+    # Ordena por conexões para manter consistência visual
+    aggregated.sort(key=lambda x: x.get('connections', 0))
+    return aggregated
 
 def print_comparison_table(go_results: List[Dict], rust_results: List[Dict]):
     """Imprime tabela comparativa"""
@@ -347,8 +444,41 @@ def main():
     # Analisa a execução mais recente
     latest_run = runs[-1]
     print(f"\nAnalisando resultados de: {latest_run.name}")
-    
-    go_results, rust_results = analyze_benchmark_run(latest_run)
+
+    # Detecta layout de benchmark replicado (benchmark_results_replicated)
+    replicate_runs = find_replicate_run_dirs(latest_run, category='analysis')
+    if replicate_runs:
+        print(f"Detectado benchmark replicado: {len(replicate_runs)} replicações (categoria=analysis)")
+
+        go_by_rep: List[List[Dict]] = []
+        rust_by_rep: List[List[Dict]] = []
+
+        for run_dir in replicate_runs:
+            go_rep, rust_rep = analyze_benchmark_run(run_dir)
+            if go_rep and rust_rep:
+                go_by_rep.append(go_rep)
+                rust_by_rep.append(rust_rep)
+
+        go_results = aggregate_replicates(go_by_rep)
+        rust_results = aggregate_replicates(rust_by_rep)
+        output_file = latest_run / "analysis_replicated.json"
+        payload = {
+            'mode': 'replicated',
+            'timestamp': latest_run.name,
+            'replicates_analyzed': len(go_by_rep),
+            'replicate_run_dirs': [str(p) for p in replicate_runs],
+            'go_results': go_results,
+            'rust_results': rust_results,
+        }
+    else:
+        go_results, rust_results = analyze_benchmark_run(latest_run)
+        output_file = latest_run / "analysis.json"
+        payload = {
+            'mode': 'single',
+            'timestamp': latest_run.name,
+            'go_results': go_results,
+            'rust_results': rust_results,
+        }
     
     if not go_results or not rust_results:
         print("Erro: Resultados incompletos")
@@ -359,13 +489,8 @@ def main():
     generate_insights(go_results, rust_results)
     
     # Salva resultados consolidados
-    output_file = latest_run / "analysis.json"
     with open(output_file, 'w') as f:
-        json.dump({
-            'go_results': go_results,
-            'rust_results': rust_results,
-            'timestamp': latest_run.name
-        }, f, indent=2)
+        json.dump(payload, f, indent=2)
     
     print(f"\n✓ Análise completa salva em: {output_file}")
 
