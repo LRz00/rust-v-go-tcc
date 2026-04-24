@@ -123,7 +123,7 @@ def analyze_run(run_dir: Path, lang: str, connections: int) -> Dict:
                 result['total_requests'] = 0
     
     # Memória
-    if lang == 'go':
+    if lang in ('go', 'go_heavy'):
         if metrics_before.get('heap_alloc_bytes') and metrics_before['heap_alloc_bytes'] > 0:
             result['memory_before_mb'] = metrics_before['heap_alloc_bytes'] / (1024 * 1024)
         if metrics_after.get('heap_alloc_bytes') and metrics_after['heap_alloc_bytes'] > 0:

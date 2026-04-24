@@ -65,12 +65,12 @@
       "total_requests_stdev": 739.6566703545639,
       "errors": 0.0,
       "errors_stdev": 0.0,
-      "memory_before_mb": 0.0,
-      "memory_before_mb_stdev": 0.0,
-      "memory_after_mb": 0.0,
-      "memory_after_mb_stdev": 0.0,
-      "memory_growth_mb": 0.0,
-      "memory_growth_mb_stdev": 0.0
+      "memory_before_mb": 9.78295440673828,
+      "memory_before_mb_stdev": 2.1371351541967005,
+      "memory_after_mb": 3.2994680786132813,
+      "memory_after_mb_stdev": 1.869502634564012,
+      "memory_growth_mb": -6.483486328125,
+      "memory_growth_mb_stdev": 2.3349812676414823
     },
     {
       "language": "go",
@@ -107,12 +107,12 @@
       "total_requests_stdev": 231.33703407222401,
       "errors": 0.0,
       "errors_stdev": 0.0,
-      "memory_before_mb": 0.0,
-      "memory_before_mb_stdev": 0.0,
-      "memory_after_mb": 0.0,
-      "memory_after_mb_stdev": 0.0,
-      "memory_growth_mb": 0.0,
-      "memory_growth_mb_stdev": 0.0
+      "memory_before_mb": 3.304377136230469,
+      "memory_before_mb_stdev": 1.8696062660027466,
+      "memory_after_mb": 11.8905908203125,
+      "memory_after_mb_stdev": 10.207938771549715,
+      "memory_growth_mb": 8.586213684082031,
+      "memory_growth_mb_stdev": 10.070931883637732
     },
     {
       "language": "go",
@@ -149,12 +149,12 @@
       "total_requests_stdev": 251.81853916395167,
       "errors": 0.0,
       "errors_stdev": 0.0,
-      "memory_before_mb": 0.0,
-      "memory_before_mb_stdev": 0.0,
-      "memory_after_mb": 0.0,
-      "memory_after_mb_stdev": 0.0,
-      "memory_growth_mb": 0.0,
-      "memory_growth_mb_stdev": 0.0
+      "memory_before_mb": 11.895888061523438,
+      "memory_before_mb_stdev": 10.207454471596037,
+      "memory_after_mb": 15.04069580078125,
+      "memory_after_mb_stdev": 16.35721809750753,
+      "memory_growth_mb": 3.1448077392578124,
+      "memory_growth_mb_stdev": 17.508928434009476
     },
     {
       "language": "go",
@@ -191,12 +191,12 @@
       "total_requests_stdev": 508.74645944713956,
       "errors": 0.0,
       "errors_stdev": 0.0,
-      "memory_before_mb": 0.0,
-      "memory_before_mb_stdev": 0.0,
-      "memory_after_mb": 0.0,
-      "memory_after_mb_stdev": 0.0,
-      "memory_growth_mb": 0.0,
-      "memory_growth_mb_stdev": 0.0
+      "memory_before_mb": 15.046293029785156,
+      "memory_before_mb_stdev": 16.356550581068053,
+      "memory_after_mb": 32.35579772949219,
+      "memory_after_mb_stdev": 37.33354523761081,
+      "memory_growth_mb": 17.30950469970703,
+      "memory_growth_mb_stdev": 43.5211876733468
     },
     {
       "language": "go",
@@ -233,12 +233,12 @@
       "total_requests_stdev": 362.49741148501096,
       "errors": 0.0,
       "errors_stdev": 0.0,
-      "memory_before_mb": 0.0,
-      "memory_before_mb_stdev": 0.0,
-      "memory_after_mb": 0.0,
-      "memory_after_mb_stdev": 0.0,
-      "memory_growth_mb": 0.0,
-      "memory_growth_mb_stdev": 0.0
+      "memory_before_mb": 32.36064147949219,
+      "memory_before_mb_stdev": 37.33316196932618,
+      "memory_after_mb": 28.153387451171874,
+      "memory_after_mb_stdev": 35.13612588301077,
+      "memory_growth_mb": -4.207254028320312,
+      "memory_growth_mb_stdev": 45.75266467674532
     },
     {
       "language": "go",
@@ -275,12 +275,12 @@
       "total_requests_stdev": 567.0839826104536,
       "errors": 0.0,
       "errors_stdev": 0.0,
-      "memory_before_mb": 0.0,
-      "memory_before_mb_stdev": 0.0,
-      "memory_after_mb": 0.0,
-      "memory_after_mb_stdev": 0.0,
-      "memory_growth_mb": 0.0,
-      "memory_growth_mb_stdev": 0.0
+      "memory_before_mb": 28.15813934326172,
+      "memory_before_mb_stdev": 35.13583382304813,
+      "memory_after_mb": 36.92621978759766,
+      "memory_after_mb_stdev": 35.55529019608013,
+      "memory_growth_mb": 8.768080444335938,
+      "memory_growth_mb_stdev": 50.906534824949375
     }
   ],
   "rust_results": [
