@@ -23,6 +23,26 @@ RUN_DIR="$RESULTS_DIR/$TIMESTAMP"
 GO_URL="http://localhost:8080"
 RUST_URL="http://localhost:8081"
 
+DOCKER_CMD=(docker)
+
+detect_docker_cmd() {
+    if command -v docker >/dev/null 2>&1; then
+        if docker ps >/dev/null 2>&1; then
+            DOCKER_CMD=(docker)
+            return 0
+        fi
+    fi
+
+    if command -v sudo >/dev/null 2>&1; then
+        DOCKER_CMD=(sudo docker)
+        return 0
+    fi
+
+    echo "ERRO: não foi possível executar 'docker' (sem permissão) e 'sudo' não está disponível." >&2
+    echo "Dica: execute o script com sudo, ou adicione seu usuário ao grupo docker." >&2
+    exit 1
+}
+
 setup_results_dir() {
     mkdir -p "$RUN_DIR/warmup" "$RUN_DIR/analysis" "$RUN_DIR/logs"
     echo "Resultados serão salvos em: $RUN_DIR"
@@ -135,8 +155,14 @@ fi
 
 setup_results_dir
 
+detect_docker_cmd
+
 echo "Iniciando serviços..."
-docker compose up -d --build > /dev/null 2>&1
+if ! "${DOCKER_CMD[@]}" compose up -d --build; then
+    echo "ERRO: falha ao iniciar serviços via Docker Compose." >&2
+    echo "Comando: ${DOCKER_CMD[*]} compose up -d --build" >&2
+    exit 1
+fi
 
 echo "Aguardando inicialização..."
 sleep 10
