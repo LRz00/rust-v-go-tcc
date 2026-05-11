@@ -18,6 +18,7 @@ METRIC_FIELDS: Tuple[str, ...] = (
     'requests_per_sec',
     'total_requests',
     'errors',
+    'timeouts',
     'memory_before_mb',
     'memory_after_mb',
     'memory_growth_mb',
@@ -84,6 +85,31 @@ def parse_count(count_value) -> int:
     except (ValueError, TypeError):
         return 0
 
+def parse_wrk_output_for_timeouts(wrk_output_path: Path) -> int:
+    """Extrai timeouts do arquivo wrk_output.txt analisando a linha 'Socket errors'"""
+    if not wrk_output_path.exists():
+        return 0
+    
+    try:
+        with open(wrk_output_path, 'r') as f:
+            for line in f:
+                # Procura por linha como: "Socket errors: connect 0, read 0, write 0, timeout 8"
+                if 'Socket errors:' in line:
+                    # Extrai o valor de timeout
+                    if 'timeout' in line:
+                        parts = line.split('timeout')
+                        if len(parts) > 1:
+                            # Pega tudo após "timeout" e extrai o número
+                            timeout_part = parts[1].strip()
+                            # Remove qualquer texto após o número
+                            timeout_str = ''.join(c for c in timeout_part if c.isdigit() or c == '.')
+                            if timeout_str:
+                                return parse_count(timeout_str)
+    except Exception as e:
+        return 0
+    
+    return 0
+
 def analyze_run(run_dir: Path, lang: str, connections: int) -> Dict:
     """Analisa resultados de uma execução específica"""
     
@@ -99,6 +125,7 @@ def analyze_run(run_dir: Path, lang: str, connections: int) -> Dict:
         'requests_per_sec': 0.0,
         'total_requests': 0,
         'errors': 0,
+        'timeouts': 0,
         'memory_before_mb': 0.0,
         'memory_after_mb': 0.0,
         'memory_growth_mb': 0.0,
@@ -135,6 +162,19 @@ def analyze_run(run_dir: Path, lang: str, connections: int) -> Dict:
     # Erros reportados pelo wrk
     if 'errors' in wrk_summary:
         result['errors'] = parse_count(wrk_summary.get('errors'))
+    
+    # Timeouts - tenta extrair do wrk_output.txt primeiro, depois do JSON
+    timeouts_from_file = parse_wrk_output_for_timeouts(run_dir / "wrk_output.txt")
+    if timeouts_from_file > 0:
+        result['timeouts'] = timeouts_from_file
+    elif 'socket_errors' in wrk_summary:
+        socket_errors = wrk_summary['socket_errors']
+        if isinstance(socket_errors, dict):
+            result['timeouts'] = parse_count(socket_errors.get('timeout', 0))
+        else:
+            result['timeouts'] = parse_count(socket_errors)
+    elif 'timeouts' in wrk_summary:
+        result['timeouts'] = parse_count(wrk_summary.get('timeouts'))
     
     # Memória
     if lang in ('go', 'go_heavy'):
@@ -299,19 +339,19 @@ def print_comparison_table(go_results: List[Dict], rust_results: List[Dict]):
     # Exibe resultados normais
     if go_normal and rust_normal:
         print("\n[CENÁRIO NORMAL - /days-since]")
-        print("-" * 120)
-        print("{:^10} | {:^20} | {:^20} | {:^20} | {:^20}".format(
-            "Conexões", "Latência Média (ms)", "Throughput (req/s)", "Mem. Antes (MB)", "Mem. Depois (MB)"
+        print("-" * 140)
+        print("{:^10} | {:^20} | {:^20} | {:^15} | {:^20}".format(
+            "Conexões", "Latência Média (ms)", "Throughput (req/s)", "Timeouts", "Mem. Antes→Depois (MB)"
         ))
-        print("-" * 120)
+        print("-" * 140)
         
         for go, rust in zip(go_normal, rust_normal):
             if go['connections'] != rust['connections']:
                 continue
             
             conn = go['connections']
-            print(f"\n{conn:^10} | Go: {go['latency_avg_ms']:>8.2f}        | Go: {go['requests_per_sec']:>10.0f}      | Go: {go['memory_before_mb']:>8.2f}        | Go: {go['memory_after_mb']:>8.2f}")
-            print(f"{'':^10} | Rust: {rust['latency_avg_ms']:>8.2f}      | Rust: {rust['requests_per_sec']:>10.0f}    | Rust: {rust['memory_before_mb']:>8.2f}      | Rust: {rust['memory_after_mb']:>8.2f}")
+            print(f"\n{conn:^10} | Go: {go['latency_avg_ms']:>8.2f}        | Go: {go['requests_per_sec']:>10.0f}      | Go: {go['timeouts']:>6}    | Go: {go['memory_before_mb']:>7.2f}→{go['memory_after_mb']:>7.2f}")
+            print(f"{'':^10} | Rust: {rust['latency_avg_ms']:>8.2f}      | Rust: {rust['requests_per_sec']:>10.0f}    | Rust: {rust['timeouts']:>6}  | Rust: {rust['memory_before_mb']:>7.2f}→{rust['memory_after_mb']:>7.2f}")
             
             # Calcula diferenças percentuais
             if rust['latency_avg_ms'] > 0:
@@ -326,21 +366,21 @@ def print_comparison_table(go_results: List[Dict], rust_results: List[Dict]):
     
     # Exibe resultados allocation-heavy
     if go_heavy and rust_heavy:
-        print("\n" + "="*120)
+        print("\n" + "="*140)
         print("[CENÁRIO ALLOCATION-HEAVY - /days-since-heavy (10MB alocação/req)]")
-        print("-" * 120)
-        print("{:^10} | {:^20} | {:^20} | {:^20} | {:^20}".format(
-            "Conexões", "Latência Média (ms)", "Throughput (req/s)", "Mem. Antes (MB)", "Mem. Depois (MB)"
+        print("-" * 140)
+        print("{:^10} | {:^20} | {:^20} | {:^15} | {:^20}".format(
+            "Conexões", "Latência Média (ms)", "Throughput (req/s)", "Timeouts", "Mem. Antes→Depois (MB)"
         ))
-        print("-" * 120)
+        print("-" * 140)
         
         for go, rust in zip(go_heavy, rust_heavy):
             if go['connections'] != rust['connections']:
                 continue
             
             conn = go['connections']
-            print(f"\n{conn:^10} | Go: {go['latency_avg_ms']:>8.2f}        | Go: {go['requests_per_sec']:>10.0f}      | Go: {go['memory_before_mb']:>8.2f}        | Go: {go['memory_after_mb']:>8.2f}")
-            print(f"{'':^10} | Rust: {rust['latency_avg_ms']:>8.2f}      | Rust: {rust['requests_per_sec']:>10.0f}    | Rust: {rust['memory_before_mb']:>8.2f}      | Rust: {rust['memory_after_mb']:>8.2f}")
+            print(f"\n{conn:^10} | Go: {go['latency_avg_ms']:>8.2f}        | Go: {go['requests_per_sec']:>10.0f}      | Go: {go['timeouts']:>6}    | Go: {go['memory_before_mb']:>7.2f}→{go['memory_after_mb']:>7.2f}")
+            print(f"{'':^10} | Rust: {rust['latency_avg_ms']:>8.2f}      | Rust: {rust['requests_per_sec']:>10.0f}    | Rust: {rust['timeouts']:>6}  | Rust: {rust['memory_before_mb']:>7.2f}→{rust['memory_after_mb']:>7.2f}")
             
             # Calcula diferenças percentuais
             if rust['latency_avg_ms'] > 0:
@@ -434,6 +474,27 @@ def generate_insights(go_results: List[Dict], rust_results: List[Dict]):
             print(f"    → Crescimento total: {total_growth:.2f} MB")
             print(f"    → Crescimento médio por cenário: {avg_growth:.2f} MB")
             print(f"    → Pico de memória: {max_mem:.2f} MB")
+    
+    # Análise de Timeouts
+    print("\n[H5] Resiliência e Timeouts:")
+    
+    for lang_name, results in [("Go", go_results), ("Rust", rust_results)]:
+        if results:
+            total_timeouts = sum([r['timeouts'] for r in results])
+            results_with_timeouts = [r for r in results if r['timeouts'] > 0]
+            
+            print(f"  - {lang_name}:")
+            print(f"    → Total de timeouts: {total_timeouts}")
+            
+            if results_with_timeouts:
+                avg_timeouts = statistics.mean([r['timeouts'] for r in results_with_timeouts])
+                max_timeouts = max([r['timeouts'] for r in results_with_timeouts])
+                max_timeout_conn = [r['connections'] for r in results_with_timeouts if r['timeouts'] == max_timeouts][0]
+                print(f"    → Cenários com timeouts: {len(results_with_timeouts)} de {len(results)}")
+                print(f"    → Média de timeouts (quando > 0): {avg_timeouts:.0f}")
+                print(f"    → Máximo: {max_timeouts} timeouts em {max_timeout_conn} conexões")
+            else:
+                print(f"    → Nenhum timeout registrado")
 
 def main():
     """Função principal"""
