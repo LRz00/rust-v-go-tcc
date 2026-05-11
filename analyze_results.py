@@ -74,6 +74,16 @@ def parse_requests(req_str: str) -> float:
     except (ValueError, AttributeError):
         return 0.0
 
+def parse_count(count_value) -> int:
+    """Converte um valor numérico em inteiro, aceitando strings."""
+    if count_value in (None, "", 0, "0"):
+        return 0
+
+    try:
+        return int(float(str(count_value).strip()))
+    except (ValueError, TypeError):
+        return 0
+
 def analyze_run(run_dir: Path, lang: str, connections: int) -> Dict:
     """Analisa resultados de uma execução específica"""
     
@@ -121,6 +131,10 @@ def analyze_run(run_dir: Path, lang: str, connections: int) -> Dict:
                     result['total_requests'] = int(float(total_str))
             except (ValueError, AttributeError):
                 result['total_requests'] = 0
+
+    # Erros reportados pelo wrk
+    if 'errors' in wrk_summary:
+        result['errors'] = parse_count(wrk_summary.get('errors'))
     
     # Memória
     if lang in ('go', 'go_heavy'):
