@@ -101,10 +101,11 @@ func daysSinceHeavyHandler(w http.ResponseWriter, r *http.Request) {
 	// Aloca 1MB de dados temporários
 	const allocSize = 1 * 1024 * 1024 // 1MB
 	buffer := make([]byte, allocSize)
+	seed := time.Now().UnixNano()
 
 	// Preenche o buffer para forçar alocação real
 	for i := 0; i < len(buffer); i += 4096 {
-		buffer[i] = byte(i % 256)
+		buffer[i] = byte((int64(i) + seed) % 256)
 	}
 
 	// Faz algum processamento para evitar otimização do compilador
@@ -122,6 +123,7 @@ func daysSinceHeavyHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	days := int(time.Since(reference).Hours() / 24)
+	runtime.KeepAlive(buffer)
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]interface{}{

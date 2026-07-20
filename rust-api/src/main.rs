@@ -5,7 +5,8 @@ use serde::Serialize;
 use tokio_postgres::NoTls;
 use std::env;
 use std::fs;
-use std::time::SystemTime;
+use std::time::{SystemTime, UNIX_EPOCH};
+use std::hint::black_box;
 
 #[derive(Serialize)]
 struct Resp {
@@ -51,10 +52,14 @@ async fn days_since_heavy(pool: web::Data<Pool>) -> impl Responder {
     // Aloca 1MB de dados temporários
     const ALLOC_SIZE: usize = 1 * 1024 * 1024; // 1MB
     let mut buffer = vec![0u8; ALLOC_SIZE];
+    let seed = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap_or_default()
+        .as_nanos() as usize;
     
     // Preenche o buffer para forçar alocação real
     for i in (0..buffer.len()).step_by(4096) {
-        buffer[i] = (i % 256) as u8;
+        buffer[i] = ((i + seed) % 256) as u8;
     }
     
     // Faz algum processamento para evitar otimização do compilador
@@ -83,6 +88,8 @@ async fn days_since_heavy(pool: web::Data<Pool>) -> impl Responder {
 
     let today = Utc::now().date_naive();
     let days = (today - date).num_days();
+    
+    black_box(&buffer);
 
     HttpResponse::Ok().json(HeavyResp { 
         days_since: days,
