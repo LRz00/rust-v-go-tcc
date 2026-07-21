@@ -1,0 +1,24 @@
+Crescimento: 101.30 MB (esperado: ~100 MB)
+
+
+Comandos rodados:
+curl -s http://localhost:8080/metrics | jq '.total_alloc_bytes' > /tmp/go_before.txt
+cat /tmp/go_before.txt
+617392
+amp@amp-IdeaPad-Slim-3-15ARP10:~/Documents/rust-v-go-tcc$ N=100
+for i in $(seq 1 $N); do curl -s http://localhost:8080/days-since-heavy > /dev/null; done
+amp@amp-IdeaPad-Slim-3-15ARP10:~/Documents/rust-v-go-tcc$ curl -s http://localhost:8080/metrics | jq '.total_alloc_bytes' > /tmp/go_after.txt
+cat /tmp/go_after.txt
+106841512
+amp@amp-IdeaPad-Slim-3-15ARP10:~/Documents/rust-v-go-tcc$ python version
+Command 'python' not found, did you mean:
+  command 'python3' from deb python3
+  command 'python' from deb python-is-python3
+amp@amp-IdeaPad-Slim-3-15ARP10:~/Documents/rust-v-go-tcc$ python3 version
+python3: can't open file '/home/amp/Documents/rust-v-go-tcc/version': [Errno 2] No such file or directory
+amp@amp-IdeaPad-Slim-3-15ARP10:~/Documents/rust-v-go-tcc$ python3 -c "
+before = $(cat /tmp/go_before.txt)
+after = $(cat /tmp/go_after.txt)
+print(f'Crescimento: {(after - before) / (1024*1024):.2f} MB (esperado: ~{$N} MB)')
+" | tee evidencias/fase1_go_alloc_growth.txt
+Crescimento: 101.30 MB (esperado: ~100 MB)
