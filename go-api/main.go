@@ -9,6 +9,8 @@ import (
 	"net/http"
 	"os"
 	"runtime"
+	"strconv"
+	"strings"
 	"sync/atomic"
 	"time"
 
@@ -60,6 +62,9 @@ func main() {
 		log.Fatalf("ping db: %v", err)
 	}
 
+	status, err := readProcSelfStatus()
+	log.Printf("VmRSS: %d KB, VmHWM: %d KB, error: %v", status.VmRSSKB, status.VmHWMKB, err)
+
 	http.HandleFunc("/days-since", daysSinceHandler)
 	http.HandleFunc("/days-since-heavy", daysSinceHeavyHandler)
 	http.HandleFunc("/metrics", metricsHandler)
@@ -75,6 +80,7 @@ func main() {
 	addr := fmt.Sprintf(":%s", port)
 	log.Printf("Go API listening on %s", addr)
 	log.Fatal(http.ListenAndServe(addr, nil))
+
 }
 
 func daysSinceHandler(w http.ResponseWriter, r *http.Request) {
@@ -134,6 +140,161 @@ func daysSinceHeavyHandler(w http.ResponseWriter, r *http.Request) {
 		"days_since": days,
 		"checksum":   sum, // Previne otimização
 	})
+}
+
+type MemStatusVM struct {
+	VmRSSKB uint64 // RSS atual em KB
+	VmHWMKB uint64 // Pico de RSS em KB
+}
+
+func readProcSelfStatus() (MemStatusVM, error) {
+	data, err := os.ReadFile("proc/self/status")
+
+	if err != nil {
+		return MemStatusVM{}, fmt.Errorf("failed to read /proc/self/status: %w", err)
+	}
+
+	var result MemStatusVM
+
+	lines := strings.Split(string(data), "\n")
+
+	for _, line := range lines {
+		if strings.HasPrefix(line, "VmRSS:") {
+			val, err := parseStatusKBLine(line)
+			if err == nil {
+				result.VmRSSKB = val
+			}
+		} else if strings.HasPrefix(line, "VmHWM:") {
+			val, err := parseStatusKBLine(line)
+			if err == nil {
+				result.VmHWMKB = val
+			}
+		}
+	}
+	return result, nil
+}
+
+func parseStatusKBLine(line string) (uint64, error) {
+	fields := strings.Fields(line) // ex: ["VmRSS:", "12345", "kB"]
+	if len(fields) < 2 {
+		return 0, fmt.Errorf("unexpected format: %q", line)
+	}
+	val, err := strconv.ParseUint(fields[1], 10, 64)
+	if err != nil {
+		return 0, fmt.Errorf("failed to parse value in %q: %w", line, err)
+	}
+	return val, nil
+}
+
+// CgroupMemStats
+type CgroupMemStats struct {
+	Version      string
+	CurrentBytes uint64
+	PeakBytes    uint64
+	MaxBytes     uint64
+	Unlimited    bool
+}
+
+// readCgroupMemStats
+func readCGroupMemStats() (CgroupMemStats, error) {
+	if stats, err := readCGroupV2(); err == nil {
+		return stats, nil
+	}
+
+	//fallback to cgroup v1
+	if stats, err := readCGroupV1(); err == nil {
+		return stats, nil
+	}
+
+	return CgroupMemStats{Version: "unknown"}, fmt.Errorf("failed to read cgroup memory stats(v1 and v2)")
+}
+
+// readCGroupV2
+func readCGroupV2() (CgroupMemStats, error) {
+	current, err := readCgroupUintFile("/sys/fs/cgroup/memory.current")
+
+	if err != nil {
+		return CgroupMemStats{}, err
+	}
+
+	peak, err := readCgroupUintFile("/sys/fs/cgroup/memory.peak")
+
+	if err != nil {
+		// peak may not exist in some kernels, do not fail the entire read if it doesnt
+		peak = 0
+	}
+
+	maxRaw, err := readCgroupUintFile("/sys/fs/cgroup/memory.max")
+	if err != nil {
+		return CgroupMemStats{}, err
+	}
+
+	maxStr := strings.TrimSpace(string(maxRaw))
+
+	var maxBytes uint64
+	unlimited := false
+
+	if maxStr == "max" {
+		unlimited = true
+	} else {
+		maxBytes, err = strconv.ParseUint(maxStr, 10, 64)
+		if err != nil {
+			return CgroupMemStats{}, fmt.Errorf("failed to parse memory.max: %w", err)
+		}
+	}
+
+	return CgroupMemStats{
+		Version:      "v2",
+		CurrentBytes: current,
+		PeakBytes:    peak,
+		MaxBytes:     maxBytes,
+		Unlimited:    unlimited,
+	}, nil
+}
+
+// readCGroupV1
+func readCGroupV1() (CgroupMemStats, error) {
+	current, err := readCgroupUintFile("/sys/fs/cgroup/memory/memory.usage_in_bytes")
+	if err != nil {
+		return CgroupMemStats{}, err
+	}
+
+	peak, err := readCgroupUintFile("/sys/fs/cgroup/memory/memory.max_usage_in_bytes")
+	if err != nil {
+		peak = 0
+	}
+
+	max, err := readCgroupUintFile("/sys/fs/cgroup/memory/memory.limit_in_bytes")
+	if err != nil {
+		return CgroupMemStats{}, err
+	}
+
+	// in cgroup v1, if the limit is set to a very high value, it means unlimited
+	const v1UnlimitedThreshold = uint64(1) << 62
+
+	unlimited := max >= v1UnlimitedThreshold
+
+	return CgroupMemStats{
+		Version:      "v1",
+		CurrentBytes: current,
+		PeakBytes:    peak,
+		MaxBytes:     max,
+		Unlimited:    unlimited,
+	}, nil
+}
+
+// readCgroupUintFile
+func readCgroupUintFile(path string) (uint64, error) {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return 0, err
+	}
+
+	val, err := strconv.ParseUint(strings.TrimSpace(string(data)), 10, 64)
+	if err != nil {
+		return 0, fmt.Errorf("failed to parse uint from %s: %w", path, err)
+	}
+	return val, nil
 }
 
 type MetricsResponse struct {
