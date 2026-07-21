@@ -29,3 +29,6 @@ postgres-data/
 
 # Logs
 *.log
+
+#Rust build
+**/target/

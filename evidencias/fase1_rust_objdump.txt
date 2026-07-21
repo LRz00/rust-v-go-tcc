@@ -1,0 +1,1390 @@
+00000000001cf0a0 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtBK_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00EB1z_>:
+  1cf0a0:	41 57                	push   %r15
+  1cf0a2:	41 56                	push   %r14
+  1cf0a4:	53                   	push   %rbx
+  1cf0a5:	48 89 fb             	mov    %rdi,%rbx
+  1cf0a8:	0f b6 47 50          	movzbl 0x50(%rdi),%eax
+  1cf0ac:	85 c0                	test   %eax,%eax
+  1cf0ae:	74 4f                	je     1cf0ff <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtBK_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00EB1z_+0x5f>
+  1cf0b0:	83 f8 03             	cmp    $0x3,%eax
+  1cf0b3:	74 10                	je     1cf0c5 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtBK_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00EB1z_+0x25>
+  1cf0b5:	83 f8 04             	cmp    $0x4,%eax
+  1cf0b8:	75 3f                	jne    1cf0f9 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtBK_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00EB1z_+0x59>
+  1cf0ba:	48 8d 7b 58          	lea    0x58(%rbx),%rdi
+  1cf0be:	e8 5d 03 00 00       	call   1cf420 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvCsgOaQUQUBl09_8rust_api16days_since_heavy0EBF_>
+  1cf0c3:	eb 09                	jmp    1cf0ce <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtBK_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00EB1z_+0x2e>
+  1cf0c5:	48 8d 7b 58          	lea    0x58(%rbx),%rdi
+  1cf0c9:	e8 f2 f3 ff ff       	call   1ce4c0 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtNtCsbjRtxNOQSnP_9actix_web7extract14tuple_from_req17TupleFromRequest1INtNtBI_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEECsgOaQUQUBl09_8rust_api>
+  1cf0ce:	48 8d 7b 28          	lea    0x28(%rbx),%rdi
+  1cf0d2:	e8 99 f0 ff ff       	call   1ce170 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtCsePmAy0YpeGj_10actix_http7payload7PayloadINtNtB4_3pin3PinINtNtCscdodAO9FK5_5alloc5boxed3BoxDNtNtCsfsVdtztDMg6_12futures_core6stream6Streamp4ItemINtNtB4_6result6ResultNtNtCsluMoV6dGPr_5bytes5bytes5BytesNtNtBG_5error12PayloadErrorEEL_EEEECsgOaQUQUBl09_8rust_api>
+  1cf0d7:	4c 8d 7b 20          	lea    0x20(%rbx),%r15
+  1cf0db:	4c 89 ff             	mov    %r15,%rdi
+  1cf0de:	ff 15 6c df 32 00    	call   *0x32df6c(%rip)        # 4fd050 <_DYNAMIC+0x2d8>
+  1cf0e4:	49 8b 07             	mov    (%r15),%rax
+  1cf0e7:	48 ff 08             	decq   (%rax)
+  1cf0ea:	75 09                	jne    1cf0f5 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtBK_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00EB1z_+0x55>
+  1cf0ec:	4c 89 ff             	mov    %r15,%rdi
+  1cf0ef:	ff 15 63 df 32 00    	call   *0x32df63(%rip)        # 4fd058 <_DYNAMIC+0x2e0>
+  1cf0f5:	c6 43 51 00          	movb   $0x0,0x51(%rbx)
+  1cf0f9:	5b                   	pop    %rbx
+  1cf0fa:	41 5e                	pop    %r14
+  1cf0fc:	41 5f                	pop    %r15
+  1cf0fe:	c3                   	ret
+  1cf0ff:	48 89 df             	mov    %rbx,%rdi
+  1cf102:	5b                   	pop    %rbx
+  1cf103:	41 5e                	pop    %r14
+  1cf105:	41 5f                	pop    %r15
+  1cf107:	e9 d4 14 00 00       	jmp    1d05e0 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNtNtCsbjRtxNOQSnP_9actix_web7service14ServiceRequestECsgOaQUQUBl09_8rust_api>
+  1cf10c:	49 89 c6             	mov    %rax,%r14
+  1cf10f:	c6 43 51 00          	movb   $0x0,0x51(%rbx)
+  1cf113:	4c 89 f7             	mov    %r14,%rdi
+  1cf116:	e8 55 6d 2d 00       	call   4a5e70 <_Unwind_Resume@plt>
+  1cf11b:	eb 00                	jmp    1cf11d <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtBK_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00EB1z_+0x7d>
+  1cf11d:	49 89 c6             	mov    %rax,%r14
+  1cf120:	48 8d 7b 28          	lea    0x28(%rbx),%rdi
+  1cf124:	e8 47 f0 ff ff       	call   1ce170 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtCsePmAy0YpeGj_10actix_http7payload7PayloadINtNtB4_3pin3PinINtNtCscdodAO9FK5_5alloc5boxed3BoxDNtNtCsfsVdtztDMg6_12futures_core6stream6Streamp4ItemINtNtB4_6result6ResultNtNtCsluMoV6dGPr_5bytes5bytes5BytesNtNtBG_5error12PayloadErrorEEL_EEEECsgOaQUQUBl09_8rust_api>
+  1cf129:	eb 1f                	jmp    1cf14a <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtBK_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00EB1z_+0xaa>
+  1cf12b:	49 89 c6             	mov    %rax,%r14
+  1cf12e:	49 8b 07             	mov    (%r15),%rax
+  1cf131:	48 ff 08             	decq   (%rax)
+  1cf134:	75 1d                	jne    1cf153 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtBK_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00EB1z_+0xb3>
+  1cf136:	4c 89 ff             	mov    %r15,%rdi
+  1cf139:	ff 15 19 df 32 00    	call   *0x32df19(%rip)        # 4fd058 <_DYNAMIC+0x2e0>
+  1cf13f:	eb 12                	jmp    1cf153 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtBK_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00EB1z_+0xb3>
+  1cf141:	ff 15 91 de 32 00    	call   *0x32de91(%rip)        # 4fcfd8 <_DYNAMIC+0x260>
+  1cf147:	49 89 c6             	mov    %rax,%r14
+  1cf14a:	48 8d 7b 20          	lea    0x20(%rbx),%rdi
+  1cf14e:	e8 3d 14 00 00       	call   1d0590 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNtNtCsbjRtxNOQSnP_9actix_web7request11HttpRequestECsgOaQUQUBl09_8rust_api>
+  1cf153:	c6 43 51 00          	movb   $0x0,0x51(%rbx)
+  1cf157:	4c 89 f7             	mov    %r14,%rdi
+  1cf15a:	e8 11 6d 2d 00       	call   4a5e70 <_Unwind_Resume@plt>
+  1cf15f:	ff 15 73 de 32 00    	call   *0x32de73(%rip)        # 4fcfd8 <_DYNAMIC+0x260>
+  1cf165:	cc                   	int3
+  1cf166:	cc                   	int3
+  1cf167:	cc                   	int3
+  1cf168:	cc                   	int3
+  1cf169:	cc                   	int3
+  1cf16a:	cc                   	int3
+  1cf16b:	cc                   	int3
+  1cf16c:	cc                   	int3
+  1cf16d:	cc                   	int3
+  1cf16e:	cc                   	int3
+  1cf16f:	cc                   	int3
+
+00000000001cf170 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api6healthuE00EB1z_>:
+  1cf170:	41 57                	push   %r15
+  1cf172:	41 56                	push   %r14
+  1cf174:	53                   	push   %rbx
+  1cf175:	48 89 fb             	mov    %rdi,%rbx
+  1cf178:	0f b6 47 40          	movzbl 0x40(%rdi),%eax
+  1cf17c:	8d 48 fd             	lea    -0x3(%rax),%ecx
+  1cf17f:	83 f9 02             	cmp    $0x2,%ecx
+  1cf182:	73 2d                	jae    1cf1b1 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api6healthuE00EB1z_+0x41>
+  1cf184:	48 8d 7b 28          	lea    0x28(%rbx),%rdi
+  1cf188:	e8 e3 ef ff ff       	call   1ce170 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtCsePmAy0YpeGj_10actix_http7payload7PayloadINtNtB4_3pin3PinINtNtCscdodAO9FK5_5alloc5boxed3BoxDNtNtCsfsVdtztDMg6_12futures_core6stream6Streamp4ItemINtNtB4_6result6ResultNtNtCsluMoV6dGPr_5bytes5bytes5BytesNtNtBG_5error12PayloadErrorEEL_EEEECsgOaQUQUBl09_8rust_api>
+  1cf18d:	4c 8d 7b 20          	lea    0x20(%rbx),%r15
+  1cf191:	4c 89 ff             	mov    %r15,%rdi
+  1cf194:	ff 15 b6 de 32 00    	call   *0x32deb6(%rip)        # 4fd050 <_DYNAMIC+0x2d8>
+  1cf19a:	49 8b 07             	mov    (%r15),%rax
+  1cf19d:	48 ff 08             	decq   (%rax)
+  1cf1a0:	75 09                	jne    1cf1ab <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api6healthuE00EB1z_+0x3b>
+  1cf1a2:	4c 89 ff             	mov    %r15,%rdi
+  1cf1a5:	ff 15 ad de 32 00    	call   *0x32dead(%rip)        # 4fd058 <_DYNAMIC+0x2e0>
+  1cf1ab:	c6 43 41 00          	movb   $0x0,0x41(%rbx)
+--
+00000000001cf420 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvCsgOaQUQUBl09_8rust_api16days_since_heavy0EBF_>:
+  1cf420:	41 57                	push   %r15
+  1cf422:	41 56                	push   %r14
+  1cf424:	53                   	push   %rbx
+  1cf425:	48 89 fb             	mov    %rdi,%rbx
+  1cf428:	0f b6 47 30          	movzbl 0x30(%rdi),%eax
+  1cf42c:	85 c0                	test   %eax,%eax
+  1cf42e:	0f 84 97 00 00 00    	je     1cf4cb <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvCsgOaQUQUBl09_8rust_api16days_since_heavy0EBF_+0xab>
+  1cf434:	83 f8 03             	cmp    $0x3,%eax
+  1cf437:	74 58                	je     1cf491 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvCsgOaQUQUBl09_8rust_api16days_since_heavy0EBF_+0x71>
+  1cf439:	83 f8 04             	cmp    $0x4,%eax
+  1cf43c:	0f 85 9f 00 00 00    	jne    1cf4e1 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvCsgOaQUQUBl09_8rust_api16days_since_heavy0EBF_+0xc1>
+  1cf442:	80 bb 58 05 00 00 03 	cmpb   $0x3,0x558(%rbx)
+  1cf449:	75 0c                	jne    1cf457 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvCsgOaQUQUBl09_8rust_api16days_since_heavy0EBF_+0x37>
+  1cf44b:	48 8d bb 18 01 00 00 	lea    0x118(%rbx),%rdi
+  1cf452:	e8 a9 f5 ff ff       	call   1cea00 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCINvMs0_NtCs8lc5ffTg8NK_14tokio_postgres6clientNtBK_6Client9query_opteE0ECsgOaQUQUBl09_8rust_api>
+  1cf457:	4c 8d 7b 38          	lea    0x38(%rbx),%r15
+  1cf45b:	4c 89 ff             	mov    %r15,%rdi
+  1cf45e:	e8 cd d9 05 00       	call   22ce30 <_RNvXs_NtCsb265yCgb7VW_8deadpool7managedINtB4_6ObjectNtCseOAmZMcKDph_17deadpool_postgres7ManagerENtNtNtCs4NRVxsYgnAr_4core3ops4drop4Drop4dropCsgOaQUQUBl09_8rust_api>
+  1cf463:	4c 89 ff             	mov    %r15,%rdi
+  1cf466:	e8 05 e5 ff ff       	call   1cd970 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtB4_6option6OptionNtCseOAmZMcKDph_17deadpool_postgres13ClientWrapperEECsgOaQUQUBl09_8rust_api>
+  1cf46b:	48 8b bb e0 00 00 00 	mov    0xe0(%rbx),%rdi
+  1cf472:	48 83 ff ff          	cmp    $0xffffffffffffffff,%rdi
+  1cf476:	74 2b                	je     1cf4a3 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvCsgOaQUQUBl09_8rust_api16days_since_heavy0EBF_+0x83>
+  1cf478:	f0 48 ff 4f 08       	lock decq 0x8(%rdi)
+  1cf47d:	75 24                	jne    1cf4a3 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvCsgOaQUQUBl09_8rust_api16days_since_heavy0EBF_+0x83>
+  1cf47f:	be b8 00 00 00       	mov    $0xb8,%esi
+  1cf484:	ba 08 00 00 00       	mov    $0x8,%edx
+  1cf489:	ff 15 29 db 32 00    	call   *0x32db29(%rip)        # 4fcfb8 <_DYNAMIC+0x240>
+  1cf48f:	eb 12                	jmp    1cf4a3 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvCsgOaQUQUBl09_8rust_api16days_since_heavy0EBF_+0x83>
+  1cf491:	80 bb a8 03 00 00 03 	cmpb   $0x3,0x3a8(%rbx)
+  1cf498:	75 09                	jne    1cf4a3 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvCsgOaQUQUBl09_8rust_api16days_since_heavy0EBF_+0x83>
+  1cf49a:	48 8d 7b 40          	lea    0x40(%rbx),%rdi
+  1cf49e:	e8 1d 01 00 00       	call   1cf5c0 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvMs5_NtCsb265yCgb7VW_8deadpool7managedINtBJ_4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerE11timeout_get0ECsgOaQUQUBl09_8rust_api>
+  1cf4a3:	48 8b 73 10          	mov    0x10(%rbx),%rsi
+  1cf4a7:	48 85 f6             	test   %rsi,%rsi
+  1cf4aa:	74 0f                	je     1cf4bb <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvCsgOaQUQUBl09_8rust_api16days_since_heavy0EBF_+0x9b>
+  1cf4ac:	48 8b 7b 18          	mov    0x18(%rbx),%rdi
+  1cf4b0:	ba 01 00 00 00       	mov    $0x1,%edx
+  1cf4b5:	ff 15 fd da 32 00    	call   *0x32dafd(%rip)        # 4fcfb8 <_DYNAMIC+0x240>
+  1cf4bb:	48 8b 43 08          	mov    0x8(%rbx),%rax
+  1cf4bf:	f0 48 ff 08          	lock decq (%rax)
+  1cf4c3:	75 1c                	jne    1cf4e1 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvCsgOaQUQUBl09_8rust_api16days_since_heavy0EBF_+0xc1>
+  1cf4c5:	48 83 c3 08          	add    $0x8,%rbx
+  1cf4c9:	eb 09                	jmp    1cf4d4 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvCsgOaQUQUBl09_8rust_api16days_since_heavy0EBF_+0xb4>
+  1cf4cb:	48 8b 03             	mov    (%rbx),%rax
+  1cf4ce:	f0 48 ff 08          	lock decq (%rax)
+  1cf4d2:	75 0d                	jne    1cf4e1 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvCsgOaQUQUBl09_8rust_api16days_since_heavy0EBF_+0xc1>
+  1cf4d4:	48 89 df             	mov    %rbx,%rdi
+  1cf4d7:	5b                   	pop    %rbx
+  1cf4d8:	41 5e                	pop    %r14
+  1cf4da:	41 5f                	pop    %r15
+  1cf4dc:	e9 7f cb 05 00       	jmp    22c060 <_RNvMsn_NtCscdodAO9FK5_5alloc4syncINtB5_3ArcINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEE9drop_slowCsgOaQUQUBl09_8rust_api>
+  1cf4e1:	5b                   	pop    %rbx
+  1cf4e2:	41 5e                	pop    %r14
+  1cf4e4:	41 5f                	pop    %r15
+  1cf4e6:	c3                   	ret
+  1cf4e7:	49 89 c6             	mov    %rax,%r14
+  1cf4ea:	48 8d 7b 38          	lea    0x38(%rbx),%rdi
+  1cf4ee:	e8 6d e7 ff ff       	call   1cdc60 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtCsb265yCgb7VW_8deadpool7managed6ObjectNtCseOAmZMcKDph_17deadpool_postgres7ManagerEECsgOaQUQUBl09_8rust_api>
+  1cf4f3:	eb 21                	jmp    1cf516 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvCsgOaQUQUBl09_8rust_api16days_since_heavy0EBF_+0xf6>
+  1cf4f5:	49 89 c6             	mov    %rax,%r14
+  1cf4f8:	eb 1c                	jmp    1cf516 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvCsgOaQUQUBl09_8rust_api16days_since_heavy0EBF_+0xf6>
+  1cf4fa:	49 89 c6             	mov    %rax,%r14
+  1cf4fd:	eb 0b                	jmp    1cf50a <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvCsgOaQUQUBl09_8rust_api16days_since_heavy0EBF_+0xea>
+  1cf4ff:	49 89 c6             	mov    %rax,%r14
+  1cf502:	4c 89 ff             	mov    %r15,%rdi
+  1cf505:	e8 66 e4 ff ff       	call   1cd970 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtB4_6option6OptionNtCseOAmZMcKDph_17deadpool_postgres13ClientWrapperEECsgOaQUQUBl09_8rust_api>
+  1cf50a:	48 8d bb e0 00 00 00 	lea    0xe0(%rbx),%rdi
+  1cf511:	e8 2a d6 05 00       	call   22cb40 <_RNvXsN_NtCscdodAO9FK5_5alloc4syncINtB5_4WeakINtNtCsb265yCgb7VW_8deadpool7managed9PoolInnerNtCseOAmZMcKDph_17deadpool_postgres7ManagerEENtNtNtCs4NRVxsYgnAr_4core3ops4drop4Drop4dropCsgOaQUQUBl09_8rust_api>
+  1cf516:	48 8b 73 10          	mov    0x10(%rbx),%rsi
+  1cf51a:	48 85 f6             	test   %rsi,%rsi
+  1cf51d:	74 0f                	je     1cf52e <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvCsgOaQUQUBl09_8rust_api16days_since_heavy0EBF_+0x10e>
+  1cf51f:	48 8b 7b 18          	mov    0x18(%rbx),%rdi
+  1cf523:	ba 01 00 00 00       	mov    $0x1,%edx
+  1cf528:	ff 15 8a da 32 00    	call   *0x32da8a(%rip)        # 4fcfb8 <_DYNAMIC+0x240>
+  1cf52e:	48 8b 43 08          	mov    0x8(%rbx),%rax
+  1cf532:	f0 48 ff 08          	lock decq (%rax)
+  1cf536:	75 0c                	jne    1cf544 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvCsgOaQUQUBl09_8rust_api16days_since_heavy0EBF_+0x124>
+  1cf538:	48 83 c3 08          	add    $0x8,%rbx
+  1cf53c:	48 89 df             	mov    %rbx,%rdi
+  1cf53f:	e8 1c cb 05 00       	call   22c060 <_RNvMsn_NtCscdodAO9FK5_5alloc4syncINtB5_3ArcINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEE9drop_slowCsgOaQUQUBl09_8rust_api>
+  1cf544:	4c 89 f7             	mov    %r14,%rdi
+  1cf547:	e8 24 69 2d 00       	call   4a5e70 <_Unwind_Resume@plt>
+  1cf54c:	ff 15 86 da 32 00    	call   *0x32da86(%rip)        # 4fcfd8 <_DYNAMIC+0x260>
+  1cf552:	ff 15 80 da 32 00    	call   *0x32da80(%rip)        # 4fcfd8 <_DYNAMIC+0x260>
+  1cf558:	cc                   	int3
+  1cf559:	cc                   	int3
+  1cf55a:	cc                   	int3
+  1cf55b:	cc                   	int3
+  1cf55c:	cc                   	int3
+  1cf55d:	cc                   	int3
+  1cf55e:	cc                   	int3
+  1cf55f:	cc                   	int3
+
+00000000001cf560 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvMNtNtCsiQf9PW0c9lg_5tokio4sync9semaphoreNtBG_9Semaphore7acquire0ECsgOaQUQUBl09_8rust_api>:
+  1cf560:	41 56                	push   %r14
+  1cf562:	53                   	push   %rbx
+  1cf563:	50                   	push   %rax
+  1cf564:	80 7f 50 03          	cmpb   $0x3,0x50(%rdi)
+  1cf568:	75 24                	jne    1cf58e <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvMNtNtCsiQf9PW0c9lg_5tokio4sync9semaphoreNtBG_9Semaphore7acquire0ECsgOaQUQUBl09_8rust_api+0x2e>
+  1cf56a:	48 89 fb             	mov    %rdi,%rbx
+  1cf56d:	48 83 c7 10          	add    $0x10,%rdi
+  1cf571:	ff 15 c9 da 32 00    	call   *0x32dac9(%rip)        # 4fd040 <_DYNAMIC+0x2c8>
+  1cf577:	48 8b 43 18          	mov    0x18(%rbx),%rax
+  1cf57b:	48 85 c0             	test   %rax,%rax
+  1cf57e:	74 0e                	je     1cf58e <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvMNtNtCsiQf9PW0c9lg_5tokio4sync9semaphoreNtBG_9Semaphore7acquire0ECsgOaQUQUBl09_8rust_api+0x2e>
+  1cf580:	48 8b 7b 20          	mov    0x20(%rbx),%rdi
+  1cf584:	48 83 c4 08          	add    $0x8,%rsp
+  1cf588:	5b                   	pop    %rbx
+  1cf589:	41 5e                	pop    %r14
+  1cf58b:	ff 60 18             	jmp    *0x18(%rax)
+  1cf58e:	48 83 c4 08          	add    $0x8,%rsp
+  1cf592:	5b                   	pop    %rbx
+  1cf593:	41 5e                	pop    %r14
+  1cf595:	c3                   	ret
+  1cf596:	49 89 c6             	mov    %rax,%r14
+  1cf599:	48 8b 43 18          	mov    0x18(%rbx),%rax
+  1cf59d:	48 85 c0             	test   %rax,%rax
+--
+00000000001d4160 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_>:
+  1d4160:	55                   	push   %rbp
+  1d4161:	41 57                	push   %r15
+  1d4163:	41 56                	push   %r14
+  1d4165:	41 55                	push   %r13
+  1d4167:	41 54                	push   %r12
+  1d4169:	53                   	push   %rbx
+  1d416a:	48 81 ec 78 03 00 00 	sub    $0x378,%rsp
+  1d4171:	49 89 d4             	mov    %rdx,%r12
+  1d4174:	48 89 f3             	mov    %rsi,%rbx
+  1d4177:	49 89 ff             	mov    %rdi,%r15
+  1d417a:	0f b6 46 50          	movzbl 0x50(%rsi),%eax
+  1d417e:	48 8d 0d a3 a4 ed ff 	lea    -0x125b5d(%rip),%rcx        # ae628 <anon.b15866d87e1a80f274b694ecbe9f47a1.8.llvm.11310217373394993522+0x488>
+  1d4185:	48 63 04 81          	movslq (%rcx,%rax,4),%rax
+  1d4189:	48 01 c8             	add    %rcx,%rax
+  1d418c:	ff e0                	jmp    *%rax
+  1d418e:	48 8b 43 18          	mov    0x18(%rbx),%rax
+  1d4192:	c6 43 51 01          	movb   $0x1,0x51(%rbx)
+  1d4196:	48 8d 73 20          	lea    0x20(%rbx),%rsi
+  1d419a:	48 89 43 20          	mov    %rax,0x20(%rbx)
+  1d419e:	48 8d 53 28          	lea    0x28(%rbx),%rdx
+  1d41a2:	0f 10 03             	movups (%rbx),%xmm0
+  1d41a5:	0f 11 43 28          	movups %xmm0,0x28(%rbx)
+  1d41a9:	48 8b 43 10          	mov    0x10(%rbx),%rax
+  1d41ad:	48 89 43 38          	mov    %rax,0x38(%rbx)
+  1d41b1:	48 8d 7c 24 20       	lea    0x20(%rsp),%rdi
+  1d41b6:	e8 05 7c 08 00       	call   25bdc0 <_RNvXs_NtNtCsbjRtxNOQSnP_9actix_web7extract14tuple_from_reqTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEENtB6_11FromRequest12from_requestCsgOaQUQUBl09_8rust_api>
+  1d41bb:	48 8b 44 24 30       	mov    0x30(%rsp),%rax
+  1d41c0:	48 89 84 24 70 03 00 	mov    %rax,0x370(%rsp)
+  1d41c7:	00 
+  1d41c8:	0f 10 44 24 20       	movups 0x20(%rsp),%xmm0
+  1d41cd:	0f 29 84 24 60 03 00 	movaps %xmm0,0x360(%rsp)
+  1d41d4:	00 
+  1d41d5:	48 89 43 68          	mov    %rax,0x68(%rbx)
+  1d41d9:	0f 11 43 58          	movups %xmm0,0x58(%rbx)
+  1d41dd:	4c 8d 73 58          	lea    0x58(%rbx),%r14
+  1d41e1:	48 8d 7c 24 20       	lea    0x20(%rsp),%rdi
+  1d41e6:	4c 89 f6             	mov    %r14,%rsi
+  1d41e9:	4c 89 e2             	mov    %r12,%rdx
+  1d41ec:	e8 7f f9 01 00       	call   1f3b70 <_RNvXs0_NtNtCsbjRtxNOQSnP_9actix_web7extract14tuple_from_reqINtB5_17TupleFromRequest1INtNtB9_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEENtNtNtCs4NRVxsYgnAr_4core6future6future6Future4pollCsgOaQUQUBl09_8rust_api>
+  1d41f1:	80 7c 24 20 00       	cmpb   $0x0,0x20(%rsp)
+  1d41f6:	74 3d                	je     1d4235 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xd5>
+  1d41f8:	49 c7 07 fe ff ff ff 	movq   $0xfffffffffffffffe,(%r15)
+  1d41ff:	b0 03                	mov    $0x3,%al
+  1d4201:	e9 ec 07 00 00       	jmp    1d49f2 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x892>
+  1d4206:	48 8d 83 88 00 00 00 	lea    0x88(%rbx),%rax
+  1d420d:	48 89 44 24 08       	mov    %rax,0x8(%rsp)
+  1d4212:	0f b6 83 88 00 00 00 	movzbl 0x88(%rbx),%eax
+  1d4219:	4c 8d 73 58          	lea    0x58(%rbx),%r14
+  1d421d:	48 8d 0d 18 a4 ed ff 	lea    -0x125be8(%rip),%rcx        # ae63c <anon.b15866d87e1a80f274b694ecbe9f47a1.8.llvm.11310217373394993522+0x49c>
+  1d4224:	48 63 04 81          	movslq (%rcx,%rax,4),%rax
+  1d4228:	48 01 c8             	add    %rcx,%rax
+  1d422b:	ff e0                	jmp    *%rax
+  1d422d:	4d 8b 2e             	mov    (%r14),%r13
+  1d4230:	e9 a5 00 00 00       	jmp    1d42da <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x17a>
+  1d4235:	0f 10 44 24 28       	movups 0x28(%rsp),%xmm0
+  1d423a:	0f 11 43 40          	movups %xmm0,0x40(%rbx)
+  1d423e:	4c 89 f7             	mov    %r14,%rdi
+  1d4241:	e8 7a a2 ff ff       	call   1ce4c0 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtNtCsbjRtxNOQSnP_9actix_web7extract14tuple_from_req17TupleFromRequest1INtNtBI_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEECsgOaQUQUBl09_8rust_api>
+  1d4246:	48 8b 6b 40          	mov    0x40(%rbx),%rbp
+  1d424a:	4c 8b 6b 48          	mov    0x48(%rbx),%r13
+  1d424e:	48 85 ed             	test   %rbp,%rbp
+  1d4251:	74 70                	je     1d42c3 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x163>
+  1d4253:	48 8d 7c 24 20       	lea    0x20(%rsp),%rdi
+  1d4258:	48 89 ee             	mov    %rbp,%rsi
+  1d425b:	41 ff 55 38          	call   *0x38(%r13)
+  1d425f:	4c 8b 74 24 78       	mov    0x78(%rsp),%r14
+  1d4264:	4d 85 f6             	test   %r14,%r14
+  1d4267:	74 2e                	je     1d4297 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x137>
+  1d4269:	4c 8b a4 24 80 00 00 	mov    0x80(%rsp),%r12
+  1d4270:	00 
+  1d4271:	49 8b 04 24          	mov    (%r12),%rax
+  1d4275:	48 85 c0             	test   %rax,%rax
+  1d4278:	74 05                	je     1d427f <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x11f>
+  1d427a:	4c 89 f7             	mov    %r14,%rdi
+  1d427d:	ff d0                	call   *%rax
+  1d427f:	49 8b 74 24 08       	mov    0x8(%r12),%rsi
+  1d4284:	48 85 f6             	test   %rsi,%rsi
+  1d4287:	74 0e                	je     1d4297 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x137>
+  1d4289:	49 8b 54 24 10       	mov    0x10(%r12),%rdx
+  1d428e:	4c 89 f7             	mov    %r14,%rdi
+  1d4291:	ff 15 21 8d 32 00    	call   *0x328d21(%rip)        # 4fcfb8 <_DYNAMIC+0x240>
+  1d4297:	0f 10 44 24 20       	movups 0x20(%rsp),%xmm0
+  1d429c:	0f 10 4c 24 30       	movups 0x30(%rsp),%xmm1
+  1d42a1:	0f 29 84 24 10 01 00 	movaps %xmm0,0x110(%rsp)
+  1d42a8:	00 
+  1d42a9:	0f 29 8c 24 20 01 00 	movaps %xmm1,0x120(%rsp)
+  1d42b0:	00 
+  1d42b1:	48 8b 44 24 40       	mov    0x40(%rsp),%rax
+  1d42b6:	48 89 84 24 30 01 00 	mov    %rax,0x130(%rsp)
+  1d42bd:	00 
+  1d42be:	e9 86 06 00 00       	jmp    1d4949 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x7e9>
+  1d42c3:	4c 89 6b 58          	mov    %r13,0x58(%rbx)
+  1d42c7:	48 8d 83 88 00 00 00 	lea    0x88(%rbx),%rax
+  1d42ce:	48 89 44 24 08       	mov    %rax,0x8(%rsp)
+  1d42d3:	c6 83 88 00 00 00 00 	movb   $0x0,0x88(%rbx)
+  1d42da:	4c 89 6b 60          	mov    %r13,0x60(%rbx)
+  1d42de:	ff 15 44 8e 32 00    	call   *0x328e44(%rip)        # 4fd128 <_DYNAMIC+0x3b0>
+  1d42e4:	bf 00 00 10 00       	mov    $0x100000,%edi
+  1d42e9:	be 01 00 00 00       	mov    $0x1,%esi
+  1d42ee:	ff 15 bc 8e 32 00    	call   *0x328ebc(%rip)        # 4fd1b0 <_DYNAMIC+0x438>
+  1d42f4:	48 85 c0             	test   %rax,%rax
+  1d42f7:	0f 84 02 09 00 00    	je     1d4bff <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xa9f>
+  1d42fd:	48 c7 43 68 00 00 10 	movq   $0x100000,0x68(%rbx)
+  1d4304:	00 
+  1d4305:	48 89 43 70          	mov    %rax,0x70(%rbx)
+  1d4309:	48 c7 43 78 00 00 10 	movq   $0x100000,0x78(%rbx)
+  1d4310:	00 
+  1d4311:	ff 15 a1 8e 32 00    	call   *0x328ea1(%rip)        # 4fd1b8 <_DYNAMIC+0x440>
+  1d4317:	48 89 84 24 40 01 00 	mov    %rax,0x140(%rsp)
+  1d431e:	00 
+  1d431f:	89 94 24 48 01 00 00 	mov    %edx,0x148(%rsp)
+  1d4326:	48 8d 7c 24 20       	lea    0x20(%rsp),%rdi
+  1d432b:	48 8d b4 24 40 01 00 	lea    0x140(%rsp),%rsi
+  1d4332:	00 
+  1d4333:	31 d2                	xor    %edx,%edx
+  1d4335:	31 c9                	xor    %ecx,%ecx
+  1d4337:	ff 15 83 8e 32 00    	call   *0x328e83(%rip)        # 4fd1c0 <_DYNAMIC+0x448>
+  1d433d:	48 8b 53 78          	mov    0x78(%rbx),%rdx
+  1d4341:	48 8d 82 ff 0f 00 00 	lea    0xfff(%rdx),%rax
+  1d4348:	48 c1 e8 0c          	shr    $0xc,%rax
+  1d434c:	74 36                	je     1d4384 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x224>
+  1d434e:	31 ff                	xor    %edi,%edi
+  1d4350:	48 83 7c 24 20 00    	cmpq   $0x0,0x20(%rsp)
+  1d4356:	8b 4c 24 30          	mov    0x30(%rsp),%ecx
+  1d435a:	0f 45 cf             	cmovne %edi,%ecx
+  1d435d:	0f 1f 00             	nopl   (%rax)
+  1d4360:	48 8b 73 78          	mov    0x78(%rbx),%rsi
+  1d4364:	48 39 f7             	cmp    %rsi,%rdi
+  1d4367:	0f 83 69 08 00 00    	jae    1d4bd6 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xa76>
+  1d436d:	48 8b 53 70          	mov    0x70(%rbx),%rdx
+  1d4371:	88 0c 3a             	mov    %cl,(%rdx,%rdi,1)
+  1d4374:	48 81 c7 00 10 00 00 	add    $0x1000,%rdi
+  1d437b:	48 ff c8             	dec    %rax
+  1d437e:	75 e0                	jne    1d4360 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x200>
+  1d4380:	48 8b 53 78          	mov    0x78(%rbx),%rdx
+  1d4384:	48 85 d2             	test   %rdx,%rdx
+  1d4387:	74 2c                	je     1d43b5 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x255>
+  1d4389:	48 8b 73 70          	mov    0x70(%rbx),%rsi
+  1d438d:	0f b6 06             	movzbl (%rsi),%eax
+  1d4390:	48 81 fa 01 04 00 00 	cmp    $0x401,%rdx
+  1d4397:	0f 82 d7 00 00 00    	jb     1d4474 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x314>
+  1d439d:	48 8d ba ff fb ff ff 	lea    -0x401(%rdx),%rdi
+  1d43a4:	89 f9                	mov    %edi,%ecx
+  1d43a6:	f7 d1                	not    %ecx
+  1d43a8:	f7 c1 00 1c 00 00    	test   $0x1c00,%ecx
+  1d43ae:	75 0c                	jne    1d43bc <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x25c>
+  1d43b0:	48 89 f1             	mov    %rsi,%rcx
+  1d43b3:	eb 32                	jmp    1d43e7 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x287>
+  1d43b5:	31 c0                	xor    %eax,%eax
+  1d43b7:	e9 b8 00 00 00       	jmp    1d4474 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x314>
+  1d43bc:	41 89 f8             	mov    %edi,%r8d
+  1d43bf:	41 c1 e8 0a          	shr    $0xa,%r8d
+  1d43c3:	41 ff c0             	inc    %r8d
+  1d43c6:	41 83 e0 07          	and    $0x7,%r8d
+  1d43ca:	48 89 f1             	mov    %rsi,%rcx
+  1d43cd:	0f 1f 00             	nopl   (%rax)
+  1d43d0:	44 0f b6 89 00 04 00 	movzbl 0x400(%rcx),%r9d
+  1d43d7:	00 
+  1d43d8:	48 81 c1 00 04 00 00 	add    $0x400,%rcx
+  1d43df:	4c 01 c8             	add    %r9,%rax
+  1d43e2:	49 ff c8             	dec    %r8
+  1d43e5:	75 e9                	jne    1d43d0 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x270>
+  1d43e7:	48 81 ff 00 1c 00 00 	cmp    $0x1c00,%rdi
+  1d43ee:	0f 82 80 00 00 00    	jb     1d4474 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x314>
+  1d43f4:	48 01 f2             	add    %rsi,%rdx
+  1d43f7:	48 89 ce             	mov    %rcx,%rsi
+  1d43fa:	48 f7 d6             	not    %rsi
+  1d43fd:	48 01 d6             	add    %rdx,%rsi
+  1d4400:	48 81 c1 00 20 00 00 	add    $0x2000,%rcx
+  1d4407:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+  1d440e:	00 00 
+  1d4410:	0f b6 91 00 e4 ff ff 	movzbl -0x1c00(%rcx),%edx
+  1d4417:	48 01 c2             	add    %rax,%rdx
+  1d441a:	0f b6 81 00 e8 ff ff 	movzbl -0x1800(%rcx),%eax
+  1d4421:	0f b6 b9 00 ec ff ff 	movzbl -0x1400(%rcx),%edi
+  1d4428:	48 01 c7             	add    %rax,%rdi
+  1d442b:	48 01 d7             	add    %rdx,%rdi
+  1d442e:	0f b6 81 00 f0 ff ff 	movzbl -0x1000(%rcx),%eax
+  1d4435:	0f b6 91 00 f4 ff ff 	movzbl -0xc00(%rcx),%edx
+  1d443c:	48 01 c2             	add    %rax,%rdx
+  1d443f:	44 0f b6 81 00 f8 ff 	movzbl -0x800(%rcx),%r8d
+  1d4446:	ff 
+  1d4447:	49 01 d0             	add    %rdx,%r8
+  1d444a:	49 01 f8             	add    %rdi,%r8
+  1d444d:	0f b6 91 00 fc ff ff 	movzbl -0x400(%rcx),%edx
+  1d4454:	0f b6 01             	movzbl (%rcx),%eax
+  1d4457:	48 01 d0             	add    %rdx,%rax
+  1d445a:	4c 01 c0             	add    %r8,%rax
+  1d445d:	48 81 c6 00 e0 ff ff 	add    $0xffffffffffffe000,%rsi
+  1d4464:	48 81 c1 00 20 00 00 	add    $0x2000,%rcx
+  1d446b:	48 81 fe ff 03 00 00 	cmp    $0x3ff,%rsi
+  1d4472:	77 9c                	ja     1d4410 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x2b0>
+  1d4474:	48 89 83 80 00 00 00 	mov    %rax,0x80(%rbx)
+  1d447b:	48 8b 43 60          	mov    0x60(%rbx),%rax
+  1d447f:	48 83 c0 10          	add    $0x10,%rax
+  1d4483:	48 89 83 90 00 00 00 	mov    %rax,0x90(%rbx)
+  1d448a:	c6 83 00 04 00 00 00 	movb   $0x0,0x400(%rbx)
+  1d4491:	4c 8d ab 90 00 00 00 	lea    0x90(%rbx),%r13
+  1d4498:	48 8d 7c 24 20       	lea    0x20(%rsp),%rdi
+  1d449d:	4c 89 ee             	mov    %r13,%rsi
+  1d44a0:	4c 89 e2             	mov    %r12,%rdx
+  1d44a3:	e8 68 17 00 00       	call   1d5c10 <_RNCNvMs5_NtCsb265yCgb7VW_8deadpool7managedINtB7_4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerE3get0CsgOaQUQUBl09_8rust_api>
+  1d44a8:	48 83 7c 24 20 fb    	cmpq   $0xfffffffffffffffb,0x20(%rsp)
+  1d44ae:	75 07                	jne    1d44b7 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x357>
+  1d44b0:	b0 03                	mov    $0x3,%al
+  1d44b2:	e9 0f 01 00 00       	jmp    1d45c6 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x466>
+  1d44b7:	48 8d bc 24 40 01 00 	lea    0x140(%rsp),%rdi
+  1d44be:	00 
+  1d44bf:	48 8d 74 24 20       	lea    0x20(%rsp),%rsi
+  1d44c4:	ba b8 00 00 00       	mov    $0xb8,%edx
+  1d44c9:	ff 15 11 8c 32 00    	call   *0x328c11(%rip)        # 4fd0e0 <memcpy@GLIBC_2.14>
+  1d44cf:	80 bb 00 04 00 00 03 	cmpb   $0x3,0x400(%rbx)
+  1d44d6:	75 0c                	jne    1d44e4 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x384>
+  1d44d8:	48 8d bb 98 00 00 00 	lea    0x98(%rbx),%rdi
+  1d44df:	e8 dc b0 ff ff       	call   1cf5c0 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvMs5_NtCsb265yCgb7VW_8deadpool7managedINtBJ_4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerE11timeout_get0ECsgOaQUQUBl09_8rust_api>
+  1d44e4:	48 83 bc 24 40 01 00 	cmpq   $0xfffffffffffffffc,0x140(%rsp)
+  1d44eb:	00 fc 
+  1d44ed:	75 5b                	jne    1d454a <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x3ea>
+  1d44ef:	48 8d 7c 24 20       	lea    0x20(%rsp),%rdi
+  1d44f4:	ff 15 5e 8c 32 00    	call   *0x328c5e(%rip)        # 4fd158 <_DYNAMIC+0x3e0>
+  1d44fa:	48 8d 15 9a 6f ee ff 	lea    -0x119066(%rip),%rdx        # bb49b <anon.a8c392b72f5d970f8207a0558b353a6d.37.llvm.10851259813159614766+0x103>
+  1d4501:	48 8d bc 24 f8 02 00 	lea    0x2f8(%rsp),%rdi
+  1d4508:	00 
+  1d4509:	48 8d 74 24 20       	lea    0x20(%rsp),%rsi
+  1d450e:	b9 0a 00 00 00       	mov    $0xa,%ecx
+  1d4513:	e8 58 86 07 00       	call   24cb70 <_RINvMNtNtCsbjRtxNOQSnP_9actix_web8response7builderNtB3_19HttpResponseBuilder4bodyReECsgOaQUQUBl09_8rust_api>
+  1d4518:	83 7c 24 20 ff       	cmpl   $0xffffffff,0x20(%rsp)
+  1d451d:	74 0a                	je     1d4529 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x3c9>
+  1d451f:	48 8d 7c 24 20       	lea    0x20(%rsp),%rdi
+  1d4524:	e8 47 a0 ff ff       	call   1ce570 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtNtCsePmAy0YpeGj_10actix_http9responses8response8ResponseNtNtNtBI_4body5boxed7BoxBodyEECsgOaQUQUBl09_8rust_api>
+  1d4529:	48 83 bc 24 40 01 00 	cmpq   $0xfffffffffffffffc,0x140(%rsp)
+  1d4530:	00 fc 
+  1d4532:	0f 85 99 02 00 00    	jne    1d47d1 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x671>
+  1d4538:	48 8d bc 24 40 01 00 	lea    0x140(%rsp),%rdi
+  1d453f:	00 
+  1d4540:	e8 5b 96 ff ff       	call   1cdba0 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtB4_6result6ResultINtNtCsb265yCgb7VW_8deadpool7managed6ObjectNtCseOAmZMcKDph_17deadpool_postgres7ManagerEINtNtB10_6errors9PoolErrorNtNtCs8lc5ffTg8NK_14tokio_postgres5error5ErrorEEECsgOaQUQUBl09_8rust_api>
+  1d4545:	e9 87 02 00 00       	jmp    1d47d1 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x671>
+  1d454a:	48 8d b4 24 40 01 00 	lea    0x140(%rsp),%rsi
+  1d4551:	00 
+  1d4552:	ba b8 00 00 00       	mov    $0xb8,%edx
+  1d4557:	4c 89 ef             	mov    %r13,%rdi
+  1d455a:	ff 15 80 8b 32 00    	call   *0x328b80(%rip)        # 4fd0e0 <memcpy@GLIBC_2.14>
+  1d4560:	49 83 7d 00 fd       	cmpq   $0xfffffffffffffffd,0x0(%r13)
+  1d4565:	0f 84 e7 05 00 00    	je     1d4b52 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x9f2>
+  1d456b:	4c 89 ab 48 01 00 00 	mov    %r13,0x148(%rbx)
+  1d4572:	48 8d 05 eb 6e ee ff 	lea    -0x119115(%rip),%rax        # bb464 <anon.a8c392b72f5d970f8207a0558b353a6d.37.llvm.10851259813159614766+0xcc>
+  1d4579:	48 89 83 50 01 00 00 	mov    %rax,0x150(%rbx)
+  1d4580:	48 c7 83 58 01 00 00 	movq   $0x37,0x158(%rbx)
+  1d4587:	37 00 00 00 
+  1d458b:	48 c7 83 60 01 00 00 	movq   $0x8,0x160(%rbx)
+  1d4592:	08 00 00 00 
+  1d4596:	48 c7 83 68 01 00 00 	movq   $0x0,0x168(%rbx)
+  1d459d:	00 00 00 00 
+  1d45a1:	c6 83 b0 05 00 00 00 	movb   $0x0,0x5b0(%rbx)
+  1d45a8:	48 8d b3 48 01 00 00 	lea    0x148(%rbx),%rsi
+  1d45af:	48 8d 7c 24 20       	lea    0x20(%rsp),%rdi
+  1d45b4:	4c 89 e2             	mov    %r12,%rdx
+  1d45b7:	e8 e4 c3 ff ff       	call   1d09a0 <_RNCINvMs0_NtCs8lc5ffTg8NK_14tokio_postgres6clientNtB8_6Client9query_oneeE0CsgOaQUQUBl09_8rust_api>
+  1d45bc:	48 83 7c 24 20 fe    	cmpq   $0xfffffffffffffffe,0x20(%rsp)
+  1d45c2:	75 0e                	jne    1d45d2 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x472>
+  1d45c4:	b0 04                	mov    $0x4,%al
+  1d45c6:	48 8b 4c 24 08       	mov    0x8(%rsp),%rcx
+  1d45cb:	88 01                	mov    %al,(%rcx)
+  1d45cd:	e9 17 04 00 00       	jmp    1d49e9 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x889>
+  1d45d2:	48 8b 44 24 60       	mov    0x60(%rsp),%rax
+  1d45d7:	48 89 84 24 80 01 00 	mov    %rax,0x180(%rsp)
+  1d45de:	00 
+  1d45df:	0f 10 44 24 20       	movups 0x20(%rsp),%xmm0
+  1d45e4:	0f 10 4c 24 30       	movups 0x30(%rsp),%xmm1
+  1d45e9:	0f 10 54 24 40       	movups 0x40(%rsp),%xmm2
+  1d45ee:	0f 10 5c 24 50       	movups 0x50(%rsp),%xmm3
+  1d45f3:	0f 29 9c 24 70 01 00 	movaps %xmm3,0x170(%rsp)
+  1d45fa:	00 
+  1d45fb:	0f 29 94 24 60 01 00 	movaps %xmm2,0x160(%rsp)
+  1d4602:	00 
+  1d4603:	0f 29 8c 24 50 01 00 	movaps %xmm1,0x150(%rsp)
+  1d460a:	00 
+  1d460b:	0f 29 84 24 40 01 00 	movaps %xmm0,0x140(%rsp)
+  1d4612:	00 
+  1d4613:	80 bb b0 05 00 00 03 	cmpb   $0x3,0x5b0(%rbx)
+  1d461a:	75 0c                	jne    1d4628 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x4c8>
+  1d461c:	48 8d bb 70 01 00 00 	lea    0x170(%rbx),%rdi
+  1d4623:	e8 d8 a3 ff ff       	call   1cea00 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCINvMs0_NtCs8lc5ffTg8NK_14tokio_postgres6clientNtBK_6Client9query_opteE0ECsgOaQUQUBl09_8rust_api>
+  1d4628:	48 83 bc 24 40 01 00 	cmpq   $0xffffffffffffffff,0x140(%rsp)
+  1d462f:	00 ff 
+  1d4631:	0f 84 18 01 00 00    	je     1d474f <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x5ef>
+  1d4637:	48 8b 84 24 80 01 00 	mov    0x180(%rsp),%rax
+  1d463e:	00 
+  1d463f:	48 89 84 24 40 02 00 	mov    %rax,0x240(%rsp)
+  1d4646:	00 
+  1d4647:	0f 28 84 24 40 01 00 	movaps 0x140(%rsp),%xmm0
+  1d464e:	00 
+  1d464f:	0f 28 8c 24 50 01 00 	movaps 0x150(%rsp),%xmm1
+  1d4656:	00 
+  1d4657:	0f 28 94 24 60 01 00 	movaps 0x160(%rsp),%xmm2
+  1d465e:	00 
+  1d465f:	0f 28 9c 24 70 01 00 	movaps 0x170(%rsp),%xmm3
+  1d4666:	00 
+  1d4667:	0f 29 9c 24 30 02 00 	movaps %xmm3,0x230(%rsp)
+  1d466e:	00 
+  1d466f:	0f 29 94 24 20 02 00 	movaps %xmm2,0x220(%rsp)
+  1d4676:	00 
+  1d4677:	0f 29 8c 24 10 02 00 	movaps %xmm1,0x210(%rsp)
+  1d467e:	00 
+  1d467f:	0f 29 84 24 00 02 00 	movaps %xmm0,0x200(%rsp)
+  1d4686:	00 
+  1d4687:	48 c7 84 24 d8 00 00 	movq   $0x0,0xd8(%rsp)
+  1d468e:	00 00 00 00 00 
+  1d4693:	48 8d bc 24 40 01 00 	lea    0x140(%rsp),%rdi
+  1d469a:	00 
+  1d469b:	48 8d b4 24 00 02 00 	lea    0x200(%rsp),%rsi
+  1d46a2:	00 
+  1d46a3:	31 d2                	xor    %edx,%edx
+  1d46a5:	e8 26 2d 04 00       	call   2173d0 <_RINvMs7_NtCs8lc5ffTg8NK_14tokio_postgres3rowNtB6_3Row9get_innerjNtNtCscdodAO9FK5_5alloc6string6StringECsgOaQUQUBl09_8rust_api.llvm.13298320670031199618>
+  1d46aa:	4c 8b a4 24 40 01 00 	mov    0x140(%rsp),%r12
+  1d46b1:	00 
+  1d46b2:	49 83 fc ff          	cmp    $0xffffffffffffffff,%r12
+  1d46b6:	0f 84 a8 04 00 00    	je     1d4b64 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xa04>
+  1d46bc:	48 8b bc 24 48 01 00 	mov    0x148(%rsp),%rdi
+  1d46c3:	00 
+  1d46c4:	48 8b b4 24 50 01 00 	mov    0x150(%rsp),%rsi
+  1d46cb:	00 
+  1d46cc:	48 8d 15 6d 6e ee ff 	lea    -0x119193(%rip),%rdx        # bb540 <anon.1c761382ec4b0d6a0d4e6a3322c5a8e8.587.llvm.16710877183190994992+0x28>
+  1d46d3:	b9 08 00 00 00       	mov    $0x8,%ecx
+  1d46d8:	48 89 3c 24          	mov    %rdi,(%rsp)
+  1d46dc:	ff 15 7e 8a 32 00    	call   *0x328a7e(%rip)        # 4fd160 <_DYNAMIC+0x3e8>
+  1d46e2:	48 89 c5             	mov    %rax,%rbp
+  1d46e5:	40 f6 c5 01          	test   $0x1,%bpl
+  1d46e9:	0f 84 1b 03 00 00    	je     1d4a0a <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x8aa>
+  1d46ef:	48 8d 7c 24 20       	lea    0x20(%rsp),%rdi
+  1d46f4:	ff 15 5e 8a 32 00    	call   *0x328a5e(%rip)        # 4fd158 <_DYNAMIC+0x3e0>
+  1d46fa:	48 8d 15 1f 8e ed ff 	lea    -0x1271e1(%rip),%rdx        # ad520 <anon.b486d4626b253838713b2ba2864aef73.9.llvm.14412534175254029382+0x50>
+  1d4701:	48 8d bc 24 f8 02 00 	lea    0x2f8(%rsp),%rdi
+  1d4708:	00 
+  1d4709:	48 8d 74 24 20       	lea    0x20(%rsp),%rsi
+  1d470e:	b9 10 00 00 00       	mov    $0x10,%ecx
+  1d4713:	e8 58 84 07 00       	call   24cb70 <_RINvMNtNtCsbjRtxNOQSnP_9actix_web8response7builderNtB3_19HttpResponseBuilder4bodyReECsgOaQUQUBl09_8rust_api>
+  1d4718:	83 7c 24 20 ff       	cmpl   $0xffffffff,0x20(%rsp)
+  1d471d:	74 0a                	je     1d4729 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x5c9>
+  1d471f:	48 8d 7c 24 20       	lea    0x20(%rsp),%rdi
+  1d4724:	e8 47 9e ff ff       	call   1ce570 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtNtCsePmAy0YpeGj_10actix_http9responses8response8ResponseNtNtNtBI_4body5boxed7BoxBodyEECsgOaQUQUBl09_8rust_api>
+  1d4729:	4d 85 e4             	test   %r12,%r12
+  1d472c:	74 12                	je     1d4740 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x5e0>
+  1d472e:	ba 01 00 00 00       	mov    $0x1,%edx
+  1d4733:	48 8b 3c 24          	mov    (%rsp),%rdi
+  1d4737:	4c 89 e6             	mov    %r12,%rsi
+  1d473a:	ff 15 78 88 32 00    	call   *0x328878(%rip)        # 4fcfb8 <_DYNAMIC+0x240>
+  1d4740:	48 8d bc 24 00 02 00 	lea    0x200(%rsp),%rdi
+  1d4747:	00 
+  1d4748:	e8 d3 bb ff ff       	call   1d0320 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNtNtCs8lc5ffTg8NK_14tokio_postgres3row3RowECsgOaQUQUBl09_8rust_api>
+  1d474d:	eb 47                	jmp    1d4796 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x636>
+  1d474f:	48 8d 7c 24 20       	lea    0x20(%rsp),%rdi
+  1d4754:	ff 15 fe 89 32 00    	call   *0x3289fe(%rip)        # 4fd158 <_DYNAMIC+0x3e0>
+  1d475a:	48 8d 15 07 77 ee ff 	lea    -0x1188f9(%rip),%rdx        # bbe68 <anon.1c761382ec4b0d6a0d4e6a3322c5a8e8.706.llvm.16710877183190994992+0x68>
+  1d4761:	48 8d bc 24 f8 02 00 	lea    0x2f8(%rsp),%rdi
+  1d4768:	00 
+  1d4769:	48 8d 74 24 20       	lea    0x20(%rsp),%rsi
+  1d476e:	b9 0b 00 00 00       	mov    $0xb,%ecx
+  1d4773:	e8 f8 83 07 00       	call   24cb70 <_RINvMNtNtCsbjRtxNOQSnP_9actix_web8response7builderNtB3_19HttpResponseBuilder4bodyReECsgOaQUQUBl09_8rust_api>
+  1d4778:	83 7c 24 20 ff       	cmpl   $0xffffffff,0x20(%rsp)
+  1d477d:	74 0a                	je     1d4789 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x629>
+  1d477f:	48 8d 7c 24 20       	lea    0x20(%rsp),%rdi
+  1d4784:	e8 e7 9d ff ff       	call   1ce570 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtNtCsePmAy0YpeGj_10actix_http9responses8response8ResponseNtNtNtBI_4body5boxed7BoxBodyEECsgOaQUQUBl09_8rust_api>
+  1d4789:	48 8b bc 24 48 01 00 	mov    0x148(%rsp),%rdi
+  1d4790:	00 
+  1d4791:	e8 3a bc ff ff       	call   1d03d0 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNtNtCs8lc5ffTg8NK_14tokio_postgres5error5ErrorECsgOaQUQUBl09_8rust_api>
+  1d4796:	4c 8d a3 90 00 00 00 	lea    0x90(%rbx),%r12
+  1d479d:	4c 89 e7             	mov    %r12,%rdi
+  1d47a0:	e8 8b 86 05 00       	call   22ce30 <_RNvXs_NtCsb265yCgb7VW_8deadpool7managedINtB4_6ObjectNtCseOAmZMcKDph_17deadpool_postgres7ManagerENtNtNtCs4NRVxsYgnAr_4core3ops4drop4Drop4dropCsgOaQUQUBl09_8rust_api>
+  1d47a5:	4c 89 e7             	mov    %r12,%rdi
+  1d47a8:	e8 c3 91 ff ff       	call   1cd970 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtB4_6option6OptionNtCseOAmZMcKDph_17deadpool_postgres13ClientWrapperEECsgOaQUQUBl09_8rust_api>
+  1d47ad:	48 8b bb 38 01 00 00 	mov    0x138(%rbx),%rdi
+  1d47b4:	48 83 ff ff          	cmp    $0xffffffffffffffff,%rdi
+  1d47b8:	74 17                	je     1d47d1 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x671>
+  1d47ba:	f0 48 ff 4f 08       	lock decq 0x8(%rdi)
+  1d47bf:	75 10                	jne    1d47d1 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x671>
+  1d47c1:	be b8 00 00 00       	mov    $0xb8,%esi
+  1d47c6:	ba 08 00 00 00       	mov    $0x8,%edx
+  1d47cb:	ff 15 e7 87 32 00    	call   *0x3287e7(%rip)        # 4fcfb8 <_DYNAMIC+0x240>
+  1d47d1:	48 8b 73 68          	mov    0x68(%rbx),%rsi
+  1d47d5:	48 85 f6             	test   %rsi,%rsi
+  1d47d8:	74 0f                	je     1d47e9 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x689>
+  1d47da:	48 8b 7b 70          	mov    0x70(%rbx),%rdi
+  1d47de:	ba 01 00 00 00       	mov    $0x1,%edx
+  1d47e3:	ff 15 cf 87 32 00    	call   *0x3287cf(%rip)        # 4fcfb8 <_DYNAMIC+0x240>
+  1d47e9:	48 8b 43 60          	mov    0x60(%rbx),%rax
+  1d47ed:	f0 48 ff 08          	lock decq (%rax)
+  1d47f1:	75 09                	jne    1d47fc <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x69c>
+  1d47f3:	48 8d 7b 60          	lea    0x60(%rbx),%rdi
+  1d47f7:	e8 64 78 05 00       	call   22c060 <_RNvMsn_NtCscdodAO9FK5_5alloc4syncINtB5_3ArcINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEE9drop_slowCsgOaQUQUBl09_8rust_api>
+  1d47fc:	4c 8b a4 24 f8 02 00 	mov    0x2f8(%rsp),%r12
+  1d4803:	00 
+  1d4804:	0f 10 84 24 00 03 00 	movups 0x300(%rsp),%xmm0
+  1d480b:	00 
+  1d480c:	0f 29 84 24 50 02 00 	movaps %xmm0,0x250(%rsp)
+  1d4813:	00 
+  1d4814:	0f 10 84 24 10 03 00 	movups 0x310(%rsp),%xmm0
+  1d481b:	00 
+  1d481c:	0f 29 84 24 60 02 00 	movaps %xmm0,0x260(%rsp)
+  1d4823:	00 
+  1d4824:	0f 10 84 24 20 03 00 	movups 0x320(%rsp),%xmm0
+  1d482b:	00 
+  1d482c:	0f 29 84 24 70 02 00 	movaps %xmm0,0x270(%rsp)
+  1d4833:	00 
+  1d4834:	0f 10 84 24 30 03 00 	movups 0x330(%rsp),%xmm0
+  1d483b:	00 
+  1d483c:	0f 29 84 24 80 02 00 	movaps %xmm0,0x280(%rsp)
+  1d4843:	00 
+  1d4844:	0f 10 84 24 40 03 00 	movups 0x340(%rsp),%xmm0
+  1d484b:	00 
+  1d484c:	0f 29 84 24 90 02 00 	movaps %xmm0,0x290(%rsp)
+  1d4853:	00 
+  1d4854:	48 8b ac 24 50 03 00 	mov    0x350(%rsp),%rbp
+  1d485b:	00 
+  1d485c:	4c 8b ac 24 58 03 00 	mov    0x358(%rsp),%r13
+  1d4863:	00 
+  1d4864:	48 8b 44 24 08       	mov    0x8(%rsp),%rax
+  1d4869:	c6 00 01             	movb   $0x1,(%rax)
+  1d486c:	49 83 fc ff          	cmp    $0xffffffffffffffff,%r12
+  1d4870:	0f 84 73 01 00 00    	je     1d49e9 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x889>
+  1d4876:	0f 28 84 24 90 02 00 	movaps 0x290(%rsp),%xmm0
+  1d487d:	00 
+  1d487e:	0f 29 84 24 e0 02 00 	movaps %xmm0,0x2e0(%rsp)
+  1d4885:	00 
+  1d4886:	0f 28 84 24 50 02 00 	movaps 0x250(%rsp),%xmm0
+  1d488d:	00 
+  1d488e:	0f 28 8c 24 60 02 00 	movaps 0x260(%rsp),%xmm1
+  1d4895:	00 
+  1d4896:	0f 28 94 24 70 02 00 	movaps 0x270(%rsp),%xmm2
+  1d489d:	00 
+  1d489e:	0f 28 9c 24 80 02 00 	movaps 0x280(%rsp),%xmm3
+  1d48a5:	00 
+  1d48a6:	0f 29 9c 24 d0 02 00 	movaps %xmm3,0x2d0(%rsp)
+  1d48ad:	00 
+  1d48ae:	0f 29 94 24 c0 02 00 	movaps %xmm2,0x2c0(%rsp)
+  1d48b5:	00 
+  1d48b6:	0f 29 8c 24 b0 02 00 	movaps %xmm1,0x2b0(%rsp)
+  1d48bd:	00 
+  1d48be:	0f 29 84 24 a0 02 00 	movaps %xmm0,0x2a0(%rsp)
+  1d48c5:	00 
+  1d48c6:	4c 89 f7             	mov    %r14,%rdi
+  1d48c9:	e8 52 ab ff ff       	call   1cf420 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvCsgOaQUQUBl09_8rust_api16days_since_heavy0EBF_>
+  1d48ce:	0f 28 84 24 e0 02 00 	movaps 0x2e0(%rsp),%xmm0
+  1d48d5:	00 
+  1d48d6:	0f 11 44 24 68       	movups %xmm0,0x68(%rsp)
+  1d48db:	0f 28 84 24 a0 02 00 	movaps 0x2a0(%rsp),%xmm0
+  1d48e2:	00 
+  1d48e3:	0f 28 8c 24 b0 02 00 	movaps 0x2b0(%rsp),%xmm1
+  1d48ea:	00 
+  1d48eb:	0f 28 94 24 c0 02 00 	movaps 0x2c0(%rsp),%xmm2
+  1d48f2:	00 
+  1d48f3:	0f 28 9c 24 d0 02 00 	movaps 0x2d0(%rsp),%xmm3
+  1d48fa:	00 
+  1d48fb:	0f 11 5c 24 58       	movups %xmm3,0x58(%rsp)
+  1d4900:	0f 11 54 24 48       	movups %xmm2,0x48(%rsp)
+  1d4905:	0f 11 4c 24 38       	movups %xmm1,0x38(%rsp)
+  1d490a:	0f 11 44 24 28       	movups %xmm0,0x28(%rsp)
+  1d490f:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  1d4914:	4c 8d 74 24 48       	lea    0x48(%rsp),%r14
+  1d4919:	4c 89 f7             	mov    %r14,%rdi
+  1d491c:	ff 15 66 88 32 00    	call   *0x328866(%rip)        # 4fd188 <_DYNAMIC+0x410>
+  1d4922:	48 8b 44 24 40       	mov    0x40(%rsp),%rax
+  1d4927:	48 89 84 24 30 01 00 	mov    %rax,0x130(%rsp)
+  1d492e:	00 
+  1d492f:	0f 10 44 24 20       	movups 0x20(%rsp),%xmm0
+  1d4934:	0f 10 4c 24 30       	movups 0x30(%rsp),%xmm1
+  1d4939:	0f 29 8c 24 20 01 00 	movaps %xmm1,0x120(%rsp)
+  1d4940:	00 
+  1d4941:	0f 29 84 24 10 01 00 	movaps %xmm0,0x110(%rsp)
+  1d4948:	00 
+  1d4949:	4c 8b 74 24 48       	mov    0x48(%rsp),%r14
+  1d494e:	0f 10 44 24 50       	movups 0x50(%rsp),%xmm0
+  1d4953:	0f 29 84 24 e0 00 00 	movaps %xmm0,0xe0(%rsp)
+  1d495a:	00 
+  1d495b:	0f 10 44 24 60       	movups 0x60(%rsp),%xmm0
+  1d4960:	0f 29 84 24 f0 00 00 	movaps %xmm0,0xf0(%rsp)
+  1d4967:	00 
+  1d4968:	48 8b 44 24 70       	mov    0x70(%rsp),%rax
+  1d496d:	48 89 84 24 00 01 00 	mov    %rax,0x100(%rsp)
+  1d4974:	00 
+  1d4975:	c6 43 51 00          	movb   $0x0,0x51(%rbx)
+  1d4979:	4c 8b 63 20          	mov    0x20(%rbx),%r12
+--
+  1d49e7:	eb 09                	jmp    1d49f2 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x892>
+  1d49e9:	49 c7 07 fe ff ff ff 	movq   $0xfffffffffffffffe,(%r15)
+  1d49f0:	b0 04                	mov    $0x4,%al
+  1d49f2:	88 43 50             	mov    %al,0x50(%rbx)
+  1d49f5:	4c 89 f8             	mov    %r15,%rax
+  1d49f8:	48 81 c4 78 03 00 00 	add    $0x378,%rsp
+  1d49ff:	5b                   	pop    %rbx
+  1d4a00:	41 5c                	pop    %r12
+  1d4a02:	41 5d                	pop    %r13
+  1d4a04:	41 5e                	pop    %r14
+  1d4a06:	41 5f                	pop    %r15
+  1d4a08:	5d                   	pop    %rbp
+  1d4a09:	c3                   	ret
+  1d4a0a:	48 8d 7c 24 10       	lea    0x10(%rsp),%rdi
+  1d4a0f:	ff 15 53 87 32 00    	call   *0x328753(%rip)        # 4fd168 <_DYNAMIC+0x3f0>
+  1d4a15:	8b 44 24 18          	mov    0x18(%rsp),%eax
+  1d4a19:	89 44 24 28          	mov    %eax,0x28(%rsp)
+  1d4a1d:	48 8b 44 24 10       	mov    0x10(%rsp),%rax
+  1d4a22:	48 89 44 24 20       	mov    %rax,0x20(%rsp)
+  1d4a27:	48 8d bc 24 40 01 00 	lea    0x140(%rsp),%rdi
+  1d4a2e:	00 
+  1d4a2f:	48 8d 74 24 20       	lea    0x20(%rsp),%rsi
+  1d4a34:	31 d2                	xor    %edx,%edx
+  1d4a36:	ff 15 34 87 32 00    	call   *0x328734(%rip)        # 4fd170 <_DYNAMIC+0x3f8>
+  1d4a3c:	8b bc 24 40 01 00 00 	mov    0x140(%rsp),%edi
+  1d4a43:	85 ff                	test   %edi,%edi
+  1d4a45:	0f 84 70 01 00 00    	je     1d4bbb <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xa5b>
+  1d4a4b:	48 c1 ed 20          	shr    $0x20,%rbp
+  1d4a4f:	89 ee                	mov    %ebp,%esi
+  1d4a51:	ff 15 21 87 32 00    	call   *0x328721(%rip)        # 4fd178 <_DYNAMIC+0x400>
+  1d4a57:	48 89 c5             	mov    %rax,%rbp
+  1d4a5a:	41 89 d5             	mov    %edx,%r13d
+  1d4a5d:	48 8d 43 68          	lea    0x68(%rbx),%rax
+  1d4a61:	48 89 44 24 20       	mov    %rax,0x20(%rsp)
+  1d4a66:	48 8d 44 24 20       	lea    0x20(%rsp),%rax
+  1d4a6b:	48 8d 7c 24 20       	lea    0x20(%rsp),%rdi
+  1d4a70:	ff 15 0a 87 32 00    	call   *0x32870a(%rip)        # 4fd180 <_DYNAMIC+0x408>
+  1d4a76:	48 85 ed             	test   %rbp,%rbp
+  1d4a79:	0f 98 c0             	sets   %al
+  1d4a7c:	45 85 ed             	test   %r13d,%r13d
+  1d4a7f:	0f 9f c1             	setg   %cl
+  1d4a82:	20 c1                	and    %al,%cl
+  1d4a84:	0f b6 c1             	movzbl %cl,%eax
+  1d4a87:	48 01 e8             	add    %rbp,%rax
+  1d4a8a:	48 b9 57 29 51 ce a0 	movabs $0x1845c8a0ce512957,%rcx
+  1d4a91:	c8 45 18 
+  1d4a94:	48 f7 e9             	imul   %rcx
+  1d4a97:	48 89 d0             	mov    %rdx,%rax
+  1d4a9a:	48 c1 e8 3f          	shr    $0x3f,%rax
+  1d4a9e:	48 c1 fa 0d          	sar    $0xd,%rdx
+  1d4aa2:	48 01 c2             	add    %rax,%rdx
+  1d4aa5:	48 8b 8b 80 00 00 00 	mov    0x80(%rbx),%rcx
+  1d4aac:	48 8d bc 24 f8 02 00 	lea    0x2f8(%rsp),%rdi
+  1d4ab3:	00 
+  1d4ab4:	48 8d 74 24 20       	lea    0x20(%rsp),%rsi
+  1d4ab9:	e8 d2 89 07 00       	call   24d490 <_RINvMNtNtCsbjRtxNOQSnP_9actix_web8response7builderNtB3_19HttpResponseBuilder4jsonNtCsgOaQUQUBl09_8rust_api9HeavyRespEB1j_>
+  1d4abe:	4d 85 e4             	test   %r12,%r12
+  1d4ac1:	74 12                	je     1d4ad5 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x975>
+  1d4ac3:	ba 01 00 00 00       	mov    $0x1,%edx
+  1d4ac8:	48 8b 3c 24          	mov    (%rsp),%rdi
+  1d4acc:	4c 89 e6             	mov    %r12,%rsi
+  1d4acf:	ff 15 e3 84 32 00    	call   *0x3284e3(%rip)        # 4fcfb8 <_DYNAMIC+0x240>
+  1d4ad5:	48 8d bc 24 00 02 00 	lea    0x200(%rsp),%rdi
+  1d4adc:	00 
+  1d4add:	e8 3e b8 ff ff       	call   1d0320 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNtNtCs8lc5ffTg8NK_14tokio_postgres3row3RowECsgOaQUQUBl09_8rust_api>
+  1d4ae2:	4c 8d a3 90 00 00 00 	lea    0x90(%rbx),%r12
+  1d4ae9:	4c 89 e7             	mov    %r12,%rdi
+  1d4aec:	e8 3f 83 05 00       	call   22ce30 <_RNvXs_NtCsb265yCgb7VW_8deadpool7managedINtB4_6ObjectNtCseOAmZMcKDph_17deadpool_postgres7ManagerENtNtNtCs4NRVxsYgnAr_4core3ops4drop4Drop4dropCsgOaQUQUBl09_8rust_api>
+  1d4af1:	4c 89 e7             	mov    %r12,%rdi
+  1d4af4:	e8 77 8e ff ff       	call   1cd970 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtB4_6option6OptionNtCseOAmZMcKDph_17deadpool_postgres13ClientWrapperEECsgOaQUQUBl09_8rust_api>
+  1d4af9:	48 8b bb 38 01 00 00 	mov    0x138(%rbx),%rdi
+  1d4b00:	48 83 ff ff          	cmp    $0xffffffffffffffff,%rdi
+  1d4b04:	74 17                	je     1d4b1d <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x9bd>
+  1d4b06:	f0 48 ff 4f 08       	lock decq 0x8(%rdi)
+  1d4b0b:	75 10                	jne    1d4b1d <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x9bd>
+  1d4b0d:	be b8 00 00 00       	mov    $0xb8,%esi
+  1d4b12:	ba 08 00 00 00       	mov    $0x8,%edx
+  1d4b17:	ff 15 9b 84 32 00    	call   *0x32849b(%rip)        # 4fcfb8 <_DYNAMIC+0x240>
+  1d4b1d:	48 8d 43 68          	lea    0x68(%rbx),%rax
+  1d4b21:	48 8b 30             	mov    (%rax),%rsi
+  1d4b24:	48 85 f6             	test   %rsi,%rsi
+  1d4b27:	74 0f                	je     1d4b38 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x9d8>
+  1d4b29:	48 8b 7b 70          	mov    0x70(%rbx),%rdi
+  1d4b2d:	ba 01 00 00 00       	mov    $0x1,%edx
+  1d4b32:	ff 15 80 84 32 00    	call   *0x328480(%rip)        # 4fcfb8 <_DYNAMIC+0x240>
+  1d4b38:	83 7c 24 20 ff       	cmpl   $0xffffffff,0x20(%rsp)
+  1d4b3d:	0f 84 a6 fc ff ff    	je     1d47e9 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x689>
+  1d4b43:	48 8d 7c 24 20       	lea    0x20(%rsp),%rdi
+  1d4b48:	e8 23 9a ff ff       	call   1ce570 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtNtCsePmAy0YpeGj_10actix_http9responses8response8ResponseNtNtNtBI_4body5boxed7BoxBodyEECsgOaQUQUBl09_8rust_api>
+  1d4b4d:	e9 97 fc ff ff       	jmp    1d47e9 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0x689>
+  1d4b52:	48 8d 3d 3f 4c 2d 00 	lea    0x2d4c3f(%rip),%rdi        # 4a9798 <anon.3b23d0677c084b2692c8abb1f43cc7d6.91.llvm.17377171819199927658>
+  1d4b59:	ff 15 31 86 32 00    	call   *0x328631(%rip)        # 4fd190 <_DYNAMIC+0x418>
+  1d4b5f:	e9 c9 00 00 00       	jmp    1d4c2d <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xacd>
+  1d4b64:	48 8b 84 24 48 01 00 	mov    0x148(%rsp),%rax
+  1d4b6b:	00 
+  1d4b6c:	48 89 44 24 10       	mov    %rax,0x10(%rsp)
+  1d4b71:	48 8d 84 24 d8 00 00 	lea    0xd8(%rsp),%rax
+  1d4b78:	00 
+  1d4b79:	48 89 44 24 20       	mov    %rax,0x20(%rsp)
+  1d4b7e:	48 8b 05 f3 84 32 00 	mov    0x3284f3(%rip),%rax        # 4fd078 <_DYNAMIC+0x300>
+  1d4b85:	48 89 44 24 28       	mov    %rax,0x28(%rsp)
+  1d4b8a:	48 8d 44 24 10       	lea    0x10(%rsp),%rax
+  1d4b8f:	48 89 44 24 30       	mov    %rax,0x30(%rsp)
+  1d4b94:	48 8b 05 fd 85 32 00 	mov    0x3285fd(%rip),%rax        # 4fd198 <_DYNAMIC+0x420>
+  1d4b9b:	48 89 44 24 38       	mov    %rax,0x38(%rsp)
+  1d4ba0:	48 8d 3d 40 e6 ed ff 	lea    -0x1219c0(%rip),%rdi        # b31e7 <anon.1046d4c19fa6778febda1e1d58f0ad6d.0.llvm.13298320670031199618>
+  1d4ba7:	48 8d 15 2a 26 2d 00 	lea    0x2d262a(%rip),%rdx        # 4a71d8 <__frame_dummy_init_array_entry+0x2a0>
+  1d4bae:	48 8d 74 24 20       	lea    0x20(%rsp),%rsi
+  1d4bb3:	ff 15 e7 85 32 00    	call   *0x3285e7(%rip)        # 4fd1a0 <_DYNAMIC+0x428>
+  1d4bb9:	eb 72                	jmp    1d4c2d <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xacd>
+  1d4bbb:	48 8d 3d bf 75 ee ff 	lea    -0x118a41(%rip),%rdi        # bc181 <anon.1c761382ec4b0d6a0d4e6a3322c5a8e8.706.llvm.16710877183190994992+0x381>
+  1d4bc2:	48 8d 15 0f 28 2d 00 	lea    0x2d280f(%rip),%rdx        # 4a73d8 <__frame_dummy_init_array_entry+0x4a0>
+  1d4bc9:	be 2b 00 00 00       	mov    $0x2b,%esi
+  1d4bce:	ff 15 d4 85 32 00    	call   *0x3285d4(%rip)        # 4fd1a8 <_DYNAMIC+0x430>
+  1d4bd4:	eb 57                	jmp    1d4c2d <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xacd>
+  1d4bd6:	48 8d 15 cb 25 2d 00 	lea    0x2d25cb(%rip),%rdx        # 4a71a8 <__frame_dummy_init_array_entry+0x270>
+  1d4bdd:	ff 15 e5 85 32 00    	call   *0x3285e5(%rip)        # 4fd1c8 <_DYNAMIC+0x450>
+  1d4be3:	eb 48                	jmp    1d4c2d <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xacd>
+  1d4be5:	48 8d 3d 14 24 2d 00 	lea    0x2d2414(%rip),%rdi        # 4a7000 <__frame_dummy_init_array_entry+0xc8>
+  1d4bec:	ff 15 be 84 32 00    	call   *0x3284be(%rip)        # 4fd0b0 <_DYNAMIC+0x338>
+  1d4bf2:	48 8d 3d 07 24 2d 00 	lea    0x2d2407(%rip),%rdi        # 4a7000 <__frame_dummy_init_array_entry+0xc8>
+  1d4bf9:	ff 15 a9 84 32 00    	call   *0x3284a9(%rip)        # 4fd0a8 <_DYNAMIC+0x330>
+  1d4bff:	bf 01 00 00 00       	mov    $0x1,%edi
+  1d4c04:	be 00 00 10 00       	mov    $0x100000,%esi
+  1d4c09:	ff 15 f1 84 32 00    	call   *0x3284f1(%rip)        # 4fd100 <_DYNAMIC+0x388>
+  1d4c0f:	eb 1c                	jmp    1d4c2d <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xacd>
+  1d4c11:	48 8d 3d a8 25 2d 00 	lea    0x2d25a8(%rip),%rdi        # 4a71c0 <__frame_dummy_init_array_entry+0x288>
+  1d4c18:	ff 15 8a 84 32 00    	call   *0x32848a(%rip)        # 4fd0a8 <_DYNAMIC+0x330>
+  1d4c1e:	eb 0d                	jmp    1d4c2d <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xacd>
+  1d4c20:	48 8d 3d 99 25 2d 00 	lea    0x2d2599(%rip),%rdi        # 4a71c0 <__frame_dummy_init_array_entry+0x288>
+  1d4c27:	ff 15 83 84 32 00    	call   *0x328483(%rip)        # 4fd0b0 <_DYNAMIC+0x338>
+  1d4c2d:	0f 0b                	ud2
+  1d4c2f:	e9 6c 02 00 00       	jmp    1d4ea0 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xd40>
+  1d4c34:	e9 b2 02 00 00       	jmp    1d4eeb <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xd8b>
+  1d4c39:	e9 12 01 00 00       	jmp    1d4d50 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xbf0>
+  1d4c3e:	49 89 c7             	mov    %rax,%r15
+  1d4c41:	eb 0b                	jmp    1d4c4e <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xaee>
+  1d4c43:	49 89 c7             	mov    %rax,%r15
+  1d4c46:	4c 89 e7             	mov    %r12,%rdi
+  1d4c49:	e8 22 8d ff ff       	call   1cd970 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtB4_6option6OptionNtCseOAmZMcKDph_17deadpool_postgres13ClientWrapperEECsgOaQUQUBl09_8rust_api>
+  1d4c4e:	48 8d bb 38 01 00 00 	lea    0x138(%rbx),%rdi
+  1d4c55:	e8 e6 7e 05 00       	call   22cb40 <_RNvXsN_NtCscdodAO9FK5_5alloc4syncINtB5_4WeakINtNtCsb265yCgb7VW_8deadpool7managed9PoolInnerNtCseOAmZMcKDph_17deadpool_postgres7ManagerEENtNtNtCs4NRVxsYgnAr_4core3ops4drop4Drop4dropCsgOaQUQUBl09_8rust_api>
+  1d4c5a:	eb 3e                	jmp    1d4c9a <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xb3a>
+  1d4c5c:	ff 15 76 83 32 00    	call   *0x328376(%rip)        # 4fcfd8 <_DYNAMIC+0x260>
+  1d4c62:	49 89 c7             	mov    %rax,%r15
+  1d4c65:	eb 27                	jmp    1d4c8e <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xb2e>
+  1d4c67:	49 89 c7             	mov    %rax,%r15
+  1d4c6a:	4d 85 e4             	test   %r12,%r12
+  1d4c6d:	74 12                	je     1d4c81 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xb21>
+  1d4c6f:	ba 01 00 00 00       	mov    $0x1,%edx
+  1d4c74:	48 8b 3c 24          	mov    (%rsp),%rdi
+  1d4c78:	4c 89 e6             	mov    %r12,%rsi
+  1d4c7b:	ff 15 37 83 32 00    	call   *0x328337(%rip)        # 4fcfb8 <_DYNAMIC+0x240>
+  1d4c81:	48 8d bc 24 00 02 00 	lea    0x200(%rsp),%rdi
+  1d4c88:	00 
+  1d4c89:	e8 92 b6 ff ff       	call   1d0320 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNtNtCs8lc5ffTg8NK_14tokio_postgres3row3RowECsgOaQUQUBl09_8rust_api>
+  1d4c8e:	48 8d bb 90 00 00 00 	lea    0x90(%rbx),%rdi
+  1d4c95:	e8 c6 8f ff ff       	call   1cdc60 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtCsb265yCgb7VW_8deadpool7managed6ObjectNtCseOAmZMcKDph_17deadpool_postgres7ManagerEECsgOaQUQUBl09_8rust_api>
+  1d4c9a:	48 8d 43 68          	lea    0x68(%rbx),%rax
+  1d4c9e:	48 8b 30             	mov    (%rax),%rsi
+  1d4ca1:	48 85 f6             	test   %rsi,%rsi
+  1d4ca4:	74 0f                	je     1d4cb5 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xb55>
+  1d4ca6:	48 8b 7b 70          	mov    0x70(%rbx),%rdi
+  1d4caa:	ba 01 00 00 00       	mov    $0x1,%edx
+  1d4caf:	ff 15 03 83 32 00    	call   *0x328303(%rip)        # 4fcfb8 <_DYNAMIC+0x240>
+  1d4cb5:	83 7c 24 20 ff       	cmpl   $0xffffffff,0x20(%rsp)
+  1d4cba:	0f 84 90 02 00 00    	je     1d4f50 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xdf0>
+  1d4cc0:	48 8d 7c 24 20       	lea    0x20(%rsp),%rdi
+  1d4cc5:	e8 a6 98 ff ff       	call   1ce570 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtNtCsePmAy0YpeGj_10actix_http9responses8response8ResponseNtNtNtBI_4body5boxed7BoxBodyEECsgOaQUQUBl09_8rust_api>
+  1d4cca:	e9 81 02 00 00       	jmp    1d4f50 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xdf0>
+  1d4ccf:	49 89 c7             	mov    %rax,%r15
+  1d4cd2:	4d 85 e4             	test   %r12,%r12
+  1d4cd5:	74 12                	je     1d4ce9 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xb89>
+  1d4cd7:	ba 01 00 00 00       	mov    $0x1,%edx
+  1d4cdc:	48 8b 3c 24          	mov    (%rsp),%rdi
+  1d4ce0:	4c 89 e6             	mov    %r12,%rsi
+  1d4ce3:	ff 15 cf 82 32 00    	call   *0x3282cf(%rip)        # 4fcfb8 <_DYNAMIC+0x240>
+  1d4ce9:	48 8d bc 24 00 02 00 	lea    0x200(%rsp),%rdi
+  1d4cf0:	00 
+  1d4cf1:	e8 2a b6 ff ff       	call   1d0320 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNtNtCs8lc5ffTg8NK_14tokio_postgres3row3RowECsgOaQUQUBl09_8rust_api>
+  1d4cf6:	48 8d bb 90 00 00 00 	lea    0x90(%rbx),%rdi
+  1d4cfd:	e8 5e 8f ff ff       	call   1cdc60 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtCsb265yCgb7VW_8deadpool7managed6ObjectNtCseOAmZMcKDph_17deadpool_postgres7ManagerEECsgOaQUQUBl09_8rust_api>
+  1d4d02:	48 8d 43 68          	lea    0x68(%rbx),%rax
+  1d4d06:	48 8b 30             	mov    (%rax),%rsi
+  1d4d09:	e9 2e 02 00 00       	jmp    1d4f3c <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xddc>
+  1d4d0e:	e9 d8 01 00 00       	jmp    1d4eeb <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xd8b>
+  1d4d13:	e9 11 02 00 00       	jmp    1d4f29 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xdc9>
+  1d4d18:	49 89 c7             	mov    %rax,%r15
+  1d4d1b:	83 7c 24 20 ff       	cmpl   $0xffffffff,0x20(%rsp)
+  1d4d20:	0f 84 c8 01 00 00    	je     1d4eee <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xd8e>
+  1d4d26:	48 8d 7c 24 20       	lea    0x20(%rsp),%rdi
+  1d4d2b:	e8 40 98 ff ff       	call   1ce570 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtNtCsePmAy0YpeGj_10actix_http9responses8response8ResponseNtNtNtBI_4body5boxed7BoxBodyEECsgOaQUQUBl09_8rust_api>
+  1d4d30:	e9 b9 01 00 00       	jmp    1d4eee <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xd8e>
+  1d4d35:	e9 b1 01 00 00       	jmp    1d4eeb <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xd8b>
+  1d4d3a:	49 89 c7             	mov    %rax,%r15
+  1d4d3d:	83 7c 24 20 ff       	cmpl   $0xffffffff,0x20(%rsp)
+  1d4d42:	74 0f                	je     1d4d53 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xbf3>
+  1d4d44:	48 8d 7c 24 20       	lea    0x20(%rsp),%rdi
+  1d4d49:	e8 22 98 ff ff       	call   1ce570 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtNtCsePmAy0YpeGj_10actix_http9responses8response8ResponseNtNtNtBI_4body5boxed7BoxBodyEECsgOaQUQUBl09_8rust_api>
+  1d4d4e:	eb 03                	jmp    1d4d53 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xbf3>
+  1d4d50:	49 89 c7             	mov    %rax,%r15
+  1d4d53:	48 8d bc 24 40 01 00 	lea    0x140(%rsp),%rdi
+  1d4d5a:	00 
+  1d4d5b:	e8 e0 8e ff ff       	call   1cdc40 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtB4_6result6ResultNtNtCs8lc5ffTg8NK_14tokio_postgres3row3RowNtNtB11_5error5ErrorEECsgOaQUQUBl09_8rust_api>
+  1d4d60:	e9 c7 01 00 00       	jmp    1d4f2c <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xdcc>
+  1d4d65:	e9 86 00 00 00       	jmp    1d4df0 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xc90>
+  1d4d6a:	e9 7c 01 00 00       	jmp    1d4eeb <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xd8b>
+  1d4d6f:	49 89 c7             	mov    %rax,%r15
+  1d4d72:	e9 9d 01 00 00       	jmp    1d4f14 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xdb4>
+  1d4d77:	49 89 c7             	mov    %rax,%r15
+  1d4d7a:	eb 0b                	jmp    1d4d87 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xc27>
+  1d4d7c:	49 89 c7             	mov    %rax,%r15
+  1d4d7f:	4c 89 e7             	mov    %r12,%rdi
+  1d4d82:	e8 e9 8b ff ff       	call   1cd970 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtB4_6option6OptionNtCseOAmZMcKDph_17deadpool_postgres13ClientWrapperEECsgOaQUQUBl09_8rust_api>
+  1d4d87:	48 8d bb 38 01 00 00 	lea    0x138(%rbx),%rdi
+  1d4d8e:	e8 ad 7d 05 00       	call   22cb40 <_RNvXsN_NtCscdodAO9FK5_5alloc4syncINtB5_4WeakINtNtCsb265yCgb7VW_8deadpool7managed9PoolInnerNtCseOAmZMcKDph_17deadpool_postgres7ManagerEENtNtNtCs4NRVxsYgnAr_4core3ops4drop4Drop4dropCsgOaQUQUBl09_8rust_api>
+  1d4d93:	e9 a0 01 00 00       	jmp    1d4f38 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xdd8>
+  1d4d98:	ff 15 3a 82 32 00    	call   *0x32823a(%rip)        # 4fcfd8 <_DYNAMIC+0x260>
+  1d4d9e:	49 89 c7             	mov    %rax,%r15
+  1d4da1:	49 8b 74 24 08       	mov    0x8(%r12),%rsi
+  1d4da6:	48 85 f6             	test   %rsi,%rsi
+  1d4da9:	74 0e                	je     1d4db9 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xc59>
+  1d4dab:	49 8b 54 24 10       	mov    0x10(%r12),%rdx
+  1d4db0:	4c 89 f7             	mov    %r14,%rdi
+  1d4db3:	ff 15 ff 81 32 00    	call   *0x3281ff(%rip)        # 4fcfb8 <_DYNAMIC+0x240>
+  1d4db9:	48 89 6c 24 78       	mov    %rbp,0x78(%rsp)
+  1d4dbe:	4c 89 ac 24 80 00 00 	mov    %r13,0x80(%rsp)
+  1d4dc5:	00 
+  1d4dc6:	48 8d 7c 24 20       	lea    0x20(%rsp),%rdi
+  1d4dcb:	e8 e0 b8 ff ff       	call   1d06b0 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNtNtNtCsbjRtxNOQSnP_9actix_web8response8response12HttpResponseECsgOaQUQUBl09_8rust_api>
+  1d4dd0:	e9 9e 01 00 00       	jmp    1d4f73 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xe13>
+  1d4dd5:	e9 4f 01 00 00       	jmp    1d4f29 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xdc9>
+  1d4dda:	49 89 c7             	mov    %rax,%r15
+  1d4ddd:	83 7c 24 20 ff       	cmpl   $0xffffffff,0x20(%rsp)
+  1d4de2:	74 0f                	je     1d4df3 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xc93>
+  1d4de4:	48 8d 7c 24 20       	lea    0x20(%rsp),%rdi
+  1d4de9:	e8 82 97 ff ff       	call   1ce570 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtNtCsePmAy0YpeGj_10actix_http9responses8response8ResponseNtNtNtBI_4body5boxed7BoxBodyEECsgOaQUQUBl09_8rust_api>
+  1d4dee:	eb 03                	jmp    1d4df3 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xc93>
+  1d4df0:	49 89 c7             	mov    %rax,%r15
+  1d4df3:	48 83 bc 24 40 01 00 	cmpq   $0xfffffffffffffffc,0x140(%rsp)
+  1d4dfa:	00 fc 
+  1d4dfc:	0f 85 36 01 00 00    	jne    1d4f38 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xdd8>
+  1d4e02:	48 8d bc 24 40 01 00 	lea    0x140(%rsp),%rdi
+  1d4e09:	00 
+  1d4e0a:	e8 91 8d ff ff       	call   1cdba0 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtB4_6result6ResultINtNtCsb265yCgb7VW_8deadpool7managed6ObjectNtCseOAmZMcKDph_17deadpool_postgres7ManagerEINtNtB10_6errors9PoolErrorNtNtCs8lc5ffTg8NK_14tokio_postgres5error5ErrorEEECsgOaQUQUBl09_8rust_api>
+  1d4e0f:	e9 24 01 00 00       	jmp    1d4f38 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xdd8>
+  1d4e14:	49 89 c7             	mov    %rax,%r15
+  1d4e17:	e9 47 01 00 00       	jmp    1d4f63 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xe03>
+  1d4e1c:	49 89 c7             	mov    %rax,%r15
+  1d4e1f:	4c 89 f7             	mov    %r14,%rdi
+  1d4e22:	e8 09 3d 04 00       	call   218b30 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNtNtNtCsePmAy0YpeGj_10actix_http9responses4head17BoxedResponseHeadECsgOaQUQUBl09_8rust_api.llvm.13298320670031199618>
+  1d4e27:	48 8d 7c 24 20       	lea    0x20(%rsp),%rdi
+  1d4e2c:	e8 6f 3c 04 00       	call   218aa0 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNtNtNtCsePmAy0YpeGj_10actix_http4body5boxed7BoxBodyECsgOaQUQUBl09_8rust_api.llvm.13298320670031199618>
+  1d4e31:	48 8d 7c 24 58       	lea    0x58(%rsp),%rdi
+  1d4e36:	e8 e5 ce 00 00       	call   1e1d20 <_RNvXsg_NtCsgQfI1edjipl_9hashbrown3rawINtB5_8RawTableTNtNtCs4NRVxsYgnAr_4core3any6TypeIdINtNtCscdodAO9FK5_5alloc5boxed3BoxDNtBR_3AnyEL_EEENtNtNtBT_3ops4drop4Drop4dropCsgOaQUQUBl09_8rust_api>
+  1d4e3b:	48 89 ef             	mov    %rbp,%rdi
+  1d4e3e:	4c 89 ee             	mov    %r13,%rsi
+  1d4e41:	e8 aa 2c 04 00       	call   217af0 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtB4_6option6OptionINtNtCscdodAO9FK5_5alloc5boxed3BoxDNtNtB4_5error5ErrorNtNtB4_6marker4SendNtB1R_4SyncEL_EEECsgOaQUQUBl09_8rust_api.llvm.13298320670031199618>
+  1d4e46:	e9 28 01 00 00       	jmp    1d4f73 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xe13>
+  1d4e4b:	ff 15 87 81 32 00    	call   *0x328187(%rip)        # 4fcfd8 <_DYNAMIC+0x260>
+  1d4e51:	ff 15 81 81 32 00    	call   *0x328181(%rip)        # 4fcfd8 <_DYNAMIC+0x260>
+  1d4e57:	eb 59                	jmp    1d4eb2 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xd52>
+  1d4e59:	e9 88 00 00 00       	jmp    1d4ee6 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xd86>
+  1d4e5e:	49 89 c7             	mov    %rax,%r15
+  1d4e61:	80 bb b0 05 00 00 03 	cmpb   $0x3,0x5b0(%rbx)
+  1d4e68:	0f 85 be 00 00 00    	jne    1d4f2c <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xdcc>
+  1d4e6e:	48 8d bb 70 01 00 00 	lea    0x170(%rbx),%rdi
+  1d4e75:	e8 86 9b ff ff       	call   1cea00 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCINvMs0_NtCs8lc5ffTg8NK_14tokio_postgres6clientNtBK_6Client9query_opteE0ECsgOaQUQUBl09_8rust_api>
+  1d4e7a:	e9 ad 00 00 00       	jmp    1d4f2c <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xdcc>
+  1d4e7f:	49 89 c7             	mov    %rax,%r15
+  1d4e82:	48 89 ef             	mov    %rbp,%rdi
+  1d4e85:	4c 89 ee             	mov    %r13,%rsi
+  1d4e88:	e8 c3 b7 ff ff       	call   1d0650 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNtNtNtCsbjRtxNOQSnP_9actix_web5error5error5ErrorECsgOaQUQUBl09_8rust_api>
+  1d4e8d:	e9 e1 00 00 00       	jmp    1d4f73 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xe13>
+  1d4e92:	ff 15 40 81 32 00    	call   *0x328140(%rip)        # 4fcfd8 <_DYNAMIC+0x260>
+  1d4e98:	49 89 c7             	mov    %rax,%r15
+  1d4e9b:	e9 cb 00 00 00       	jmp    1d4f6b <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xe0b>
+  1d4ea0:	49 89 c7             	mov    %rax,%r15
+  1d4ea3:	e9 a8 00 00 00       	jmp    1d4f50 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xdf0>
+  1d4ea8:	49 89 c7             	mov    %rax,%r15
+  1d4eab:	e9 cc 00 00 00       	jmp    1d4f7c <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xe1c>
+  1d4eb0:	eb 00                	jmp    1d4eb2 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xd52>
+  1d4eb2:	49 89 c7             	mov    %rax,%r15
+  1d4eb5:	e9 b9 00 00 00       	jmp    1d4f73 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xe13>
+  1d4eba:	49 89 c7             	mov    %rax,%r15
+  1d4ebd:	80 bb 00 04 00 00 03 	cmpb   $0x3,0x400(%rbx)
+  1d4ec4:	75 72                	jne    1d4f38 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xdd8>
+  1d4ec6:	48 8d bb 98 00 00 00 	lea    0x98(%rbx),%rdi
+  1d4ecd:	e8 ee a6 ff ff       	call   1cf5c0 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvMs5_NtCsb265yCgb7VW_8deadpool7managedINtBJ_4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerE11timeout_get0ECsgOaQUQUBl09_8rust_api>
+  1d4ed2:	eb 64                	jmp    1d4f38 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xdd8>
+  1d4ed4:	eb 10                	jmp    1d4ee6 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xd86>
+  1d4ed6:	49 89 c7             	mov    %rax,%r15
+  1d4ed9:	4c 89 f7             	mov    %r14,%rdi
+  1d4edc:	e8 df 95 ff ff       	call   1ce4c0 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtNtCsbjRtxNOQSnP_9actix_web7extract14tuple_from_req17TupleFromRequest1INtNtBI_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEECsgOaQUQUBl09_8rust_api>
+  1d4ee1:	e9 8d 00 00 00       	jmp    1d4f73 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xe13>
+  1d4ee6:	49 89 c7             	mov    %rax,%r15
+  1d4ee9:	eb 4d                	jmp    1d4f38 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xdd8>
+  1d4eeb:	49 89 c7             	mov    %rax,%r15
+  1d4eee:	4d 85 e4             	test   %r12,%r12
+  1d4ef1:	74 21                	je     1d4f14 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xdb4>
+  1d4ef3:	ba 01 00 00 00       	mov    $0x1,%edx
+  1d4ef8:	48 8b 3c 24          	mov    (%rsp),%rdi
+  1d4efc:	4c 89 e6             	mov    %r12,%rsi
+  1d4eff:	ff 15 b3 80 32 00    	call   *0x3280b3(%rip)        # 4fcfb8 <_DYNAMIC+0x240>
+  1d4f05:	eb 0d                	jmp    1d4f14 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xdb4>
+  1d4f07:	49 89 c7             	mov    %rax,%r15
+  1d4f0a:	48 8b 7c 24 10       	mov    0x10(%rsp),%rdi
+  1d4f0f:	e8 dc 34 04 00       	call   2183f0 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNtNtCs8lc5ffTg8NK_14tokio_postgres5error5ErrorECsgOaQUQUBl09_8rust_api.llvm.13298320670031199618>
+  1d4f14:	48 8d bc 24 00 02 00 	lea    0x200(%rsp),%rdi
+  1d4f1b:	00 
+  1d4f1c:	e8 ff b3 ff ff       	call   1d0320 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNtNtCs8lc5ffTg8NK_14tokio_postgres3row3RowECsgOaQUQUBl09_8rust_api>
+  1d4f21:	eb 09                	jmp    1d4f2c <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xdcc>
+  1d4f23:	ff 15 af 80 32 00    	call   *0x3280af(%rip)        # 4fcfd8 <_DYNAMIC+0x260>
+  1d4f29:	49 89 c7             	mov    %rax,%r15
+  1d4f2c:	48 8d bb 90 00 00 00 	lea    0x90(%rbx),%rdi
+  1d4f33:	e8 28 8d ff ff       	call   1cdc60 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtCsb265yCgb7VW_8deadpool7managed6ObjectNtCseOAmZMcKDph_17deadpool_postgres7ManagerEECsgOaQUQUBl09_8rust_api>
+  1d4f38:	48 8b 73 68          	mov    0x68(%rbx),%rsi
+  1d4f3c:	48 85 f6             	test   %rsi,%rsi
+  1d4f3f:	74 0f                	je     1d4f50 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xdf0>
+  1d4f41:	48 8b 7b 70          	mov    0x70(%rbx),%rdi
+  1d4f45:	ba 01 00 00 00       	mov    $0x1,%edx
+  1d4f4a:	ff 15 68 80 32 00    	call   *0x328068(%rip)        # 4fcfb8 <_DYNAMIC+0x240>
+  1d4f50:	48 8b 43 60          	mov    0x60(%rbx),%rax
+  1d4f54:	f0 48 ff 08          	lock decq (%rax)
+  1d4f58:	75 09                	jne    1d4f63 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xe03>
+  1d4f5a:	48 8d 7b 60          	lea    0x60(%rbx),%rdi
+  1d4f5e:	e8 fd 70 05 00       	call   22c060 <_RNvMsn_NtCscdodAO9FK5_5alloc4syncINtB5_3ArcINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEE9drop_slowCsgOaQUQUBl09_8rust_api>
+  1d4f63:	48 8b 44 24 08       	mov    0x8(%rsp),%rax
+  1d4f68:	c6 00 02             	movb   $0x2,(%rax)
+  1d4f6b:	4c 89 f7             	mov    %r14,%rdi
+  1d4f6e:	e8 ad a4 ff ff       	call   1cf420 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNvCsgOaQUQUBl09_8rust_api16days_since_heavy0EBF_>
+  1d4f73:	48 8d 7b 28          	lea    0x28(%rbx),%rdi
+  1d4f77:	e8 f4 91 ff ff       	call   1ce170 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueINtNtCsePmAy0YpeGj_10actix_http7payload7PayloadINtNtB4_3pin3PinINtNtCscdodAO9FK5_5alloc5boxed3BoxDNtNtCsfsVdtztDMg6_12futures_core6stream6Streamp4ItemINtNtB4_6result6ResultNtNtCsluMoV6dGPr_5bytes5bytes5BytesNtNtBG_5error12PayloadErrorEEL_EEEECsgOaQUQUBl09_8rust_api>
+  1d4f7c:	80 7b 51 00          	cmpb   $0x0,0x51(%rbx)
+  1d4f80:	74 09                	je     1d4f8b <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00BX_+0xe2b>
+  1d4f82:	48 8d 7b 20          	lea    0x20(%rbx),%rdi
+  1d4f86:	e8 05 b6 ff ff       	call   1d0590 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNtNtCsbjRtxNOQSnP_9actix_web7request11HttpRequestECsgOaQUQUBl09_8rust_api>
+  1d4f8b:	66 c7 43 50 02 00    	movw   $0x2,0x50(%rbx)
+  1d4f91:	4c 89 ff             	mov    %r15,%rdi
+  1d4f94:	e8 d7 0e 2d 00       	call   4a5e70 <_Unwind_Resume@plt>
+  1d4f99:	ff 15 39 80 32 00    	call   *0x328039(%rip)        # 4fcfd8 <_DYNAMIC+0x260>
+  1d4f9f:	ff 15 33 80 32 00    	call   *0x328033(%rip)        # 4fcfd8 <_DYNAMIC+0x260>
+  1d4fa5:	cc                   	int3
+  1d4fa6:	cc                   	int3
+  1d4fa7:	cc                   	int3
+  1d4fa8:	cc                   	int3
+  1d4fa9:	cc                   	int3
+  1d4faa:	cc                   	int3
+  1d4fab:	cc                   	int3
+  1d4fac:	cc                   	int3
+  1d4fad:	cc                   	int3
+  1d4fae:	cc                   	int3
+  1d4faf:	cc                   	int3
+
+00000000001d4fb0 <_RNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api6healthuE00BX_>:
+  1d4fb0:	55                   	push   %rbp
+  1d4fb1:	41 57                	push   %r15
+  1d4fb3:	41 56                	push   %r14
+  1d4fb5:	41 55                	push   %r13
+  1d4fb7:	41 54                	push   %r12
+  1d4fb9:	53                   	push   %rbx
+  1d4fba:	48 81 ec 88 01 00 00 	sub    $0x188,%rsp
+  1d4fc1:	48 89 f3             	mov    %rsi,%rbx
+  1d4fc4:	49 89 fe             	mov    %rdi,%r14
+  1d4fc7:	0f b6 46 40          	movzbl 0x40(%rsi),%eax
+  1d4fcb:	48 8d 0d 7e 96 ed ff 	lea    -0x126982(%rip),%rcx        # ae650 <anon.b15866d87e1a80f274b694ecbe9f47a1.8.llvm.11310217373394993522+0x4b0>
+  1d4fd2:	48 63 04 81          	movslq (%rcx,%rax,4),%rax
+  1d4fd6:	48 01 c8             	add    %rcx,%rax
+  1d4fd9:	ff e0                	jmp    *%rax
+  1d4fdb:	48 8b 43 18          	mov    0x18(%rbx),%rax
+  1d4fdf:	c6 43 41 01          	movb   $0x1,0x41(%rbx)
+  1d4fe3:	48 89 43 20          	mov    %rax,0x20(%rbx)
+  1d4fe7:	0f 10 03             	movups (%rbx),%xmm0
+  1d4fea:	0f 11 43 28          	movups %xmm0,0x28(%rbx)
+  1d4fee:	48 8b 43 10          	mov    0x10(%rbx),%rax
+--
+00000000001d9c30 <_RNCNvXs1_NtCshar0wR6D6zd_13actix_service5boxedINtB7_14FactoryWrapperINtNtB9_10fn_service16FnServiceFactoryNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB1N_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE0NCNCB1I_00NtNtB1N_7service14ServiceRequestNtB5e_15ServiceResponseNtNtNtB1N_5error5error5ErroruEEINtB9_14ServiceFactoryB5c_E11new_service0B2C_>:
+  1d9c30:	53                   	push   %rbx
+  1d9c31:	48 89 f3             	mov    %rsi,%rbx
+  1d9c34:	0f b6 46 01          	movzbl 0x1(%rsi),%eax
+  1d9c38:	48 8d 0d b5 4b ed ff 	lea    -0x12b44b(%rip),%rcx        # ae7f4 <anon.b15866d87e1a80f274b694ecbe9f47a1.8.llvm.11310217373394993522+0x654>
+  1d9c3f:	48 63 04 81          	movslq (%rcx,%rax,4),%rax
+  1d9c43:	48 01 c8             	add    %rcx,%rax
+  1d9c46:	ff e0                	jmp    *%rax
+  1d9c48:	0f b6 03             	movzbl (%rbx),%eax
+  1d9c4b:	88 43 02             	mov    %al,0x2(%rbx)
+  1d9c4e:	eb 04                	jmp    1d9c54 <_RNCNvXs1_NtCshar0wR6D6zd_13actix_service5boxedINtB7_14FactoryWrapperINtNtB9_10fn_service16FnServiceFactoryNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB1N_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE0NCNCB1I_00NtNtB1N_7service14ServiceRequestNtB5e_15ServiceResponseNtNtNtB1N_5error5error5ErroruEEINtB9_14ServiceFactoryB5c_E11new_service0B2C_+0x24>
+  1d9c50:	0f b6 43 02          	movzbl 0x2(%rbx),%eax
+  1d9c54:	c6 43 02 02          	movb   $0x2,0x2(%rbx)
+  1d9c58:	3c 02                	cmp    $0x2,%al
+  1d9c5a:	74 27                	je     1d9c83 <_RNCNvXs1_NtCshar0wR6D6zd_13actix_service5boxedINtB7_14FactoryWrapperINtNtB9_10fn_service16FnServiceFactoryNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB1N_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE0NCNCB1I_00NtNtB1N_7service14ServiceRequestNtB5e_15ServiceResponseNtNtNtB1N_5error5error5ErroruEEINtB9_14ServiceFactoryB5c_E11new_service0B2C_+0x53>
+  1d9c5c:	f6 d0                	not    %al
+  1d9c5e:	0f b6 c0             	movzbl %al,%eax
+  1d9c61:	83 e0 01             	and    $0x1,%eax
+  1d9c64:	48 89 47 08          	mov    %rax,0x8(%rdi)
+  1d9c68:	48 8d 05 41 d4 2c 00 	lea    0x2cd441(%rip),%rax        # 4a70b0 <__frame_dummy_init_array_entry+0x178>
+  1d9c6f:	48 89 47 10          	mov    %rax,0x10(%rdi)
+  1d9c73:	48 c7 07 00 00 00 00 	movq   $0x0,(%rdi)
+  1d9c7a:	c6 43 01 01          	movb   $0x1,0x1(%rbx)
+  1d9c7e:	48 89 f8             	mov    %rdi,%rax
+  1d9c81:	5b                   	pop    %rbx
+  1d9c82:	c3                   	ret
+  1d9c83:	48 8d 3d 30 25 ee ff 	lea    -0x11dad0(%rip),%rdi        # bc1ba <anon.1c761382ec4b0d6a0d4e6a3322c5a8e8.706.llvm.16710877183190994992+0x3ba>
+  1d9c8a:	48 8d 15 5f d7 2c 00 	lea    0x2cd75f(%rip),%rdx        # 4a73f0 <__frame_dummy_init_array_entry+0x4b8>
+  1d9c91:	be 1e 00 00 00       	mov    $0x1e,%esi
+  1d9c96:	ff 15 0c 35 32 00    	call   *0x32350c(%rip)        # 4fd1a8 <_DYNAMIC+0x430>
+  1d9c9c:	0f 0b                	ud2
+  1d9c9e:	48 8d 3d fb d6 2c 00 	lea    0x2cd6fb(%rip),%rdi        # 4a73a0 <__frame_dummy_init_array_entry+0x468>
+  1d9ca5:	ff 15 fd 33 32 00    	call   *0x3233fd(%rip)        # 4fd0a8 <_DYNAMIC+0x330>
+  1d9cab:	48 8d 3d ee d6 2c 00 	lea    0x2cd6ee(%rip),%rdi        # 4a73a0 <__frame_dummy_init_array_entry+0x468>
+  1d9cb2:	ff 15 f8 33 32 00    	call   *0x3233f8(%rip)        # 4fd0b0 <_DYNAMIC+0x338>
+  1d9cb8:	c6 43 01 02          	movb   $0x2,0x1(%rbx)
+  1d9cbc:	48 89 c7             	mov    %rax,%rdi
+  1d9cbf:	e8 ac c1 2c 00       	call   4a5e70 <_Unwind_Resume@plt>
+  1d9cc4:	cc                   	int3
+  1d9cc5:	cc                   	int3
+  1d9cc6:	cc                   	int3
+  1d9cc7:	cc                   	int3
+  1d9cc8:	cc                   	int3
+  1d9cc9:	cc                   	int3
+  1d9cca:	cc                   	int3
+  1d9ccb:	cc                   	int3
+  1d9ccc:	cc                   	int3
+  1d9ccd:	cc                   	int3
+  1d9cce:	cc                   	int3
+  1d9ccf:	cc                   	int3
+
+00000000001d9cd0 <_RNCNvXs1_NtCshar0wR6D6zd_13actix_service5boxedINtB7_14FactoryWrapperINtNtB9_10fn_service16FnServiceFactoryNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api6healthuE0NCNCB1I_00NtNtB1N_7service14ServiceRequestNtB3l_15ServiceResponseNtNtNtB1N_5error5error5ErroruEEINtB9_14ServiceFactoryB3j_E11new_service0B2C_>:
+  1d9cd0:	53                   	push   %rbx
+  1d9cd1:	48 89 f3             	mov    %rsi,%rbx
+  1d9cd4:	0f b6 46 01          	movzbl 0x1(%rsi),%eax
+--
+00000000001da100 <_RNvXs1_NtCshar0wR6D6zd_13actix_service5boxedINtB5_14FactoryWrapperINtNtB7_10fn_service16FnServiceFactoryNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB1L_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE0NCNCB1G_00NtNtB1L_7service14ServiceRequestNtB5c_15ServiceResponseNtNtNtB1L_5error5error5ErroruEEINtB7_14ServiceFactoryB5a_E11new_serviceB2A_>:
+  1da100:	50                   	push   %rax
+  1da101:	ff 15 21 30 32 00    	call   *0x323021(%rip)        # 4fd128 <_DYNAMIC+0x3b0>
+  1da107:	bf 03 00 00 00       	mov    $0x3,%edi
+  1da10c:	be 01 00 00 00       	mov    $0x1,%esi
+  1da111:	ff 15 19 30 32 00    	call   *0x323019(%rip)        # 4fd130 <_DYNAMIC+0x3b8>
+  1da117:	48 85 c0             	test   %rax,%rax
+  1da11a:	74 12                	je     1da12e <_RNvXs1_NtCshar0wR6D6zd_13actix_service5boxedINtB5_14FactoryWrapperINtNtB7_10fn_service16FnServiceFactoryNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB1L_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE0NCNCB1G_00NtNtB1L_7service14ServiceRequestNtB5c_15ServiceResponseNtNtNtB1L_5error5error5ErroruEEINtB7_14ServiceFactoryB5a_E11new_serviceB2A_+0x2e>
+  1da11c:	c6 40 02 00          	movb   $0x0,0x2(%rax)
+  1da120:	66 c7 00 00 00       	movw   $0x0,(%rax)
+  1da125:	48 8d 15 34 d3 2c 00 	lea    0x2cd334(%rip),%rdx        # 4a7460 <__frame_dummy_init_array_entry+0x528>
+  1da12c:	59                   	pop    %rcx
+  1da12d:	c3                   	ret
+  1da12e:	bf 01 00 00 00       	mov    $0x1,%edi
+  1da133:	be 03 00 00 00       	mov    $0x3,%esi
+  1da138:	ff 15 7a 31 32 00    	call   *0x32317a(%rip)        # 4fd2b8 <_DYNAMIC+0x540>
+  1da13e:	cc                   	int3
+  1da13f:	cc                   	int3
+
+00000000001da140 <_RNvXs1_NtCshar0wR6D6zd_13actix_service5boxedINtB5_14FactoryWrapperINtNtB7_10fn_service16FnServiceFactoryNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api6healthuE0NCNCB1G_00NtNtB1L_7service14ServiceRequestNtB3j_15ServiceResponseNtNtNtB1L_5error5error5ErroruEEINtB7_14ServiceFactoryB3h_E11new_serviceB2A_>:
+  1da140:	50                   	push   %rax
+  1da141:	ff 15 e1 2f 32 00    	call   *0x322fe1(%rip)        # 4fd128 <_DYNAMIC+0x3b0>
+  1da147:	bf 03 00 00 00       	mov    $0x3,%edi
+  1da14c:	be 01 00 00 00       	mov    $0x1,%esi
+  1da151:	ff 15 d9 2f 32 00    	call   *0x322fd9(%rip)        # 4fd130 <_DYNAMIC+0x3b8>
+  1da157:	48 85 c0             	test   %rax,%rax
+  1da15a:	74 12                	je     1da16e <_RNvXs1_NtCshar0wR6D6zd_13actix_service5boxedINtB5_14FactoryWrapperINtNtB7_10fn_service16FnServiceFactoryNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api6healthuE0NCNCB1G_00NtNtB1L_7service14ServiceRequestNtB3j_15ServiceResponseNtNtNtB1L_5error5error5ErroruEEINtB7_14ServiceFactoryB3h_E11new_serviceB2A_+0x2e>
+  1da15c:	c6 40 02 00          	movb   $0x0,0x2(%rax)
+  1da160:	66 c7 00 00 00       	movw   $0x0,(%rax)
+  1da165:	48 8d 15 14 d3 2c 00 	lea    0x2cd314(%rip),%rdx        # 4a7480 <__frame_dummy_init_array_entry+0x548>
+  1da16c:	59                   	pop    %rcx
+  1da16d:	c3                   	ret
+  1da16e:	bf 01 00 00 00       	mov    $0x1,%edi
+  1da173:	be 03 00 00 00       	mov    $0x3,%esi
+  1da178:	ff 15 3a 31 32 00    	call   *0x32313a(%rip)        # 4fd2b8 <_DYNAMIC+0x540>
+  1da17e:	cc                   	int3
+  1da17f:	cc                   	int3
+
+00000000001da180 <_RNvXs1_NtCshar0wR6D6zd_13actix_service5boxedINtB5_14FactoryWrapperINtNtB7_10fn_service16FnServiceFactoryNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api7metricsuE0NCNCB1G_00NtNtB1L_7service14ServiceRequestNtB3k_15ServiceResponseNtNtNtB1L_5error5error5ErroruEEINtB7_14ServiceFactoryB3i_E11new_serviceB2A_>:
+  1da180:	50                   	push   %rax
+  1da181:	ff 15 a1 2f 32 00    	call   *0x322fa1(%rip)        # 4fd128 <_DYNAMIC+0x3b0>
+  1da187:	bf 03 00 00 00       	mov    $0x3,%edi
+  1da18c:	be 01 00 00 00       	mov    $0x1,%esi
+  1da191:	ff 15 99 2f 32 00    	call   *0x322f99(%rip)        # 4fd130 <_DYNAMIC+0x3b8>
+  1da197:	48 85 c0             	test   %rax,%rax
+  1da19a:	74 12                	je     1da1ae <_RNvXs1_NtCshar0wR6D6zd_13actix_service5boxedINtB5_14FactoryWrapperINtNtB7_10fn_service16FnServiceFactoryNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api7metricsuE0NCNCB1G_00NtNtB1L_7service14ServiceRequestNtB3k_15ServiceResponseNtNtNtB1L_5error5error5ErroruEEINtB7_14ServiceFactoryB3i_E11new_serviceB2A_+0x2e>
+  1da19c:	c6 40 02 00          	movb   $0x0,0x2(%rax)
+  1da1a0:	66 c7 00 00 00       	movw   $0x0,(%rax)
+--
+00000000001da420 <_RNvXs_NtCshar0wR6D6zd_13actix_service5boxedINtB4_14ServiceWrapperINtNtB6_10fn_service9FnServiceNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB1C_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE0NCNCB1x_00NtNtB1C_7service14ServiceRequestNtB53_15ServiceResponseNtNtNtB1C_5error5error5ErrorEEINtB6_7ServiceB51_E4callB2r_>:
+  1da420:	53                   	push   %rbx
+  1da421:	48 81 ec c0 05 00 00 	sub    $0x5c0,%rsp
+  1da428:	0f 10 06             	movups (%rsi),%xmm0
+  1da42b:	0f 10 4e 10          	movups 0x10(%rsi),%xmm1
+  1da42f:	0f 29 4c 24 10       	movaps %xmm1,0x10(%rsp)
+  1da434:	0f 29 04 24          	movaps %xmm0,(%rsp)
+  1da438:	c6 44 24 50 00       	movb   $0x0,0x50(%rsp)
+  1da43d:	ff 15 e5 2c 32 00    	call   *0x322ce5(%rip)        # 4fd128 <_DYNAMIC+0x3b0>
+  1da443:	bf b8 05 00 00       	mov    $0x5b8,%edi
+  1da448:	be 08 00 00 00       	mov    $0x8,%esi
+  1da44d:	ff 15 dd 2c 32 00    	call   *0x322cdd(%rip)        # 4fd130 <_DYNAMIC+0x3b8>
+  1da453:	48 85 c0             	test   %rax,%rax
+  1da456:	74 27                	je     1da47f <_RNvXs_NtCshar0wR6D6zd_13actix_service5boxedINtB4_14ServiceWrapperINtNtB6_10fn_service9FnServiceNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB1C_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE0NCNCB1x_00NtNtB1C_7service14ServiceRequestNtB53_15ServiceResponseNtNtNtB1C_5error5error5ErrorEEINtB6_7ServiceB51_E4callB2r_+0x5f>
+  1da458:	48 89 e6             	mov    %rsp,%rsi
+  1da45b:	ba b8 05 00 00       	mov    $0x5b8,%edx
+  1da460:	48 89 c7             	mov    %rax,%rdi
+  1da463:	48 89 c3             	mov    %rax,%rbx
+  1da466:	ff 15 74 2c 32 00    	call   *0x322c74(%rip)        # 4fd0e0 <memcpy@GLIBC_2.14>
+  1da46c:	48 8d 15 fd d0 2c 00 	lea    0x2cd0fd(%rip),%rdx        # 4a7570 <__frame_dummy_init_array_entry+0x638>
+  1da473:	48 89 d8             	mov    %rbx,%rax
+  1da476:	48 81 c4 c0 05 00 00 	add    $0x5c0,%rsp
+  1da47d:	5b                   	pop    %rbx
+  1da47e:	c3                   	ret
+  1da47f:	bf 08 00 00 00       	mov    $0x8,%edi
+  1da484:	be b8 05 00 00       	mov    $0x5b8,%esi
+  1da489:	ff 15 29 2e 32 00    	call   *0x322e29(%rip)        # 4fd2b8 <_DYNAMIC+0x540>
+  1da48f:	0f 0b                	ud2
+  1da491:	48 89 c3             	mov    %rax,%rbx
+  1da494:	48 89 e7             	mov    %rsp,%rdi
+  1da497:	e8 04 4c ff ff       	call   1cf0a0 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNCNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtBK_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEE00EB1z_>
+  1da49c:	48 89 df             	mov    %rbx,%rdi
+  1da49f:	e8 cc b9 2c 00       	call   4a5e70 <_Unwind_Resume@plt>
+  1da4a4:	ff 15 2e 2b 32 00    	call   *0x322b2e(%rip)        # 4fcfd8 <_DYNAMIC+0x260>
+  1da4aa:	cc                   	int3
+  1da4ab:	cc                   	int3
+  1da4ac:	cc                   	int3
+  1da4ad:	cc                   	int3
+  1da4ae:	cc                   	int3
+  1da4af:	cc                   	int3
+
+00000000001da4b0 <_RNvXs_NtCshar0wR6D6zd_13actix_service5boxedINtB4_14ServiceWrapperINtNtB6_10fn_service9FnServiceNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api6healthuE0NCNCB1x_00NtNtB1C_7service14ServiceRequestNtB3a_15ServiceResponseNtNtNtB1C_5error5error5ErrorEEINtB6_7ServiceB38_E4callB2r_>:
+  1da4b0:	53                   	push   %rbx
+  1da4b1:	48 83 ec 50          	sub    $0x50,%rsp
+  1da4b5:	0f 10 06             	movups (%rsi),%xmm0
+  1da4b8:	0f 10 4e 10          	movups 0x10(%rsi),%xmm1
+  1da4bc:	0f 29 4c 24 10       	movaps %xmm1,0x10(%rsp)
+  1da4c1:	0f 29 04 24          	movaps %xmm0,(%rsp)
+  1da4c5:	c6 44 24 40 00       	movb   $0x0,0x40(%rsp)
+  1da4ca:	ff 15 58 2c 32 00    	call   *0x322c58(%rip)        # 4fd128 <_DYNAMIC+0x3b0>
+  1da4d0:	bf 50 00 00 00       	mov    $0x50,%edi
+  1da4d5:	be 08 00 00 00       	mov    $0x8,%esi
+  1da4da:	ff 15 50 2c 32 00    	call   *0x322c50(%rip)        # 4fd130 <_DYNAMIC+0x3b8>
+  1da4e0:	48 85 c0             	test   %rax,%rax
+  1da4e3:	74 38                	je     1da51d <_RNvXs_NtCshar0wR6D6zd_13actix_service5boxedINtB4_14ServiceWrapperINtNtB6_10fn_service9FnServiceNCINvNtCsbjRtxNOQSnP_9actix_web7handler15handler_serviceNvCsgOaQUQUBl09_8rust_api6healthuE0NCNCB1x_00NtNtB1C_7service14ServiceRequestNtB3a_15ServiceResponseNtNtNtB1C_5error5error5ErrorEEINtB6_7ServiceB38_E4callB2r_+0x6d>
+  1da4e5:	0f 28 44 24 40       	movaps 0x40(%rsp),%xmm0
+  1da4ea:	0f 11 40 40          	movups %xmm0,0x40(%rax)
+  1da4ee:	0f 28 04 24          	movaps (%rsp),%xmm0
+  1da4f2:	0f 28 4c 24 10       	movaps 0x10(%rsp),%xmm1
+  1da4f7:	0f 28 54 24 20       	movaps 0x20(%rsp),%xmm2
+  1da4fc:	0f 28 5c 24 30       	movaps 0x30(%rsp),%xmm3
+  1da501:	0f 11 58 30          	movups %xmm3,0x30(%rax)
+  1da505:	0f 11 50 20          	movups %xmm2,0x20(%rax)
+  1da509:	0f 11 48 10          	movups %xmm1,0x10(%rax)
+  1da50d:	0f 11 00             	movups %xmm0,(%rax)
+  1da510:	48 8d 15 79 d0 2c 00 	lea    0x2cd079(%rip),%rdx        # 4a7590 <__frame_dummy_init_array_entry+0x658>
+  1da517:	48 83 c4 50          	add    $0x50,%rsp
+  1da51b:	5b                   	pop    %rbx
+  1da51c:	c3                   	ret
+  1da51d:	bf 08 00 00 00       	mov    $0x8,%edi
+  1da522:	be 50 00 00 00       	mov    $0x50,%esi
+--
+  1eb1b8:	e8 03 28 04 00       	call   22d9c0 <_RINvMs2_NtCsbjRtxNOQSnP_9actix_web5routeNtB6_5Route2toNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEEBS_>
+  1eb1bd:	48 8d 15 b7 44 ed ff 	lea    -0x12bb49(%rip),%rdx        # bf67b <anon.1c761382ec4b0d6a0d4e6a3322c5a8e8.2427.llvm.16710877183190994992+0x27>
+  1eb1c4:	48 8d bc 24 90 01 00 	lea    0x190(%rsp),%rdi
+  1eb1cb:	00 
+  1eb1cc:	48 8d b4 24 80 00 00 	lea    0x80(%rsp),%rsi
+  1eb1d3:	00 
+  1eb1d4:	4c 8d 84 24 70 02 00 	lea    0x270(%rsp),%r8
+  1eb1db:	00 
+  1eb1dc:	b9 11 00 00 00       	mov    $0x11,%ecx
+  1eb1e1:	e8 4a af 04 00       	call   236130 <_RNvMs_NtCsbjRtxNOQSnP_9actix_web3appINtB4_3AppNtNtB6_11app_service8AppEntryE5routeCsgOaQUQUBl09_8rust_api>
+  1eb1e6:	48 8d bc 24 80 00 00 	lea    0x80(%rsp),%rdi
+  1eb1ed:	00 
+  1eb1ee:	ff 15 6c 24 31 00    	call   *0x31246c(%rip)        # 4fd660 <_DYNAMIC+0x8e8>
+  1eb1f4:	48 8d 15 0d c7 2b 00 	lea    0x2bc70d(%rip),%rdx        # 4a7908 <anon.1fb25015ea8503f28c0f42545a92389a.19.llvm.18428522761155486562+0xc0>
+  1eb1fb:	48 8d bc 24 70 02 00 	lea    0x270(%rsp),%rdi
+  1eb202:	00 
+  1eb203:	48 8d b4 24 80 00 00 	lea    0x80(%rsp),%rsi
+  1eb20a:	00 
+  1eb20b:	e8 90 29 04 00       	call   22dba0 <_RINvMs2_NtCsbjRtxNOQSnP_9actix_web5routeNtB6_5Route2toNvCsgOaQUQUBl09_8rust_api7metricsuEBS_>
+  1eb210:	48 8d 15 39 0a ed ff 	lea    -0x12f5c7(%rip),%rdx        # bbc50 <anon.1c761382ec4b0d6a0d4e6a3322c5a8e8.1731.llvm.16710877183190994992+0x30>
+  1eb217:	48 8d bc 24 80 00 00 	lea    0x80(%rsp),%rdi
+  1eb21e:	00 
+  1eb21f:	48 8d b4 24 90 01 00 	lea    0x190(%rsp),%rsi
+  1eb226:	00 
+  1eb227:	4c 8d 84 24 70 02 00 	lea    0x270(%rsp),%r8
+  1eb22e:	00 
+  1eb22f:	b9 08 00 00 00       	mov    $0x8,%ecx
+  1eb234:	e8 f7 ae 04 00       	call   236130 <_RNvMs_NtCsbjRtxNOQSnP_9actix_web3appINtB4_3AppNtNtB6_11app_service8AppEntryE5routeCsgOaQUQUBl09_8rust_api>
+  1eb239:	48 8d bc 24 90 01 00 	lea    0x190(%rsp),%rdi
+  1eb240:	00 
+  1eb241:	ff 15 19 24 31 00    	call   *0x312419(%rip)        # 4fd660 <_DYNAMIC+0x8e8>
+  1eb247:	48 8d 15 d2 c6 2b 00 	lea    0x2bc6d2(%rip),%rdx        # 4a7920 <anon.1fb25015ea8503f28c0f42545a92389a.19.llvm.18428522761155486562+0xd8>
+  1eb24e:	48 8d bc 24 70 02 00 	lea    0x270(%rsp),%rdi
+  1eb255:	00 
+  1eb256:	48 8d b4 24 90 01 00 	lea    0x190(%rsp),%rsi
+  1eb25d:	00 
+  1eb25e:	e8 4d 28 04 00       	call   22dab0 <_RINvMs2_NtCsbjRtxNOQSnP_9actix_web5routeNtB6_5Route2toNvCsgOaQUQUBl09_8rust_api6healthuEBS_>
+  1eb263:	48 8d 15 22 44 ed ff 	lea    -0x12bbde(%rip),%rdx        # bf68c <anon.1c761382ec4b0d6a0d4e6a3322c5a8e8.2427.llvm.16710877183190994992+0x38>
+  1eb26a:	48 8d bc 24 90 01 00 	lea    0x190(%rsp),%rdi
+  1eb271:	00 
+  1eb272:	48 8d b4 24 80 00 00 	lea    0x80(%rsp),%rsi
+--
+000000000022d9c0 <_RINvMs2_NtCsbjRtxNOQSnP_9actix_web5routeNtB6_5Route2toNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEEBS_>:
+  22d9c0:	41 57                	push   %r15
+  22d9c2:	41 56                	push   %r14
+  22d9c4:	41 54                	push   %r12
+  22d9c6:	53                   	push   %rbx
+  22d9c7:	50                   	push   %rax
+  22d9c8:	48 89 f3             	mov    %rsi,%rbx
+  22d9cb:	80 7e 18 01          	cmpb   $0x1,0x18(%rsi)
+  22d9cf:	74 68                	je     22da39 <_RINvMs2_NtCsbjRtxNOQSnP_9actix_web5routeNtB6_5Route2toNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEEBS_+0x79>
+  22d9d1:	49 89 fe             	mov    %rdi,%r14
+  22d9d4:	4c 8b 3b             	mov    (%rbx),%r15
+  22d9d7:	4c 8b 63 08          	mov    0x8(%rbx),%r12
+  22d9db:	49 8b 04 24          	mov    (%r12),%rax
+  22d9df:	48 85 c0             	test   %rax,%rax
+  22d9e2:	74 05                	je     22d9e9 <_RINvMs2_NtCsbjRtxNOQSnP_9actix_web5routeNtB6_5Route2toNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEEBS_+0x29>
+  22d9e4:	4c 89 ff             	mov    %r15,%rdi
+  22d9e7:	ff d0                	call   *%rax
+  22d9e9:	49 8b 74 24 08       	mov    0x8(%r12),%rsi
+  22d9ee:	48 85 f6             	test   %rsi,%rsi
+  22d9f1:	74 0e                	je     22da01 <_RINvMs2_NtCsbjRtxNOQSnP_9actix_web5routeNtB6_5Route2toNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEEBS_+0x41>
+  22d9f3:	49 8b 54 24 10       	mov    0x10(%r12),%rdx
+  22d9f8:	4c 89 ff             	mov    %r15,%rdi
+  22d9fb:	ff 15 b7 f5 2c 00    	call   *0x2cf5b7(%rip)        # 4fcfb8 <_DYNAMIC+0x240>
+  22da01:	48 c7 03 01 00 00 00 	movq   $0x1,(%rbx)
+  22da08:	48 8d 05 e9 bf 27 00 	lea    0x27bfe9(%rip),%rax        # 4a99f8 <anon.b15866d87e1a80f274b694ecbe9f47a1.4.llvm.11310217373394993522>
+  22da0f:	48 89 43 08          	mov    %rax,0x8(%rbx)
+  22da13:	0f 10 43 10          	movups 0x10(%rbx),%xmm0
+  22da17:	41 0f 11 46 10       	movups %xmm0,0x10(%r14)
+  22da1c:	48 8b 03             	mov    (%rbx),%rax
+  22da1f:	49 89 06             	mov    %rax,(%r14)
+  22da22:	48 8b 43 08          	mov    0x8(%rbx),%rax
+  22da26:	49 89 46 08          	mov    %rax,0x8(%r14)
+  22da2a:	4c 89 f0             	mov    %r14,%rax
+  22da2d:	48 83 c4 08          	add    $0x8,%rsp
+  22da31:	5b                   	pop    %rbx
+  22da32:	41 5c                	pop    %r12
+  22da34:	41 5e                	pop    %r14
+  22da36:	41 5f                	pop    %r15
+  22da38:	c3                   	ret
+  22da39:	49 89 d0             	mov    %rdx,%r8
+  22da3c:	48 8d 3d 69 3e e9 ff 	lea    -0x16c197(%rip),%rdi        # c18ac <anon.b15866d87e1a80f274b694ecbe9f47a1.2.llvm.11310217373394993522>
+  22da43:	48 8d 15 64 3e e9 ff 	lea    -0x16c19c(%rip),%rdx        # c18ae <anon.b15866d87e1a80f274b694ecbe9f47a1.3.llvm.11310217373394993522>
+  22da4a:	be 02 00 00 00       	mov    $0x2,%esi
+  22da4f:	b9 1f 00 00 00       	mov    $0x1f,%ecx
+  22da54:	ff 15 96 06 2d 00    	call   *0x2d0696(%rip)        # 4fe0f0 <_DYNAMIC+0x1378>
+  22da5a:	0f 0b                	ud2
+  22da5c:	49 89 c6             	mov    %rax,%r14
+  22da5f:	49 8b 74 24 08       	mov    0x8(%r12),%rsi
+  22da64:	48 85 f6             	test   %rsi,%rsi
+  22da67:	74 0e                	je     22da77 <_RINvMs2_NtCsbjRtxNOQSnP_9actix_web5routeNtB6_5Route2toNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEEBS_+0xb7>
+  22da69:	49 8b 54 24 10       	mov    0x10(%r12),%rdx
+  22da6e:	4c 89 ff             	mov    %r15,%rdi
+  22da71:	ff 15 41 f5 2c 00    	call   *0x2cf541(%rip)        # 4fcfb8 <_DYNAMIC+0x240>
+  22da77:	48 c7 03 01 00 00 00 	movq   $0x1,(%rbx)
+  22da7e:	48 8d 05 73 bf 27 00 	lea    0x27bf73(%rip),%rax        # 4a99f8 <anon.b15866d87e1a80f274b694ecbe9f47a1.4.llvm.11310217373394993522>
+  22da85:	48 89 43 08          	mov    %rax,0x8(%rbx)
+  22da89:	eb 03                	jmp    22da8e <_RINvMs2_NtCsbjRtxNOQSnP_9actix_web5routeNtB6_5Route2toNvCsgOaQUQUBl09_8rust_api16days_since_heavyTINtNtB8_4data4DataINtNtCsb265yCgb7VW_8deadpool7managed4PoolNtCseOAmZMcKDph_17deadpool_postgres7ManagerEEEEBS_+0xce>
+  22da8b:	49 89 c6             	mov    %rax,%r14
+  22da8e:	48 89 df             	mov    %rbx,%rdi
+  22da91:	e8 ca 22 00 00       	call   22fd60 <_RINvNtCs4NRVxsYgnAr_4core3ptr9drop_glueNtNtCsbjRtxNOQSnP_9actix_web5route5RouteECsgOaQUQUBl09_8rust_api.llvm.11310217373394993522>
+  22da96:	4c 89 f7             	mov    %r14,%rdi
+  22da99:	e8 d2 83 27 00       	call   4a5e70 <_Unwind_Resume@plt>
+  22da9e:	ff 15 34 f5 2c 00    	call   *0x2cf534(%rip)        # 4fcfd8 <_DYNAMIC+0x260>
+  22daa4:	cc                   	int3
+  22daa5:	cc                   	int3
+  22daa6:	cc                   	int3
+  22daa7:	cc                   	int3
+  22daa8:	cc                   	int3
+  22daa9:	cc                   	int3
+  22daaa:	cc                   	int3
+  22daab:	cc                   	int3
+  22daac:	cc                   	int3
+  22daad:	cc                   	int3
+  22daae:	cc                   	int3
+  22daaf:	cc                   	int3
+
+000000000022dab0 <_RINvMs2_NtCsbjRtxNOQSnP_9actix_web5routeNtB6_5Route2toNvCsgOaQUQUBl09_8rust_api6healthuEBS_>:
+  22dab0:	41 57                	push   %r15
+  22dab2:	41 56                	push   %r14
+  22dab4:	41 54                	push   %r12
+  22dab6:	53                   	push   %rbx
+  22dab7:	50                   	push   %rax
+  22dab8:	48 89 f3             	mov    %rsi,%rbx
+  22dabb:	80 7e 18 01          	cmpb   $0x1,0x18(%rsi)
+  22dabf:	74 68                	je     22db29 <_RINvMs2_NtCsbjRtxNOQSnP_9actix_web5routeNtB6_5Route2toNvCsgOaQUQUBl09_8rust_api6healthuEBS_+0x79>
+  22dac1:	49 89 fe             	mov    %rdi,%r14
+  22dac4:	4c 8b 3b             	mov    (%rbx),%r15
+  22dac7:	4c 8b 63 08          	mov    0x8(%rbx),%r12
+  22dacb:	49 8b 04 24          	mov    (%r12),%rax
+  22dacf:	48 85 c0             	test   %rax,%rax
+  22dad2:	74 05                	je     22dad9 <_RINvMs2_NtCsbjRtxNOQSnP_9actix_web5routeNtB6_5Route2toNvCsgOaQUQUBl09_8rust_api6healthuEBS_+0x29>
+  22dad4:	4c 89 ff             	mov    %r15,%rdi
+  22dad7:	ff d0                	call   *%rax
+  22dad9:	49 8b 74 24 08       	mov    0x8(%r12),%rsi
+  22dade:	48 85 f6             	test   %rsi,%rsi
+  22dae1:	74 0e                	je     22daf1 <_RINvMs2_NtCsbjRtxNOQSnP_9actix_web5routeNtB6_5Route2toNvCsgOaQUQUBl09_8rust_api6healthuEBS_+0x41>
+  22dae3:	49 8b 54 24 10       	mov    0x10(%r12),%rdx

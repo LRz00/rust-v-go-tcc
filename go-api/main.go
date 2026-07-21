@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"runtime"
+	"sync/atomic"
 	"time"
 
 	_ "github.com/lib/pq"
@@ -93,15 +94,16 @@ func daysSinceHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(map[string]int{"days_since": days})
 }
 
+var lastHeavyBuffer atomic.Value
+
 func daysSinceHeavyHandler(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithTimeout(r.Context(), 2*time.Second)
 	defer cancel()
-
+	seed := time.Now().UnixNano()
 	// Workload sintético de alocação
 	// Aloca 1MB de dados temporários
-	const allocSize = 1 * 1024 * 1024 // 1MB
+	const allocSize = 1 * 1024 * 1024
 	buffer := make([]byte, allocSize)
-	seed := time.Now().UnixNano()
 
 	// Preenche o buffer para forçar alocação real
 	for i := 0; i < len(buffer); i += 4096 {
@@ -113,6 +115,8 @@ func daysSinceHeavyHandler(w http.ResponseWriter, r *http.Request) {
 	for i := 0; i < len(buffer); i += 1024 {
 		sum += int(buffer[i])
 	}
+
+	lastHeavyBuffer.Store(buffer)
 
 	// Continua com a lógica normal
 	var reference time.Time
