@@ -62,12 +62,11 @@ func main() {
 		log.Fatalf("ping db: %v", err)
 	}
 
-	status, err := readProcSelfStatus()
-	log.Printf("VmRSS: %d KB, VmHWM: %d KB, error: %v", status.VmRSSKB, status.VmHWMKB, err)
-
 	http.HandleFunc("/days-since", daysSinceHandler)
 	http.HandleFunc("/days-since-heavy", daysSinceHeavyHandler)
 	http.HandleFunc("/metrics", metricsHandler)
+	http.HandleFunc("/days-since-mock", daysSinceMockHandler)
+	http.HandleFunc("/days-since-heavy-mock", daysSinceHeavyMockHandler)
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte("OK"))
@@ -83,6 +82,9 @@ func main() {
 
 }
 
+// this is the same as the date in the sql, used here sowe can eliminate the postgres dependency and isolate the concurrency bottleneck
+var mockReferenceDate = time.Date(2020, 1, 1, 0, 0, 0, 0, time.UTC)
+
 func daysSinceHandler(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithTimeout(r.Context(), 2*time.Second)
 	defer cancel()
@@ -96,6 +98,12 @@ func daysSinceHandler(w http.ResponseWriter, r *http.Request) {
 
 	days := int(time.Since(reference).Hours() / 24)
 
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]int{"days_since": days})
+}
+
+func daysSinceMockHandler(w http.ResponseWriter, r *http.Request) {
+	days := int(time.Since(mockReferenceDate).Hours() / 24)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]int{"days_since": days})
 }
@@ -133,6 +141,36 @@ func daysSinceHeavyHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	days := int(time.Since(reference).Hours() / 24)
+	runtime.KeepAlive(buffer)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"days_since": days,
+		"checksum":   sum, // Previne otimização
+	})
+}
+
+func daysSinceHeavyMockHandler(w http.ResponseWriter, r *http.Request) {
+	seed := time.Now().UnixNano()
+	// Workload sintético de alocação
+	// Aloca 1MB de dados temporários
+	const allocSize = 1 * 1024 * 1024
+	buffer := make([]byte, allocSize)
+
+	// Preenche o buffer para forçar alocação real
+	for i := 0; i < len(buffer); i += 4096 {
+		buffer[i] = byte((int64(i) + seed) % 256)
+	}
+
+	// Faz algum processamento para evitar otimização do compilador
+	sum := 0
+	for i := 0; i < len(buffer); i += 1024 {
+		sum += int(buffer[i])
+	}
+
+	lastHeavyBuffer.Store(buffer)
+
+	days := int(time.Since(mockReferenceDate).Hours() / 24)
 	runtime.KeepAlive(buffer)
 
 	w.Header().Set("Content-Type", "application/json")
