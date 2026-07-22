@@ -13,6 +13,11 @@ struct Resp {
     days_since: i64,
 }
 
+//same date from the sql, hoping to elimitate database bottleneck
+fn mock_reference_date() -> NaiveDate {
+    NaiveDate::from_ymd_opt(2020, 1, 1).expect("valid hardcoded date")
+}
+
 async fn days_since(pool: web::Data<Pool>) -> impl Responder {
     let client = match pool.get().await {
         Ok(c) => c,
@@ -44,6 +49,13 @@ async fn days_since(pool: web::Data<Pool>) -> impl Responder {
     HttpResponse::Ok().json(Resp { days_since: days })
 }
 
+async fn days_since_mock() -> impl Responder {
+    let date = mock_reference_date();
+    let today = Utc::now().date_naive();
+    let days = (today - date).num_days();
+
+    HttpResponse::Ok().json(Resp { days_since: days })
+}
 #[derive(Serialize)]
 struct HeavyResp {
     days_since: i64,
@@ -100,6 +112,33 @@ async fn days_since_heavy(pool: web::Data<Pool>) -> impl Responder {
     HttpResponse::Ok().json(HeavyResp {
         days_since: days,
         checksum: sum, // Previne otimização
+    })
+}
+
+async fn days_since_heavy_mock() -> impl Responder {
+    // Workload sintético de alocação
+    const ALLOC_SIZE: usize = 1 * 1024 * 1024; // 1MB
+    let mut buffer = vec![0u8; ALLOC_SIZE];
+    let seed = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap_or_default()
+        .as_nanos() as usize;
+
+    for i in (0..buffer.len()).step_by(4096) {
+        buffer[i] = ((i + seed) % 256) as u8;
+    }
+
+    let sum: usize = buffer.iter().step_by(1024).map(|&x| x as usize).sum();
+
+    let date = mock_reference_date();
+    let today = Utc::now().date_naive();
+    let days = (today - date).num_days();
+
+    black_box(&buffer);
+
+    HttpResponse::Ok().json(HeavyResp {
+        days_since: days,
+        checksum: sum,
     })
 }
 
@@ -354,6 +393,8 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new(pool.clone()))
             .route("/days-since", web::get().to(days_since))
             .route("/days-since-heavy", web::get().to(days_since_heavy))
+            .route("/days-since-mock", web::get().to(days_since_mock))
+            .route("/days-since-heavy-mock", web::get().to(days_since_heavy_mock))
             .route("/metrics", web::get().to(metrics))
             .route("/health", web::get().to(health))
     })
