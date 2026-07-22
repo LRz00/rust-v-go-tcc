@@ -1,0 +1,19 @@
+--- mock ---
+Running 10s test @ http://localhost:8080/days-since-mock
+  2 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    21.59ms   27.91ms  90.06ms   78.81%
+    Req/Sec     5.60k   777.33    11.73k    86.50%
+  111634 requests in 10.01s, 13.63MB read
+Requests/sec:  11151.13
+Transfer/sec:      1.36MB
+
+--- real (com banco) ---
+Running 10s test @ http://localhost:8080/days-since
+  2 threads and 50 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    28.61ms   31.51ms 194.38ms   77.74%
+    Req/Sec     1.47k   283.17     2.19k    70.00%
+  29285 requests in 10.01s, 3.57MB read
+Requests/sec:   2925.36
+Transfer/sec:    365.67KB
