@@ -297,8 +297,19 @@ func readCgroupUintFile(path string) (uint64, error) {
 	return val, nil
 }
 
-type MetricsResponse struct {
-	Timestamp       string  `json:"timestamp"`
+// these metrics are directly comparable between go and rust
+type CommonMemMetrics struct {
+	RSSKB              uint64 `json:"rss_kb"`
+	PeakRSSKB          uint64 `json:"peak_rss_kb"`
+	CgroupVersion      string `json:"cgroup_version"`
+	CgroupCurrentBytes uint64 `json:"cgroup_current_bytes"`
+	CgroupPeakBytes    uint64 `json:"cgroup_peak_bytes"`
+	CgroupMaxBytes     uint64 `json:"cgroup_max_bytes"`
+	CgroupUnlimited    bool   `json:"cgroup_unlimited"`
+}
+
+// these are go specific metrics
+type RuntimeSpecificMetrics struct {
 	AllocBytes      uint64  `json:"alloc_bytes"`
 	TotalAllocBytes uint64  `json:"total_alloc_bytes"`
 	SysBytes        uint64  `json:"sys_bytes"`
@@ -308,10 +319,16 @@ type MetricsResponse struct {
 	HeapInuseBytes  uint64  `json:"heap_inuse_bytes"`
 	HeapObjects     uint64  `json:"heap_objects"`
 	NumGC           uint32  `json:"num_gc"`
-	NumGoroutine    int     `json:"num_goroutine"`
 	PauseTotalNs    uint64  `json:"pause_total_ns"`
 	LastPauseNs     uint64  `json:"last_pause_ns"`
+	NumGoroutine    int     `json:"num_goroutine"`
 	AllocRate       float64 `json:"alloc_rate_mb_per_sec"`
+}
+
+type MetricsResponse struct {
+	Timestamp string                 `json:"timestamp"`
+	Common    CommonMemMetrics       `json:"common_mem_metrics"`
+	Runtime   RuntimeSpecificMetrics `json:"runtime_specific_metrics"`
 }
 
 var (
@@ -341,8 +358,24 @@ func metricsHandler(w http.ResponseWriter, r *http.Request) {
 		lastPause = m.PauseNs[(m.NumGC+255)%256]
 	}
 
-	metrics := MetricsResponse{
-		Timestamp:       now.Format(time.RFC3339),
+	var common CommonMemMetrics
+
+	if status, err := readProcSelfStatus(); err == nil {
+		common.RSSKB = status.VmRSSKB
+		common.PeakRSSKB = status.VmHWMKB
+	} else {
+		log.Printf("failed to read /proc/self/status: %v", err)
+	}
+
+	if cgroup, err := readCGroupMemStats(); err == nil {
+		common.CgroupCurrentBytes = cgroup.CurrentBytes
+		common.CgroupPeakBytes = cgroup.PeakBytes
+		common.CgroupMaxBytes = cgroup.MaxBytes
+		common.CgroupUnlimited = cgroup.Unlimited
+		common.CgroupVersion = cgroup.Version
+	}
+
+	runtimeSpecific := RuntimeSpecificMetrics{
 		AllocBytes:      m.Alloc,
 		TotalAllocBytes: m.TotalAlloc,
 		SysBytes:        m.Sys,
@@ -352,10 +385,16 @@ func metricsHandler(w http.ResponseWriter, r *http.Request) {
 		HeapInuseBytes:  m.HeapInuse,
 		HeapObjects:     m.HeapObjects,
 		NumGC:           m.NumGC,
-		NumGoroutine:    runtime.NumGoroutine(),
 		PauseTotalNs:    m.PauseTotalNs,
 		LastPauseNs:     lastPause,
+		NumGoroutine:    runtime.NumGoroutine(),
 		AllocRate:       allocRate,
+	}
+
+	metrics := MetricsResponse{
+		Timestamp: now.Format(time.RFC3339),
+		Common:    common,
+		Runtime:   runtimeSpecific,
 	}
 
 	w.Header().Set("Content-Type", "application/json")

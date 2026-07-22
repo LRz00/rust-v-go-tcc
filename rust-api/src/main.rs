@@ -103,16 +103,34 @@ async fn days_since_heavy(pool: web::Data<Pool>) -> impl Responder {
     })
 }
 
-#[derive(Serialize)]
-struct MetricsResponse {
-    timestamp: String,
-    rss_bytes: u64,
-    vsz_bytes: u64,
-    rss_mb: f64,
-    vsz_mb: f64,
+//common memory metrics for both rust and go
+#[derive(Serialize, Default)]
+struct CommonMemMetrics{
+    rss_kb: u64,
+    peak_rss_kb: u64,
+    cgroup_version: String,
+    cgroup_current_bytes: u64,
+    cgroup_peak_bytes: u64,
+    cgroup_max_bytes: u64,
+    cgroup_unlimited: bool,
 }
 
-fn read_proc_stat() -> Result<MetricsResponse, String> {
+#[derive(Serialize, Default)]
+struct RuntimeSpecificMetrics {
+    legacy_rss_bytes: u64,
+    legacy_vsz_bytes: u64,
+    legacy_rss_mb: f64,
+    legacy_vsz_mb: f64,
+}
+
+#[derive(Serialize, Default)]
+struct MetricsResponse {
+    timestamp: String,
+    common: CommonMemMetrics,
+    runtime_specific: RuntimeSpecificMetrics,
+}
+
+fn read_legacy_statm() -> Result<RuntimeSpecificMetrics, String> {
     // Lê /proc/self/statm para obter informações de memória
     // Formato: size resident shared text lib data dt
     // size = tamanho do programa virtual (VSZ)
@@ -137,12 +155,11 @@ fn read_proc_stat() -> Result<MetricsResponse, String> {
     let rss_mb = rss_bytes as f64 / (1024.0 * 1024.0);
     let vsz_mb = vsz_bytes as f64 / (1024.0 * 1024.0);
 
-    Ok(MetricsResponse {
-        timestamp: chrono::Utc::now().to_rfc3339(),
-        rss_bytes,
-        vsz_bytes,
-        rss_mb,
-        vsz_mb,
+    Ok(RuntimeSpecificMetrics {
+        legacy_rss_bytes: rss_bytes,
+        legacy_vsz_bytes: vsz_bytes,
+        legacy_rss_mb: rss_mb,
+        legacy_vsz_mb: vsz_mb,
     })
 }
 
@@ -253,10 +270,49 @@ fn read_cgroup_uint_file(path: &str) -> Result<u64, String> {
 }
 
 async fn metrics() -> impl Responder {
-    match read_proc_stat() {
-        Ok(m) => HttpResponse::Ok().json(m),
-        Err(e) => HttpResponse::InternalServerError().body(e),
+    let now = chrono::Utc::now().to_rfc3339();
+
+    // Bloco common: comparável diretamente com Go
+    let mut common = CommonMemMetrics::default();
+    match read_proc_self_status() {
+        Ok(status) => {
+            common.rss_kb = status.vm_rss_kb;
+            common.peak_rss_kb = status.vm_hwm_kb;
+        }
+        Err(e) => eprintln!("warning: failed to read /proc/self/status: {}", e),
     }
+
+    match read_cgroup_mem_stats() {
+        Ok(cgroup) => {
+            common.cgroup_current_bytes = cgroup.current_bytes;
+            common.cgroup_peak_bytes = cgroup.peak_bytes;
+            common.cgroup_max_bytes = cgroup.max_bytes;
+            common.cgroup_unlimited = cgroup.unlimited;
+            common.cgroup_version = cgroup.version;
+        }
+        Err(e) => {
+            eprintln!("warning: failed to read cgroup memory stats: {}", e);
+            common.cgroup_version = "unavailable".to_string();
+        }
+    }
+
+    // Bloco runtime_specific: métricas legadas desta implementação,
+    // não comparáveis diretamente com Go
+    let runtime_specific = match read_legacy_statm() {
+        Ok(rs) => rs,
+        Err(e) => {
+            eprintln!("warning: failed to read /proc/self/statm: {}", e);
+            RuntimeSpecificMetrics::default()
+        }
+    };
+
+    let response = MetricsResponse {
+        timestamp: now,
+        common,
+        runtime_specific,
+    };
+
+    HttpResponse::Ok().json(response)
 }
 
 async fn health() -> impl Responder {
