@@ -148,7 +148,7 @@ type MemStatusVM struct {
 }
 
 func readProcSelfStatus() (MemStatusVM, error) {
-	data, err := os.ReadFile("proc/self/status")
+	data, err := os.ReadFile("/proc/self/status")
 
 	if err != nil {
 		return MemStatusVM{}, fmt.Errorf("failed to read /proc/self/status: %w", err)
@@ -212,23 +212,19 @@ func readCGroupMemStats() (CgroupMemStats, error) {
 // readCGroupV2
 func readCGroupV2() (CgroupMemStats, error) {
 	current, err := readCgroupUintFile("/sys/fs/cgroup/memory.current")
-
 	if err != nil {
 		return CgroupMemStats{}, err
 	}
 
 	peak, err := readCgroupUintFile("/sys/fs/cgroup/memory.peak")
-
 	if err != nil {
-		// peak may not exist in some kernels, do not fail the entire read if it doesnt
 		peak = 0
 	}
 
-	maxRaw, err := readCgroupUintFile("/sys/fs/cgroup/memory.max")
+	maxRaw, err := os.ReadFile("/sys/fs/cgroup/memory.max")
 	if err != nil {
 		return CgroupMemStats{}, err
 	}
-
 	maxStr := strings.TrimSpace(string(maxRaw))
 
 	var maxBytes uint64
@@ -327,8 +323,8 @@ type RuntimeSpecificMetrics struct {
 
 type MetricsResponse struct {
 	Timestamp string                 `json:"timestamp"`
-	Common    CommonMemMetrics       `json:"common_mem_metrics"`
-	Runtime   RuntimeSpecificMetrics `json:"runtime_specific_metrics"`
+	Common    CommonMemMetrics       `json:"common"`
+	Runtime   RuntimeSpecificMetrics `json:"runtime_specific"`
 }
 
 var (
