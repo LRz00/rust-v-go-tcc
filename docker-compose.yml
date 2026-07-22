@@ -24,6 +24,7 @@ services:
         limits:
           cpus: "1.0"
           memory: 512M
+    cpuset: "0,1"
     build: ./go-api
     container_name: tcc_go_api
     ports:
@@ -38,6 +39,7 @@ services:
         limits:
           cpus: "1.0"
           memory: 512M    
+    cpuset: "2,3"
     build: ./rust-api
     container_name: tcc_rust_api
     ports:
