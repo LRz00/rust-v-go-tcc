@@ -1,7 +1,7 @@
 # Makefile for the TCC benchmarking project
 # Usage: make <target>
 
-.PHONY: help build up down logs bench run-go-local run-rust-local curl-go curl-rust
+.PHONY: help build up down logs bench run-go-local run-rust-local curl-go curl-rust curl-go-mock curl-rust-mock
 
 help:
 	@echo "Usage: make <target>"
@@ -16,6 +16,8 @@ help:
 	@echo "  bench             Run the provided benchmark.sh (requires wrk)"
 	@echo "  curl-go           Query the Go API (/days-since)"
 	@echo "  curl-rust         Query the Rust API (/days-since)"
+	@echo "  curl-go-mock      Query the Go API mock endpoint (/days-since-mock)"
+	@echo "  curl-rust-mock    Query the Rust API mock endpoint (/days-since-mock)"
 
 build:
 	docker compose build
@@ -48,3 +50,11 @@ curl-go:
 curl-rust:
 	@echo "Querying Rust API: http://localhost:8081/days-since"
 	curl -s http://localhost:8081/days-since | jq . || curl -s http://localhost:8081/days-since
+
+curl-go-mock:
+	@echo "Querying Go API mock: http://localhost:8080/days-since-mock"
+	curl -s http://localhost:8080/days-since-mock | jq . || curl -s http://localhost:8080/days-since-mock
+
+curl-rust-mock:
+	@echo "Querying Rust API mock: http://localhost:8081/days-since-mock"
+	curl -s http://localhost:8081/days-since-mock | jq . || curl -s http://localhost:8081/days-since-mock
