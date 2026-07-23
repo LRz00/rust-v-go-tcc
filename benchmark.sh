@@ -16,6 +16,16 @@ RUST_URL="http://localhost:8081"
 WRK_THREADS=4
 DURATION="60s"
 
+# fixed cpu to avoide cpu disputes between client and server
+WRK_CPUSET="4-7"
+
+if command -v taskset >/dev/null 2>&1; then
+    TASKSET_CMD=(taskset -c "$WRK_CPUSET")
+else
+    echo "AVISO: 'taskset' não encontrado; wrk será executado sem CPU pinning." >&2
+    TASKSET_CMD=()
+fi
+
 # Cenários de carga progressivos (conexões simultâneas)
 SCENARIOS=(10 25 50 100 200 400)
 
@@ -162,9 +172,10 @@ run_benchmark() {
     
     # Executa wrk e salva output completo
     echo "Executando wrk (threads=$WRK_THREADS, connections=$connections, duration=$DURATION)..."
-    local wrk_output=$(wrk -t$WRK_THREADS -c$connections -d$DURATION --latency -s "$PERCENTILES_SCRIPT" "$url/days-since" 2>&1)
-    echo "$wrk_output" > "$run_dir/wrk_output.txt"
-    
+# Executa wrk e salva output completo
+    echo "Executando wrk (threads=$WRK_THREADS, connections=$connections, duration=$DURATION, cpuset=$WRK_CPUSET)..."
+    local wrk_output=$("${TASKSET_CMD[@]}" wrk -t$WRK_THREADS -c$connections -d$DURATION --latency -s "$PERCENTILES_SCRIPT" "$url/days-since" 2>&1)
+
     # Parseia resultados
     parse_wrk_output "$wrk_output" "$run_dir/wrk_summary.json"
     
@@ -209,8 +220,10 @@ run_benchmark_heavy() {
     collect_metrics "$url" "$run_dir/metrics_before.json"
     
     # Executa wrk no endpoint heavy
-    echo "Executando wrk no endpoint allocation-heavy..."
-    local wrk_output=$(wrk -t$WRK_THREADS -c$connections -d$DURATION --latency -s "$PERCENTILES_SCRIPT" "$url/days-since-heavy" 2>&1)
+# Executa wrk no endpoint heavy
+    echo "Executando wrk no endpoint allocation-heavy (cpuset=$WRK_CPUSET)..."
+    local wrk_output=$("${TASKSET_CMD[@]}" wrk -t$WRK_THREADS -c$connections -d$DURATION --latency -s "$PERCENTILES_SCRIPT" "$url/days-since-heavy" 2>&1)
+    
     echo "$wrk_output" > "$run_dir/wrk_output.txt"
     
     parse_wrk_output "$wrk_output" "$run_dir/wrk_summary.json"
