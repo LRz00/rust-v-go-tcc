@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"runtime"
+	"runtime/metrics"
 	"strconv"
 	"strings"
 	"sync/atomic"
@@ -342,21 +343,87 @@ type CommonMemMetrics struct {
 	CgroupUnlimited    bool   `json:"cgroup_unlimited"`
 }
 
+// a serializable representation of a histogram bucket of runtimes/metrics
+type HistogramBucket struct {
+	LowerBound float64 `json:"lower_bound"`
+	UpperBound float64 `json:"upper_bound"`
+	Count      uint64  `json:"count"`
+}
+
+func histogramToBuckets(h *metrics.Float64Histogram) []HistogramBucket {
+	if h == nil {
+		return nil
+	}
+
+	buckets := make([]HistogramBucket, 0, len(h.Buckets))
+
+	for i, count := range h.Counts {
+		if count == 0 {
+			continue
+		}
+		buckets = append(buckets, HistogramBucket{
+			LowerBound: h.Buckets[i],
+			UpperBound: h.Buckets[i+1],
+			Count:      count,
+		})
+	}
+	return buckets
+}
+
+type MetricsHistograms struct {
+	GCPausesSeconds       []HistogramBucket `json:"gc_pause_seconds"`
+	SchedLatenciesSeconds []HistogramBucket `json:"sched_latencies_seconds"`
+	HeapAllocsBytesTotal  uint64            `json:"heap_allocs_bytes_total"`
+	HeapFreesBytesTotal   uint64            `json:"heap_frees_bytes_total"`
+}
+
+func readRuntimeMetricsHistograms() MetricsHistograms {
+	samples := []metrics.Sample{
+		{Name: "/gc/pauses:seconds"},
+		{Name: "/sched/latencies:seconds"},
+		{Name: "/gc/heap/allocs:bytes"},
+		{Name: "/gc/heap/frees:bytes"},
+	}
+
+	metrics.Read(samples)
+
+	var result MetricsHistograms
+
+	for _, s := range samples {
+		if s.Value.Kind() == metrics.KindBad {
+			log.Printf("warning: runtime/metrics sample %q indisponivel nessa versão do go", s.Name)
+			continue
+		}
+		switch s.Name {
+		case "/gc/pauses:seconds":
+			result.GCPausesSeconds = histogramToBuckets(s.Value.Float64Histogram())
+		case "/sched/latencies:seconds":
+			result.SchedLatenciesSeconds = histogramToBuckets(s.Value.Float64Histogram())
+		case "/gc/heap/allocs:bytes":
+			result.HeapAllocsBytesTotal = s.Value.Uint64()
+		case "/gc/heap/frees:bytes":
+			result.HeapFreesBytesTotal = s.Value.Uint64()
+		}
+	}
+	return result
+}
+
 // these are go specific metrics
 type RuntimeSpecificMetrics struct {
-	AllocBytes      uint64  `json:"alloc_bytes"`
-	TotalAllocBytes uint64  `json:"total_alloc_bytes"`
-	SysBytes        uint64  `json:"sys_bytes"`
-	HeapAllocBytes  uint64  `json:"heap_alloc_bytes"`
-	HeapSysBytes    uint64  `json:"heap_sys_bytes"`
-	HeapIdleBytes   uint64  `json:"heap_idle_bytes"`
-	HeapInuseBytes  uint64  `json:"heap_inuse_bytes"`
-	HeapObjects     uint64  `json:"heap_objects"`
-	NumGC           uint32  `json:"num_gc"`
-	PauseTotalNs    uint64  `json:"pause_total_ns"`
-	LastPauseNs     uint64  `json:"last_pause_ns"`
-	NumGoroutine    int     `json:"num_goroutine"`
-	AllocRate       float64 `json:"alloc_rate_mb_per_sec"`
+	AllocBytes        uint64            `json:"alloc_bytes"`
+	TotalAllocBytes   uint64            `json:"total_alloc_bytes"`
+	SysBytes          uint64            `json:"sys_bytes"`
+	HeapAllocBytes    uint64            `json:"heap_alloc_bytes"`
+	HeapSysBytes      uint64            `json:"heap_sys_bytes"`
+	HeapIdleBytes     uint64            `json:"heap_idle_bytes"`
+	HeapInuseBytes    uint64            `json:"heap_inuse_bytes"`
+	HeapObjects       uint64            `json:"heap_objects"`
+	NumGC             uint32            `json:"num_gc"`
+	PauseTotalNs      uint64            `json:"pause_total_ns"`
+	LastPauseNs       uint64            `json:"last_pause_ns"`
+	NumGoroutine      int               `json:"num_goroutine"`
+	AllocRate         float64           `json:"alloc_rate_mb_per_sec"`
+	MetricsHistograms MetricsHistograms `json:"metrics_histograms"`
 }
 
 type MetricsResponse struct {
@@ -410,19 +477,20 @@ func metricsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	runtimeSpecific := RuntimeSpecificMetrics{
-		AllocBytes:      m.Alloc,
-		TotalAllocBytes: m.TotalAlloc,
-		SysBytes:        m.Sys,
-		HeapAllocBytes:  m.HeapAlloc,
-		HeapSysBytes:    m.HeapSys,
-		HeapIdleBytes:   m.HeapIdle,
-		HeapInuseBytes:  m.HeapInuse,
-		HeapObjects:     m.HeapObjects,
-		NumGC:           m.NumGC,
-		PauseTotalNs:    m.PauseTotalNs,
-		LastPauseNs:     lastPause,
-		NumGoroutine:    runtime.NumGoroutine(),
-		AllocRate:       allocRate,
+		AllocBytes:        m.Alloc,
+		TotalAllocBytes:   m.TotalAlloc,
+		SysBytes:          m.Sys,
+		HeapAllocBytes:    m.HeapAlloc,
+		HeapSysBytes:      m.HeapSys,
+		HeapIdleBytes:     m.HeapIdle,
+		HeapInuseBytes:    m.HeapInuse,
+		HeapObjects:       m.HeapObjects,
+		NumGC:             m.NumGC,
+		PauseTotalNs:      m.PauseTotalNs,
+		LastPauseNs:       lastPause,
+		NumGoroutine:      runtime.NumGoroutine(),
+		AllocRate:         allocRate,
+		MetricsHistograms: readRuntimeMetricsHistograms(),
 	}
 
 	metrics := MetricsResponse{
