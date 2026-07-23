@@ -32,3 +32,8 @@ postgres-data/
 
 #Rust build
 **/target/
+
+
+# Go
+go-api
+.exe

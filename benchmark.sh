@@ -38,7 +38,7 @@ declare -A ENDPOINT_PATHS=(
     [heavy_mock]="/days-since-heavy-mock"
 )
 
-declare -A ENDPOINT_DIR_SUFIX=(
+declare -A ENDPOINT_DIR_SUFFIX=(
     [normal]=""
     [heavy]="_heavy"
     [mock]="_mock"
@@ -54,12 +54,12 @@ generate_execution_order(){
     for lang in "${languages[@]}"; do
         for endpoint in "${endpoint_keys[@]}"; do
             for connections in "${SCENARIOS[@]}"; do
-                combos+=("${lang}|${endpoint}|${connections}")
+                combos+=("${lang}:${endpoint}:${connections}")
             done
         done
     done
 
-    printf "%s\n "${combos[@]} | shuf --random-source=<(yes "$REPLICATE_ID")
+    printf '%s\n' "${combos[@]}" | shuf --random-source=<(yes "$REPLICATE_ID")
 }
 
 # Função para salvar ordem de execução em arquivo para reanalise
@@ -87,7 +87,7 @@ run_warmup(){
     "${TASKSET_CMD[@]}" wrk -t"$WRK_THREADS" -c"$connections" -d"$WARMUP_DURATION" \
         "${url}${endpoint_path}" > /dev/null 2>&1
 
-    echo "  [warm-up] concluído; aguardando estabilização (${STABILIZATION_PAUSE}s)..."
+    echo "[warm-up] concluído; aguardando estabilização (${STABILIZATION_PAUSE}s)..."
     sleep "$STABILIZATION_PAUSE"
 }
 
@@ -216,99 +216,76 @@ EOF
 }
 
 # Função principal de benchmark para uma API
-run_benchmark() {
+# Executa warm-up + medição real para uma combinação individual
+# (linguagem x endpoint x conexões), salvando os resultados no formato
+# já esperado por analyze_results.py.
+#
+# Argumentos:
+#   $1 - lang ("go" ou "rust")
+#   $2 - endpoint_key (chave de ENDPOINT_PATHS/ENDPOINT_DIR_SUFFIX)
+#   $3 - connections
+run_scenario() {
     local lang=$1
-    local url=$2
+    local endpoint_key=$2
     local connections=$3
-    local run_dir="$RESULTS_DIR/$TIMESTAMP/${lang}_c${connections}"
-    
+
+    local url
+    if [ "$lang" == "go" ]; then
+        url="$GO_URL"
+    else
+        url="$RUST_URL"
+    fi
+
+    local endpoint_path="${ENDPOINT_PATHS[$endpoint_key]}"
+    local dir_suffix="${ENDPOINT_DIR_SUFFIX[$endpoint_key]}"
+    local run_dir="$RESULTS_DIR/$TIMESTAMP/${lang}${dir_suffix}_c${connections}"
+
     mkdir -p "$run_dir"
-    
+
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo "[$lang] Testando com $connections conexões"
+    echo "[$lang] endpoint=$endpoint_path conexões=$connections"
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    
+
+    # Warm-up descartado, específico desta combinação (Fase 5, tarefa 3)
+    run_warmup "$url" "$endpoint_path" "$connections"
+
     # Coleta métricas PRÉ-teste
     echo "Coletando métricas iniciais..."
     collect_metrics "$url" "$run_dir/metrics_before.json"
-    
-    # Executa wrk e salva output completo
+
+    # Executa wrk (medição real, isolado via taskset — Fase 4)
     echo "Executando wrk (threads=$WRK_THREADS, connections=$connections, duration=$DURATION)..."
-# Executa wrk e salva output completo
-    echo "Executando wrk (threads=$WRK_THREADS, connections=$connections, duration=$DURATION, cpuset=$WRK_CPUSET)..."
-    local wrk_output=$("${TASKSET_CMD[@]}" wrk -t$WRK_THREADS -c$connections -d$DURATION --latency -s "$PERCENTILES_SCRIPT" "$url/days-since" 2>&1)
+    local wrk_output
+    wrk_output=$("${TASKSET_CMD[@]}" wrk -t"$WRK_THREADS" -c"$connections" -d"$DURATION" --latency -s "$PERCENTILES_SCRIPT" "${url}${endpoint_path}" 2>&1)
+    echo "$wrk_output" > "$run_dir/wrk_output.txt"
 
     # Parseia resultados
     parse_wrk_output "$wrk_output" "$run_dir/wrk_summary.json"
-    
-    # Aguarda estabilização
+
+    # Aguarda estabilização pós-medição
     wait_stabilize
-    
+
     # Coleta métricas PÓS-teste
     echo "Coletando métricas finais..."
     collect_metrics "$url" "$run_dir/metrics_after.json"
-    
+
     # Salva configuração do teste
     cat > "$run_dir/test_config.json" <<EOF
 {
     "language": "$lang",
+    "endpoint_key": "$endpoint_key",
+    "endpoint_path": "$endpoint_path",
     "url": "$url",
     "connections": $connections,
     "threads": $WRK_THREADS,
     "duration": "$DURATION",
+    "warmup_duration": "$WARMUP_DURATION",
+    "replicate_id": "$REPLICATE_ID",
     "timestamp": "$(date --rfc-3339=seconds)"
 }
 EOF
-    
-    echo "✓ Teste concluído. Resultados em: $run_dir"
-    echo ""
-}
 
-# Função para benchmark do cenário allocation-heavy
-run_benchmark_heavy() {
-    local lang=$1
-    local url=$2
-    local connections=$3
-    local run_dir="$RESULTS_DIR/$TIMESTAMP/${lang}_heavy_c${connections}"
-    
-    mkdir -p "$run_dir"
-    
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo "[$lang HEAVY] Testando com $connections conexões"
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    
-    # Coleta métricas PRÉ-teste
-    echo "Coletando métricas iniciais..."
-    collect_metrics "$url" "$run_dir/metrics_before.json"
-    
-    # Executa wrk no endpoint heavy
-# Executa wrk no endpoint heavy
-    echo "Executando wrk no endpoint allocation-heavy (cpuset=$WRK_CPUSET)..."
-    local wrk_output=$("${TASKSET_CMD[@]}" wrk -t$WRK_THREADS -c$connections -d$DURATION --latency -s "$PERCENTILES_SCRIPT" "$url/days-since-heavy" 2>&1)
-    
-    echo "$wrk_output" > "$run_dir/wrk_output.txt"
-    
-    parse_wrk_output "$wrk_output" "$run_dir/wrk_summary.json"
-    
-    wait_stabilize
-    
-    # Coleta métricas PÓS-teste
-    echo "Coletando métricas finais..."
-    collect_metrics "$url" "$run_dir/metrics_after.json"
-    
-    cat > "$run_dir/test_config.json" <<EOF
-{
-    "language": "$lang",
-    "url": "$url",
-    "endpoint": "/days-since-heavy",
-    "connections": $connections,
-    "threads": $WRK_THREADS,
-    "duration": "$DURATION",
-    "timestamp": "$(date --rfc-3339=seconds)"
-}
-EOF
-    
-    echo "✓ Teste heavy concluído. Resultados em: $run_dir"
+    echo "✓ Concluído. Resultados em: $run_dir"
     echo ""
 }
 
@@ -365,23 +342,15 @@ main() {
     read -p "Pressione ENTER para iniciar ou Ctrl+C para cancelar..."
     echo ""
     
-    # Testa cada cenário em ambas as linguagens
-    for connections in "${SCENARIOS[@]}"; do
-        run_benchmark "go" "$GO_URL" "$connections"
-        run_benchmark "rust" "$RUST_URL" "$connections"
-    done
-    
-    # Testa cenário allocation-heavy
-    echo ""
-    echo "════════════════════════════════════════════"
-    echo "Testando cenário ALLOCATION-HEAVY"
-    echo "════════════════════════════════════════════"
-    echo ""
-    
-    for connections in "${SCENARIOS[@]}"; do
-        run_benchmark_heavy "go" "$GO_URL" "$connections"
-        run_benchmark_heavy "rust" "$RUST_URL" "$connections"
-    done
+    local total=$(echo "$EXECUTION_ORDER" | wc -l)
+    local i=0
+
+    while IFS=':' read -r lang endpoint_key connections; do
+        i=$((i + 1))
+        echo ""
+        echo "════════ Combinação $i/$total ════════"
+        run_scenario "$lang" "$endpoint_key" "$connections"
+    done <<< "$EXECUTION_ORDER"
     
     generate_summary
     
