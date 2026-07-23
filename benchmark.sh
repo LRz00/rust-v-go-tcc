@@ -29,6 +29,68 @@ fi
 # Cenários de carga progressivos (conexões simultâneas)
 SCENARIOS=(10 25 50 100 200 400)
 
+REPLICATE_ID="${REPLICATE_ID:-1}"
+
+declare -A ENDPOINT_PATHS=(
+    [normal]="/days-since"
+    [heavy]="/days-since-heavy"
+    [mock]="/days-since-mock"
+    [heavy_mock]="/days-since-heavy-mock"
+)
+
+declare -A ENDPOINT_DIR_SUFIX=(
+    [normal]=""
+    [heavy]="_heavy"
+    [mock]="_mock"
+    [heavy_mock]="_heavy_mock"
+)
+
+# Função para gerar ordem de execução aleatória porem replicável a partir de um ID de replicação
+generate_execution_order(){
+    local languages=("go" "rust")
+    local endpoint_keys=("normal" "heavy" "mock" "heavy_mock")
+    local combos=()
+
+    for lang in "${languages[@]}"; do
+        for endpoint in "${endpoint_keys[@]}"; do
+            for connections in "${SCENARIOS[@]}"; do
+                combos+=("${lang}|${endpoint}|${connections}")
+            done
+        done
+    done
+
+    printf "%s\n "${combos[@]} | shuf --random-source=<(yes "$REPLICATE_ID")
+}
+
+# Função para salvar ordem de execução em arquivo para reanalise
+save_execution_order(){
+    local order="$1"
+    local output_file="${EXECUTION_ORDER_OUTPUT_FILE:-$RESULTS_DIR/$TIMESTAMP/execution_order.txt}"
+
+    mkdir -p "$(dirname "$output_file")"
+    echo "$order" > "$output_file"
+    echo "Ordem de execução saçva em: $output_file"
+}
+
+WARMUP_DURATION="15s"
+STABILIZATION_PAUSE=3
+
+# Executa carga curta de warma up para reduzir cold-start/cache frio que afeta quem roda primeiro
+# Essa execução é descartada e não gera resultados
+run_warmup(){
+    local url=$1
+    local endpoint_path=$2
+    local connections=$3
+
+    echo "  [warm-up] ${url}${endpoint_path} (c=${connections}, ${WARMUP_DURATION}, descartado)..."
+    
+    "${TASKSET_CMD[@]}" wrk -t"$WRK_THREADS" -c"$connections" -d"$WARMUP_DURATION" \
+        "${url}${endpoint_path}" > /dev/null 2>&1
+
+    echo "  [warm-up] concluído; aguardando estabilização (${STABILIZATION_PAUSE}s)..."
+    sleep "$STABILIZATION_PAUSE"
+}
+
 # Função para criar diretório de resultados
 setup_results_dir() {
     mkdir -p "$RESULTS_DIR/$TIMESTAMP"
@@ -293,6 +355,12 @@ main() {
     echo "  - Threads: $WRK_THREADS"
     echo "  - Duração: $DURATION"
     echo "  - Cenários: ${SCENARIOS[*]} conexões"
+    echo "  - Replicate ID (seed de ordem): $REPLICATE_ID"
+    echo ""
+
+    EXECUTION_ORDER=$(generate_execution_order)
+    save_execution_order "$EXECUTION_ORDER"
+
     echo ""
     read -p "Pressione ENTER para iniciar ou Ctrl+C para cancelar..."
     echo ""

@@ -98,6 +98,9 @@ run_one_replicate() {
     local log_file="$RUN_DIR/logs/rep${replicate}.log"
     mkdir -p "$rep_dir"
 
+    export REPLICATE_ID="$replicate"
+    export EXECUTION_ORDER_OUTPUT_FILE="$rep_dir/execution_order.txt"
+
     echo ""
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     if [ "$category" = "warmup" ]; then
