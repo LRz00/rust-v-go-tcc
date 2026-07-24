@@ -27,6 +27,8 @@ services:
     cpuset: "0,1"
     build: ./go-api
     container_name: tcc_go_api
+    environment:
+      - GODEBUG=gctrace=1
     ports:
       - "8080:8080"
     depends_on:
