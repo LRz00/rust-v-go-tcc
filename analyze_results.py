@@ -10,6 +10,7 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Tuple
 import statistics
+import re
 
 
 METRIC_FIELDS: Tuple[str, ...] = (
@@ -19,9 +20,24 @@ METRIC_FIELDS: Tuple[str, ...] = (
     'total_requests',
     'errors',
     'timeouts',
+    # --- Métricas primárias
+    # Comparáveis diretamente entre Go e Rust.
     'memory_before_mb',
     'memory_after_mb',
     'memory_growth_mb',
+    'peak_rss_mb_before',
+    'peak_rss_mb_after',
+    'cgroup_current_mb_before',
+    'cgroup_current_mb_after',
+    'cgroup_current_mb_growth',
+    'cgroup_peak_mb_before',
+    'cgroup_peak_mb_after',
+    # --- Métricas complementares (runtime_specific), não comparáveis
+    # diretamente entre linguagens: Go usa heap_alloc_bytes (runtime
+    # gerenciado por GC); Rust usa legacy_rss_mb (via /proc/self/statm).
+    'legacy_runtime_memory_mb_before',
+    'legacy_runtime_memory_mb_after',
+    'legacy_runtime_memory_mb_growth',
 )
 
 def load_json(filepath: Path) -> Dict:
@@ -126,9 +142,27 @@ def analyze_run(run_dir: Path, lang: str, connections: int) -> Dict:
         'total_requests': 0,
         'errors': 0,
         'timeouts': 0,
+        # --- Métricas primárias (camada "common", Fase 2) ---
+        # Comparáveis diretamente entre Go e Rust: RSS do processo (via
+        # /proc/self/status) e uso de memória do cgroup do container.
         'memory_before_mb': 0.0,
         'memory_after_mb': 0.0,
         'memory_growth_mb': 0.0,
+        'peak_rss_mb_before': 0.0,
+        'peak_rss_mb_after': 0.0,
+        'cgroup_current_mb_before': 0.0,
+        'cgroup_current_mb_after': 0.0,
+        'cgroup_current_mb_growth': 0.0,
+        'cgroup_peak_mb_before': 0.0,
+        'cgroup_peak_mb_after': 0.0,
+        # --- Métricas complementares (runtime_specific, Fase 2) ---
+        # NÃO comparáveis diretamente entre linguagens: em Go é
+        # heap_alloc_bytes (memória gerenciada pelo GC); em Rust é
+        # legacy_rss_mb (via /proc/self/statm, mantido por continuidade
+        # histórica com coletas anteriores à Fase 2).
+        'legacy_runtime_memory_mb_before': 0.0,
+        'legacy_runtime_memory_mb_after': 0.0,
+        'legacy_runtime_memory_mb_growth': 0.0,
     }
     
     # Parseia latência (verifica se campos existem e não são vazios)
@@ -176,20 +210,56 @@ def analyze_run(run_dir: Path, lang: str, connections: int) -> Dict:
     elif 'timeouts' in wrk_summary:
         result['timeouts'] = parse_count(wrk_summary.get('timeouts'))
     
-    # Memória
-    if lang in ('go', 'go_heavy'):
-        if metrics_before.get('heap_alloc_bytes') and metrics_before['heap_alloc_bytes'] > 0:
-            result['memory_before_mb'] = metrics_before['heap_alloc_bytes'] / (1024 * 1024)
-        if metrics_after.get('heap_alloc_bytes') and metrics_after['heap_alloc_bytes'] > 0:
-            result['memory_after_mb'] = metrics_after['heap_alloc_bytes'] / (1024 * 1024)
-    else:  # rust
-        if metrics_before.get('rss_mb'):
-            result['memory_before_mb'] = float(metrics_before['rss_mb'])
-        if metrics_after.get('rss_mb'):
-            result['memory_after_mb'] = float(metrics_after['rss_mb'])
-    
+    # lang pode ser 'go', 'go_heavy', 'go_mock', 'go_heavy_mock' (ou os
+    # equivalentes 'rust_*') — usar startswith em vez de lista fixa
+    # evita ter que atualizar esta função a cada novo tipo de endpoint.
+    is_go = lang.startswith('go')
+
+    # --- Bloco common: métricas primárias, mesmo schema em Go e Rust ---
+    common_before = metrics_before.get('common', {}) or {}
+    common_after = metrics_after.get('common', {}) or {}
+
+    if common_before.get('rss_kb'):
+        result['memory_before_mb'] = float(common_before['rss_kb']) / 1024
+    if common_after.get('rss_kb'):
+        result['memory_after_mb'] = float(common_after['rss_kb']) / 1024
     result['memory_growth_mb'] = result['memory_after_mb'] - result['memory_before_mb']
-    
+
+    if common_before.get('peak_rss_kb'):
+        result['peak_rss_mb_before'] = float(common_before['peak_rss_kb']) / 1024
+    if common_after.get('peak_rss_kb'):
+        result['peak_rss_mb_after'] = float(common_after['peak_rss_kb']) / 1024
+
+    if common_before.get('cgroup_current_bytes'):
+        result['cgroup_current_mb_before'] = float(common_before['cgroup_current_bytes']) / (1024 * 1024)
+    if common_after.get('cgroup_current_bytes'):
+        result['cgroup_current_mb_after'] = float(common_after['cgroup_current_bytes']) / (1024 * 1024)
+    result['cgroup_current_mb_growth'] = result['cgroup_current_mb_after'] - result['cgroup_current_mb_before']
+
+    if common_before.get('cgroup_peak_bytes'):
+        result['cgroup_peak_mb_before'] = float(common_before['cgroup_peak_bytes']) / (1024 * 1024)
+    if common_after.get('cgroup_peak_bytes'):
+        result['cgroup_peak_mb_after'] = float(common_after['cgroup_peak_bytes']) / (1024 * 1024)
+
+    # --- Bloco runtime_specific: métricas legadas/complementares ---
+    runtime_before = metrics_before.get('runtime_specific', {}) or {}
+    runtime_after = metrics_after.get('runtime_specific', {}) or {}
+
+    if is_go:
+        if runtime_before.get('heap_alloc_bytes'):
+            result['legacy_runtime_memory_mb_before'] = float(runtime_before['heap_alloc_bytes']) / (1024 * 1024)
+        if runtime_after.get('heap_alloc_bytes'):
+            result['legacy_runtime_memory_mb_after'] = float(runtime_after['heap_alloc_bytes']) / (1024 * 1024)
+    else:  # rust
+        if runtime_before.get('legacy_rss_mb'):
+            result['legacy_runtime_memory_mb_before'] = float(runtime_before['legacy_rss_mb'])
+        if runtime_after.get('legacy_rss_mb'):
+            result['legacy_runtime_memory_mb_after'] = float(runtime_after['legacy_rss_mb'])
+
+    result['legacy_runtime_memory_mb_growth'] = (
+        result['legacy_runtime_memory_mb_after'] - result['legacy_runtime_memory_mb_before']
+    )
+
     return result
 
 def find_benchmark_results(results_dir: Path) -> List[Path]:
@@ -200,44 +270,59 @@ def find_benchmark_results(results_dir: Path) -> List[Path]:
     # Retorna os diretórios com timestamp
     return sorted([d for d in results_dir.iterdir() if d.is_dir()])
 
+_DIR_PATTERN = re.compile(r'^(go|rust)(_heavy)?(_mock)?_c(\d+)$')
+
+def _classify_dir(dirname: str) -> Tuple[str, int] | Tuple[None, None]:
+    """Classifica um nome de diretório de resultado, retornando
+    (language_key, connections) ou (None, None) se não reconhecido.
+
+    language_key segue a convenção já usada internamente:
+    'go', 'go_heavy', 'go_mock', 'go_heavy_mock' (e equivalentes rust_*).
+    """
+    m = _DIR_PATTERN.match(dirname)
+    if not m:
+        return None, None
+
+    base_lang, heavy_suffix, mock_suffix, conn_str = m.groups()
+
+    language_key = base_lang
+    if heavy_suffix:
+        language_key += '_heavy'
+    if mock_suffix:
+        language_key += '_mock'
+
+    return language_key, int(conn_str)
+
+
 def analyze_benchmark_run(run_path: Path) -> Tuple[List[Dict], List[Dict]]:
     """Analisa todos os resultados de uma execução de benchmark"""
-    
+
     go_results = []
     rust_results = []
-    
+
     # Percorre todos os subdiretórios
     for subdir in sorted(run_path.iterdir()):
         if not subdir.is_dir():
             continue
-        
+
         dirname = subdir.name
-        
-        # Extrai linguagem e número de conexões
-        # Padrões: go_c10, rust_c10, go_heavy_c10, rust_heavy_c10
-        if dirname.startswith('go_heavy_c'):
-            connections = int(dirname.replace('go_heavy_c', ''))
-            result = analyze_run(subdir, 'go_heavy', connections)
+        language_key, connections = _classify_dir(dirname)
+
+        if language_key is None:
+            continue
+
+        result = analyze_run(subdir, language_key, connections)
+
+        if language_key.startswith('go'):
             go_results.append(result)
-        elif dirname.startswith('go_c'):
-            connections = int(dirname.replace('go_c', ''))
-            result = analyze_run(subdir, 'go', connections)
-            go_results.append(result)
-        elif dirname.startswith('rust_heavy_c'):
-            connections = int(dirname.replace('rust_heavy_c', ''))
-            result = analyze_run(subdir, 'rust_heavy', connections)
+        else:
             rust_results.append(result)
-        elif dirname.startswith('rust_c'):
-            connections = int(dirname.replace('rust_c', ''))
-            result = analyze_run(subdir, 'rust', connections)
-            rust_results.append(result)
-    
+
     # Ordena por número de conexões
     go_results.sort(key=lambda x: x['connections'])
     rust_results.sort(key=lambda x: x['connections'])
-    
-    return go_results, rust_results
 
+    return go_results, rust_results
 
 def _is_replicated_run_dir(run_path: Path) -> bool:
     """Detecta se o diretório é um 'run/' dentro de benchmark_replicated."""
@@ -496,6 +581,32 @@ def generate_insights(go_results: List[Dict], rust_results: List[Dict]):
             else:
                 print(f"    → Nenhum timeout registrado")
 
+def print_legacy_memory_section(go_results: List[Dict], rust_results: List[Dict]):
+    """Imprime, em seção separada, as métricas de memória complementares
+    (runtime_specific): heap_alloc_bytes para Go, legacy_rss_mb (via
+    /proc/self/statm) para Rust. NÃO comparáveis diretamente entre
+    linguagens — servem apenas para explicar o mecanismo interno de cada
+    runtime por trás dos números já comparados na seção primária (common).
+    """
+    print("\n" + "=" * 100)
+    print("MÉTRICAS COMPLEMENTARES DE MEMÓRIA (runtime_specific — NÃO comparável entre linguagens)")
+    print("=" * 100)
+    print("Go: heap_alloc_bytes (memória gerenciada pelo GC)")
+    print("Rust: legacy_rss_mb (via /proc/self/statm, mantido por continuidade histórica)")
+    print("-" * 100)
+
+    for lang_name, results in [("Go", go_results), ("Rust", rust_results)]:
+        if not results:
+            continue
+        avg_before = statistics.mean([r['legacy_runtime_memory_mb_before'] for r in results])
+        avg_after = statistics.mean([r['legacy_runtime_memory_mb_after'] for r in results])
+        avg_growth = statistics.mean([r['legacy_runtime_memory_mb_growth'] for r in results])
+
+        print(f"\n{lang_name}:")
+        print(f"  Média antes:  {avg_before:8.2f} MB")
+        print(f"  Média depois: {avg_after:8.2f} MB")
+        print(f"  Crescimento médio: {avg_growth:+8.2f} MB")
+
 def main():
     """Função principal"""
     
@@ -562,6 +673,7 @@ def main():
     # Gera análises
     print_comparison_table(go_results, rust_results)
     generate_insights(go_results, rust_results)
+    print_legacy_memory_section(go_results, rust_results)
     
     # Salva resultados consolidados
     with open(output_file, 'w') as f:
