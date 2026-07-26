@@ -36,7 +36,7 @@ if ! docker ps >/dev/null 2>&1; then
 fi
 
 # Cenários de carga progressivos (conexões simultâneas)
-SCENARIOS=(10 25 50 100 200 400)
+SCENARIOS=(10)
 
 REPLICATE_ID="${REPLICATE_ID:-1}"
 
@@ -113,6 +113,19 @@ local since_ts=$1
         echo "  ✓ gctrace salvo em: $output_file ($(wc -l < "$output_file") linhas)"
     else
         echo "  ⚠ nenhuma linha de gctrace capturada (esperado se GC não rodou nesta janela)"
+    fi
+}
+
+capture_pprof_snapshot(){
+    local profile_type=$1
+    local output_file=$2
+
+    curl -s "http://localhost:8080/debug/pprof/${profile_type}" -o "$output_file" 2>/dev/null
+
+    if [ -s "$output_file" ]; then
+        echo "  ✓ pprof (${profile_type}) salvo em: $output_file"
+    else
+        echo "  ⚠ falha ao capturar snapshot pprof (${profile_type})"
     fi
 }
 
@@ -280,6 +293,15 @@ run_scenario() {
 
     # Executa wrk (medição real, isolado via taskset)
     echo "Executando wrk (threads=$WRK_THREADS, connections=$connections, duration=$DURATION)..."
+    # pprof: snapshot ANTES da medição, mesma
+    # restrição de escopo do gctrace.
+    local capture_pprof=false
+    if [ "$lang" == "go" ] && { [ "$endpoint_key" == "heavy" ] || [ "$endpoint_key" == "heavy_mock" ]; }; then
+        capture_pprof=true
+        capture_pprof_snapshot "heap" "$run_dir/heap_before.pprof"
+        capture_pprof_snapshot "goroutine" "$run_dir/goroutine_before.pprof"
+    fi
+
     local gctrace_start
     gctrace_start=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
@@ -287,12 +309,12 @@ run_scenario() {
     wrk_output=$("${TASKSET_CMD[@]}" wrk -t"$WRK_THREADS" -c"$connections" -d"$DURATION" --latency -s "$PERCENTILES_SCRIPT" "${url}${endpoint_path}" 2>&1)
     echo "$wrk_output" > "$run_dir/wrk_output.txt"
 
-    # gctrace:  captura restrita a Go + cenários
-    # heavy/heavy_mock, imediatamente após o fim da medição — a janela
-    # [gctrace_start, agora] corresponde exatamente à duração do wrk
-    # desta combinação, sem necessidade de um limite superior explícito.
-    if [ "$lang" == "go" ] && { [ "$endpoint_key" == "heavy" ] || [ "$endpoint_key" == "heavy_mock" ]; }; then
+    # gctrace: captura restrita a Go + cenários heavy/heavy_mock,
+    # imediatamente após o fim da medição.
+    if [ "$capture_pprof" == "true" ]; then
         extract_gctrace "$gctrace_start" "$run_dir/gctrace.log"
+        capture_pprof_snapshot "heap" "$run_dir/heap_after.pprof"
+        capture_pprof_snapshot "goroutine" "$run_dir/goroutine_after.pprof"
     fi
 
     # Parseia resultados
@@ -317,6 +339,8 @@ run_scenario() {
     "duration": "$DURATION",
     "warmup_duration": "$WARMUP_DURATION",
     "replicate_id": "$REPLICATE_ID",
+    "gctrace_captured": $capture_pprof,
+    "pprof_captured": $capture_pprof,
     "timestamp": "$(date --rfc-3339=seconds)"
 }
 EOF
