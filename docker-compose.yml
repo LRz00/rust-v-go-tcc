@@ -29,6 +29,7 @@ services:
     container_name: tcc_go_api
     environment:
       - GODEBUG=gctrace=1
+      - GOMEMLIMIT=480MiB
     ports:
       - "8080:8080"
     depends_on:

@@ -113,8 +113,6 @@ run_one_replicate() {
     local before_latest
     before_latest=$(find_latest_original_run || true)
 
-    local gtrace_since
-    gtrace_since=$(date --rfc-3339=seconds)
 
     # Envia ENTER automático para o prompt do benchmark.sh
     printf '\n' | bash "$ORIGINAL_BENCHMARK" | tee "$log_file"

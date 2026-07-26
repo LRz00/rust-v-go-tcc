@@ -26,6 +26,15 @@ else
     TASKSET_CMD=()
 fi
 
+DOCKER_CMD=(docker)
+if ! docker ps >/dev/null 2>&1; then
+    if command -v sudo >/dev/null 2>&1; then
+        DOCKER_CMD=(sudo docker)
+    else
+        echo "AVISO: não foi possível executar 'docker' (sem permissão) e 'sudo' não está disponível." >&2
+    fi
+fi
+
 # Cenários de carga progressivos (conexões simultâneas)
 SCENARIOS=(10 25 50 100 200 400)
 
@@ -89,6 +98,22 @@ run_warmup(){
 
     echo "[warm-up] concluído; aguardando estabilização (${STABILIZATION_PAUSE}s)..."
     sleep "$STABILIZATION_PAUSE"
+}
+
+extract_gctrace() {
+local since_ts=$1
+    local output_file=$2
+
+
+    "${DOCKER_CMD[@]}" logs --since "$since_ts" --timestamps tcc_go_api 2>/dev/null \
+        | grep -E 'gc [0-9]+ @[0-9.]+s' \
+        > "$output_file" || true
+        
+    if [ -s "$output_file" ]; then
+        echo "  ✓ gctrace salvo em: $output_file ($(wc -l < "$output_file") linhas)"
+    else
+        echo "  ⚠ nenhuma linha de gctrace capturada (esperado se GC não rodou nesta janela)"
+    fi
 }
 
 # Função para criar diretório de resultados
@@ -246,18 +271,29 @@ run_scenario() {
     echo "[$lang] endpoint=$endpoint_path conexões=$connections"
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-    # Warm-up descartado, específico desta combinação (Fase 5, tarefa 3)
+    # Warm-up descartado, específico desta combinação 
     run_warmup "$url" "$endpoint_path" "$connections"
 
     # Coleta métricas PRÉ-teste
     echo "Coletando métricas iniciais..."
     collect_metrics "$url" "$run_dir/metrics_before.json"
 
-    # Executa wrk (medição real, isolado via taskset — Fase 4)
+    # Executa wrk (medição real, isolado via taskset)
     echo "Executando wrk (threads=$WRK_THREADS, connections=$connections, duration=$DURATION)..."
+    local gctrace_start
+    gctrace_start=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
     local wrk_output
     wrk_output=$("${TASKSET_CMD[@]}" wrk -t"$WRK_THREADS" -c"$connections" -d"$DURATION" --latency -s "$PERCENTILES_SCRIPT" "${url}${endpoint_path}" 2>&1)
     echo "$wrk_output" > "$run_dir/wrk_output.txt"
+
+    # gctrace:  captura restrita a Go + cenários
+    # heavy/heavy_mock, imediatamente após o fim da medição — a janela
+    # [gctrace_start, agora] corresponde exatamente à duração do wrk
+    # desta combinação, sem necessidade de um limite superior explícito.
+    if [ "$lang" == "go" ] && { [ "$endpoint_key" == "heavy" ] || [ "$endpoint_key" == "heavy_mock" ]; }; then
+        extract_gctrace "$gctrace_start" "$run_dir/gctrace.log"
+    fi
 
     # Parseia resultados
     parse_wrk_output "$wrk_output" "$run_dir/wrk_summary.json"
