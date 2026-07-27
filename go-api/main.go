@@ -319,6 +319,33 @@ func readCGroupV1() (CgroupMemStats, error) {
 	}, nil
 }
 
+// read usage_usec from cgroup cpu.stat, its a cumulative counter of CPU time used by the cgroup in microseconds
+// directly comparable to the rust implementation
+func readCgroupCPUUsageUsec() (uint64, error) {
+	data, err := os.ReadFile("/sys/fs/cgroup/cpu.stat")
+
+	if err != nil {
+		return 0, fmt.Errorf("failed to read /sys/fs/cgroup/cpu.stat: %w", err)
+	}
+
+	lines := strings.Split(string(data), "\n")
+
+	for _, line := range lines {
+		if strings.HasPrefix(line, "usage_usec") {
+			fields := strings.Fields(line)
+			if len(fields) < 2 {
+				return 0, fmt.Errorf("unexpected format in cpu.stat: %q", line)
+			}
+			val, err := strconv.ParseUint(fields[1], 10, 64)
+			if err != nil {
+				return 0, fmt.Errorf("failed to parse usage_usec: %w", err)
+			}
+			return val, nil
+		}
+	}
+	return 0, fmt.Errorf("usage_usec not found in /sys/fs/cgroup/cpu.stat")
+}
+
 // readCgroupUintFile
 func readCgroupUintFile(path string) (uint64, error) {
 	data, err := os.ReadFile(path)
@@ -342,6 +369,7 @@ type CommonMemMetrics struct {
 	CgroupPeakBytes    uint64 `json:"cgroup_peak_bytes"`
 	CgroupMaxBytes     uint64 `json:"cgroup_max_bytes"`
 	CgroupUnlimited    bool   `json:"cgroup_unlimited"`
+	CPUUsageUsec       uint64 `json:"cpu_usage_usec"`
 }
 
 // a serializable representation of a histogram bucket of runtimes/metrics
@@ -475,6 +503,12 @@ func metricsHandler(w http.ResponseWriter, r *http.Request) {
 		common.CgroupMaxBytes = cgroup.MaxBytes
 		common.CgroupUnlimited = cgroup.Unlimited
 		common.CgroupVersion = cgroup.Version
+	}
+
+	if cpuUsec, err := readCgroupCPUUsageUsec(); err == nil {
+		common.CPUUsageUsec = cpuUsec
+	} else {
+		log.Printf("warning: failed to read cgroup cpu usage: %v", err)
 	}
 
 	runtimeSpecific := RuntimeSpecificMetrics{

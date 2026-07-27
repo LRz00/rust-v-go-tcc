@@ -489,7 +489,7 @@ def generate_insights(go_results: List[Dict], rust_results: List[Dict]):
     print("INSIGHTS PARA ANÁLISE (relacionados às hipóteses H1-H4)")
     print("="*100)
     
-# H1: Tail latency — usa p99, conforme definido em
+    # H1: Tail latency — usa p99, conforme definido em
     # METODOLOGIA_CIENTIFICA.md (H1 é sobre p99 sob pressão de memória,
     # não sobre latência média).
     print("\n[H1] Tail Latency (p99) e Previsibilidade:")
