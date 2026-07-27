@@ -34,6 +34,7 @@ METRIC_FIELDS: Tuple[str, ...] = (
     'cgroup_current_mb_growth',
     'cgroup_peak_mb_before',
     'cgroup_peak_mb_after',
+    'cpu_percent',
     # --- Métricas complementares (runtime_specific), não comparáveis
     # diretamente entre linguagens: Go usa heap_alloc_bytes (runtime
     # gerenciado por GC); Rust usa legacy_rss_mb (via /proc/self/statm).
@@ -159,6 +160,7 @@ def analyze_run(run_dir: Path, lang: str, connections: int) -> Dict:
         'cgroup_current_mb_growth': 0.0,
         'cgroup_peak_mb_before': 0.0,
         'cgroup_peak_mb_after': 0.0,
+        'cpu_percent': 0.0,
         # --- Métricas complementares (runtime_specific, Fase 2) ---
         # NÃO comparáveis diretamente entre linguagens: em Go é
         # heap_alloc_bytes (memória gerenciada pelo GC); em Rust é
@@ -255,6 +257,24 @@ def analyze_run(run_dir: Path, lang: str, connections: int) -> Dict:
         result['cgroup_peak_mb_before'] = float(common_before['cgroup_peak_bytes']) / (1024 * 1024)
     if common_after.get('cgroup_peak_bytes'):
         result['cgroup_peak_mb_after'] = float(common_after['cgroup_peak_bytes']) / (1024 * 1024)
+
+    cpu_usec_before = common_before.get('cpu_usage_usec', 0) or 0
+    cpu_usec_after = common_after.get('cpu_usage_usec', 0) or 0
+    test_config = load_json(run_dir / "test_config.json")
+    duration_str = test_config.get('duration', '0s') if test_config else '0s'
+
+    duration_seconds = 0.0
+    try:
+        if duration_str.endswith('s'):
+            duration_seconds = float(duration_str[:-1])
+    except (ValueError, AttributeError):
+        duration_seconds = 0.0
+
+    ALLOCATED_CORES = 2
+    if duration_seconds > 0 and cpu_usec_after >= cpu_usec_before:
+        cpu_usec_delta = cpu_usec_after - cpu_usec_before
+        duration_usec = duration_seconds * 1_000_000
+        result['cpu_percent'] = (cpu_usec_delta / (duration_usec * ALLOCATED_CORES)) * 100
 
     # --- Bloco runtime_specific: métricas legadas/complementares ---
     runtime_before = metrics_before.get('runtime_specific', {}) or {}
@@ -427,7 +447,7 @@ def aggregate_replicates(all_results: List[List[Dict]]) -> List[Dict]:
 # de exibição. A ordem aqui define a ordem de impressão no relatório.
 _SCENARIO_DISPLAY = [
     ('normal', 'go', 'rust', 'CENÁRIO NORMAL - /days-since'),
-    ('heavy', 'go_heavy', 'rust_heavy', 'CENÁRIO ALLOCATION-HEAVY - /days-since-heavy (10MB alocação/req)'),
+    ('heavy', 'go_heavy', 'rust_heavy', 'CENÁRIO ALLOCATION-HEAVY - /days-since-heavy (1MB alocação/req)'),
     ('mock', 'go_mock', 'rust_mock', 'CENÁRIO MOCK - /days-since-mock (sem I/O de banco)'),
     ('heavy_mock', 'go_heavy_mock', 'rust_heavy_mock', 'CENÁRIO MOCK ALLOCATION-HEAVY - /days-since-heavy-mock (sem I/O de banco)'),
 ]
