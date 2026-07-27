@@ -408,75 +408,62 @@ def aggregate_replicates(all_results: List[List[Dict]]) -> List[Dict]:
     aggregated.sort(key=lambda x: x.get('connections', 0))
     return aggregated
 
+# Metadados de cada tipo de cenário: chave interna (language) e título
+# de exibição. A ordem aqui define a ordem de impressão no relatório.
+_SCENARIO_DISPLAY = [
+    ('normal', 'go', 'rust', 'CENÁRIO NORMAL - /days-since'),
+    ('heavy', 'go_heavy', 'rust_heavy', 'CENÁRIO ALLOCATION-HEAVY - /days-since-heavy (10MB alocação/req)'),
+    ('mock', 'go_mock', 'rust_mock', 'CENÁRIO MOCK - /days-since-mock (sem I/O de banco)'),
+    ('heavy_mock', 'go_heavy_mock', 'rust_heavy_mock', 'CENÁRIO MOCK ALLOCATION-HEAVY - /days-since-heavy-mock (sem I/O de banco)'),
+]
+
+
+def _print_scenario_table(go_subset: List[Dict], rust_subset: List[Dict], title: str):
+    """Imprime uma tabela comparativa Go vs Rust para um único tipo de
+    cenário (normal, heavy, mock ou heavy_mock)."""
+
+    if not go_subset or not rust_subset:
+        return
+
+    print("\n" + "=" * 140)
+    print(f"[{title}]")
+    print("-" * 140)
+    print("{:^10} | {:^20} | {:^20} | {:^15} | {:^20}".format(
+        "Conexões", "Latência Média (ms)", "Throughput (req/s)", "Timeouts", "Mem. Antes→Depois (MB)"
+    ))
+    print("-" * 140)
+
+    for go, rust in zip(go_subset, rust_subset):
+        if go['connections'] != rust['connections']:
+            continue
+
+        conn = go['connections']
+        print(f"\n{conn:^10} | Go: {go['latency_avg_ms']:>8.2f}        | Go: {go['requests_per_sec']:>10.0f}      | Go: {go['timeouts']:>6}    | Go: {go['memory_before_mb']:>7.2f}→{go['memory_after_mb']:>7.2f}")
+        print(f"{'':^10} | Rust: {rust['latency_avg_ms']:>8.2f}      | Rust: {rust['requests_per_sec']:>10.0f}    | Rust: {rust['timeouts']:>6}  | Rust: {rust['memory_before_mb']:>7.2f}→{rust['memory_after_mb']:>7.2f}")
+
+        if rust['latency_avg_ms'] > 0:
+            lat_diff = ((go['latency_avg_ms'] - rust['latency_avg_ms']) / rust['latency_avg_ms']) * 100
+            print(f"{'':^10} | Diff: {lat_diff:>+7.1f}%", end="")
+
+        if rust['requests_per_sec'] > 0:
+            thr_diff = ((go['requests_per_sec'] - rust['requests_per_sec']) / rust['requests_per_sec']) * 100
+            print(f"      | Diff: {thr_diff:>+8.1f}%", end="")
+
+        print()
+
+
 def print_comparison_table(go_results: List[Dict], rust_results: List[Dict]):
-    """Imprime tabela comparativa"""
-    
-    print("\n" + "="*120)
-    print("COMPARAÇÃO DE DESEMPENHO: GO vs RUST (Normal + Allocation-Heavy)")
-    print("="*120)
-    
-    # Agrupa por tipo de teste
-    go_normal = [r for r in go_results if r['language'] == 'go']
-    go_heavy = [r for r in go_results if r['language'] == 'go_heavy']
-    rust_normal = [r for r in rust_results if r['language'] == 'rust']
-    rust_heavy = [r for r in rust_results if r['language'] == 'rust_heavy']
-    
-    # Exibe resultados normais
-    if go_normal and rust_normal:
-        print("\n[CENÁRIO NORMAL - /days-since]")
-        print("-" * 140)
-        print("{:^10} | {:^20} | {:^20} | {:^15} | {:^20}".format(
-            "Conexões", "Latência Média (ms)", "Throughput (req/s)", "Timeouts", "Mem. Antes→Depois (MB)"
-        ))
-        print("-" * 140)
-        
-        for go, rust in zip(go_normal, rust_normal):
-            if go['connections'] != rust['connections']:
-                continue
-            
-            conn = go['connections']
-            print(f"\n{conn:^10} | Go: {go['latency_avg_ms']:>8.2f}        | Go: {go['requests_per_sec']:>10.0f}      | Go: {go['timeouts']:>6}    | Go: {go['memory_before_mb']:>7.2f}→{go['memory_after_mb']:>7.2f}")
-            print(f"{'':^10} | Rust: {rust['latency_avg_ms']:>8.2f}      | Rust: {rust['requests_per_sec']:>10.0f}    | Rust: {rust['timeouts']:>6}  | Rust: {rust['memory_before_mb']:>7.2f}→{rust['memory_after_mb']:>7.2f}")
-            
-            # Calcula diferenças percentuais
-            if rust['latency_avg_ms'] > 0:
-                lat_diff = ((go['latency_avg_ms'] - rust['latency_avg_ms']) / rust['latency_avg_ms']) * 100
-                print(f"{'':^10} | Diff: {lat_diff:>+7.1f}%", end="")
-            
-            if rust['requests_per_sec'] > 0:
-                thr_diff = ((go['requests_per_sec'] - rust['requests_per_sec']) / rust['requests_per_sec']) * 100
-                print(f"      | Diff: {thr_diff:>+8.1f}%", end="")
-            
-            print()
-    
-    # Exibe resultados allocation-heavy
-    if go_heavy and rust_heavy:
-        print("\n" + "="*140)
-        print("[CENÁRIO ALLOCATION-HEAVY - /days-since-heavy (10MB alocação/req)]")
-        print("-" * 140)
-        print("{:^10} | {:^20} | {:^20} | {:^15} | {:^20}".format(
-            "Conexões", "Latência Média (ms)", "Throughput (req/s)", "Timeouts", "Mem. Antes→Depois (MB)"
-        ))
-        print("-" * 140)
-        
-        for go, rust in zip(go_heavy, rust_heavy):
-            if go['connections'] != rust['connections']:
-                continue
-            
-            conn = go['connections']
-            print(f"\n{conn:^10} | Go: {go['latency_avg_ms']:>8.2f}        | Go: {go['requests_per_sec']:>10.0f}      | Go: {go['timeouts']:>6}    | Go: {go['memory_before_mb']:>7.2f}→{go['memory_after_mb']:>7.2f}")
-            print(f"{'':^10} | Rust: {rust['latency_avg_ms']:>8.2f}      | Rust: {rust['requests_per_sec']:>10.0f}    | Rust: {rust['timeouts']:>6}  | Rust: {rust['memory_before_mb']:>7.2f}→{rust['memory_after_mb']:>7.2f}")
-            
-            # Calcula diferenças percentuais
-            if rust['latency_avg_ms'] > 0:
-                lat_diff = ((go['latency_avg_ms'] - rust['latency_avg_ms']) / rust['latency_avg_ms']) * 100
-                print(f"{'':^10} | Diff: {lat_diff:>+7.1f}%", end="")
-            
-            if rust['requests_per_sec'] > 0:
-                thr_diff = ((go['requests_per_sec'] - rust['requests_per_sec']) / rust['requests_per_sec']) * 100
-                print(f"      | Diff: {thr_diff:>+8.1f}%", end="")
-            
-            print()
+    """Imprime tabelas comparativas para os 4 tipos de cenário (Fase 3):
+    normal, allocation-heavy, mock e mock allocation-heavy."""
+
+    print("\n" + "=" * 120)
+    print("COMPARAÇÃO DE DESEMPENHO: GO vs RUST (Normal / Heavy / Mock / Heavy-Mock)")
+    print("=" * 120)
+
+    for _, go_lang, rust_lang, title in _SCENARIO_DISPLAY:
+        go_subset = [r for r in go_results if r['language'] == go_lang]
+        rust_subset = [r for r in rust_results if r['language'] == rust_lang]
+        _print_scenario_table(go_subset, rust_subset, title)
 
 def generate_insights(go_results: List[Dict], rust_results: List[Dict]):
     """Gera insights para a pesquisa"""
