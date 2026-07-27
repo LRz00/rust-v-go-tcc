@@ -16,6 +16,8 @@ import re
 METRIC_FIELDS: Tuple[str, ...] = (
     'latency_avg_ms',
     'latency_max_ms',
+    'latency_p95_ms',
+    'latency_p99_ms',
     'requests_per_sec',
     'total_requests',
     'errors',
@@ -138,6 +140,8 @@ def analyze_run(run_dir: Path, lang: str, connections: int) -> Dict:
         'connections': connections,
         'latency_avg_ms': 0.0,
         'latency_max_ms': 0.0,
+        'latency_p95_ms': 0.0,
+        'latency_p99_ms': 0.0,
         'requests_per_sec': 0.0,
         'total_requests': 0,
         'errors': 0,
@@ -166,14 +170,25 @@ def analyze_run(run_dir: Path, lang: str, connections: int) -> Dict:
     }
     
     # Parseia latência (verifica se campos existem e não são vazios)
+    # Parseia latência (verifica se campos existem e não são vazios)
     if wrk_summary.get('latency'):
         avg_val = wrk_summary['latency'].get('avg', '0')
         max_val = wrk_summary['latency'].get('max', '0')
-        
+        p95_val = wrk_summary['latency'].get('p95', '0')
+        p99_val = wrk_summary['latency'].get('p99', '0')
+
         if avg_val and avg_val != "":
             result['latency_avg_ms'] = parse_wrk_latency(avg_val)
         if max_val and max_val != "":
             result['latency_max_ms'] = parse_wrk_latency(max_val)
+        # p95/p99 vêm do script percentiles.lua em formato numérico puro
+        # (ex.: "12.34"), não com sufixo de unidade como avg/max/stdev —
+        # parse_wrk_latency ainda funciona corretamente nesse caso, já
+        # que cai no fallback de "tentar como número puro".
+        if p95_val and p95_val != "0":
+            result['latency_p95_ms'] = parse_wrk_latency(p95_val)
+        if p99_val and p99_val != "0":
+            result['latency_p99_ms'] = parse_wrk_latency(p99_val)
     
     # Parseia throughput
     if wrk_summary.get('requests_per_sec'):
@@ -428,8 +443,8 @@ def _print_scenario_table(go_subset: List[Dict], rust_subset: List[Dict], title:
     print("\n" + "=" * 140)
     print(f"[{title}]")
     print("-" * 140)
-    print("{:^10} | {:^20} | {:^20} | {:^15} | {:^20}".format(
-        "Conexões", "Latência Média (ms)", "Throughput (req/s)", "Timeouts", "Mem. Antes→Depois (MB)"
+    print("{:^10} | {:^26} | {:^20} | {:^15} | {:^20}".format(
+        "Conexões", "Latência ms (avg/p95/p99)", "Throughput (req/s)", "Timeouts", "Mem. Antes→Depois (MB)"
     ))
     print("-" * 140)
 
@@ -438,8 +453,10 @@ def _print_scenario_table(go_subset: List[Dict], rust_subset: List[Dict], title:
             continue
 
         conn = go['connections']
-        print(f"\n{conn:^10} | Go: {go['latency_avg_ms']:>8.2f}        | Go: {go['requests_per_sec']:>10.0f}      | Go: {go['timeouts']:>6}    | Go: {go['memory_before_mb']:>7.2f}→{go['memory_after_mb']:>7.2f}")
-        print(f"{'':^10} | Rust: {rust['latency_avg_ms']:>8.2f}      | Rust: {rust['requests_per_sec']:>10.0f}    | Rust: {rust['timeouts']:>6}  | Rust: {rust['memory_before_mb']:>7.2f}→{rust['memory_after_mb']:>7.2f}")
+        go_lat = f"{go['latency_avg_ms']:.1f}/{go['latency_p95_ms']:.1f}/{go['latency_p99_ms']:.1f}"
+        rust_lat = f"{rust['latency_avg_ms']:.1f}/{rust['latency_p95_ms']:.1f}/{rust['latency_p99_ms']:.1f}"
+        print(f"\n{conn:^10} | Go: {go_lat:>18}   | Go: {go['requests_per_sec']:>10.0f}      | Go: {go['timeouts']:>6}    | Go: {go['memory_before_mb']:>7.2f}→{go['memory_after_mb']:>7.2f}")
+        print(f"{'':^10} | Rust: {rust_lat:>16} | Rust: {rust['requests_per_sec']:>10.0f}    | Rust: {rust['timeouts']:>6}  | Rust: {rust['memory_before_mb']:>7.2f}→{rust['memory_after_mb']:>7.2f}")
 
         if rust['latency_avg_ms'] > 0:
             lat_diff = ((go['latency_avg_ms'] - rust['latency_avg_ms']) / rust['latency_avg_ms']) * 100
@@ -472,18 +489,35 @@ def generate_insights(go_results: List[Dict], rust_results: List[Dict]):
     print("INSIGHTS PARA ANÁLISE (relacionados às hipóteses H1-H4)")
     print("="*100)
     
-    # H1: Tail latency
-    print("\n[H1] Latência e Previsibilidade:")
-    go_latencies = [r['latency_avg_ms'] for r in go_results]
-    rust_latencies = [r['latency_avg_ms'] for r in rust_results]
-    
-    if go_latencies and rust_latencies:
-        go_latency_var = statistics.stdev(go_latencies) if len(go_latencies) > 1 else 0
-        rust_latency_var = statistics.stdev(rust_latencies) if len(rust_latencies) > 1 else 0
-        
-        print(f"  - Variação de latência Go: {go_latency_var:.2f} ms")
-        print(f"  - Variação de latência Rust: {rust_latency_var:.2f} ms")
-        print(f"  - Rust {'mantém' if rust_latency_var < go_latency_var else 'não mantém'} latência mais estável")
+# H1: Tail latency — usa p99, conforme definido em
+    # METODOLOGIA_CIENTIFICA.md (H1 é sobre p99 sob pressão de memória,
+    # não sobre latência média).
+    print("\n[H1] Tail Latency (p99) e Previsibilidade:")
+    go_p99s = [r['latency_p99_ms'] for r in go_results]
+    rust_p99s = [r['latency_p99_ms'] for r in rust_results]
+
+    if go_p99s and rust_p99s:
+        avg_go_p99 = statistics.mean(go_p99s)
+        avg_rust_p99 = statistics.mean(rust_p99s)
+        go_p99_var = statistics.stdev(go_p99s) if len(go_p99s) > 1 else 0
+        rust_p99_var = statistics.stdev(rust_p99s) if len(rust_p99s) > 1 else 0
+
+        print(f"  - p99 médio Go: {avg_go_p99:.2f} ms (variação entre cenários: {go_p99_var:.2f} ms)")
+        print(f"  - p99 médio Rust: {avg_rust_p99:.2f} ms (variação entre cenários: {rust_p99_var:.2f} ms)")
+        print(f"  - Rust {'mantém' if rust_p99_var < go_p99_var else 'não mantém'} p99 mais estável entre cenários")
+
+        # Foco específico no cenário allocation-heavy, onde H1 é mais
+        # diretamente testável (maior pressão de alocação/GC).
+        go_heavy_p99 = [r['latency_p99_ms'] for r in go_results if 'heavy' in r['language']]
+        rust_heavy_p99 = [r['latency_p99_ms'] for r in rust_results if 'heavy' in r['language']]
+        if go_heavy_p99 and rust_heavy_p99:
+            avg_go_heavy_p99 = statistics.mean(go_heavy_p99)
+            avg_rust_heavy_p99 = statistics.mean(rust_heavy_p99)
+            print(f"  - p99 médio Go (cenários heavy): {avg_go_heavy_p99:.2f} ms")
+            print(f"  - p99 médio Rust (cenários heavy): {avg_rust_heavy_p99:.2f} ms")
+            if avg_rust_heavy_p99 > 0:
+                diff_pct = ((avg_go_heavy_p99 - avg_rust_heavy_p99) / avg_rust_heavy_p99) * 100
+                print(f"  - Diferença de p99 sob pressão de alocação: {diff_pct:+.1f}% (Go vs Rust)")
     
     # H2: Throughput em carga moderada
     print("\n[H2] Throughput em Carga Moderada (até 100 conexões):")
