@@ -152,6 +152,7 @@ struct CommonMemMetrics{
     cgroup_peak_bytes: u64,
     cgroup_max_bytes: u64,
     cgroup_unlimited: bool,
+    cpu_usage_usec: u64,
 }
 
 #[derive(Serialize, Default)]
@@ -299,6 +300,21 @@ fn read_cgroup_v1() -> Result<CgroupMemStats, String> {
     })
 }
 
+fn read_cgroup_cpu_usage_usec() ->  Result<u64, String> {
+    let content = fs::read_to_string("/sys/fs/cgroup/cpu.stat")
+    .map_err(|e| format!("failed to read /sys/fs/cgroup/cpu.stat: {}", e))?;
+
+    for line in content.lines() {
+        if let Some(rest) = line.strip_prefix("usage_usec") {
+            if let Some(val) = rest.split_whitespace().next() {
+                return val.parse::<u64>()
+                .map_err(|e| format!("failed to parse usage_usec: {}", e))
+            }
+        }
+    }
+    Err("usage_usec not found in /sys/fs/cgroup/cpu.stat".to_string())
+}
+
 fn read_cgroup_uint_file(path: &str) -> Result<u64, String> {
     let content =
         fs::read_to_string(path).map_err(|e| format!("failed to read {}: {}", path, e))?;
@@ -333,6 +349,11 @@ async fn metrics() -> impl Responder {
             eprintln!("warning: failed to read cgroup memory stats: {}", e);
             common.cgroup_version = "unavailable".to_string();
         }
+    }
+
+    match read_cgroup_cpu_usage_usec() {
+        Ok(usec) => common.cpu_usage_usec = usec,
+        Err(e) => eprintln!("warning: failed to read cgroup cpu usage: {}", e),
     }
 
     // Bloco runtime_specific: métricas legadas desta implementação,
