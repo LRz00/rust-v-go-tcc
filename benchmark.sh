@@ -101,18 +101,31 @@ run_warmup(){
 }
 
 extract_gctrace() {
-local since_ts=$1
+    local since_ts=$1
     local output_file=$2
+    local fallback_file="${output_file}.fallback"
 
+    "${DOCKER_CMD[@]}" logs --since "$since_ts" --timestamps tcc_go_api 2>&1 \
+    | grep -E 'gc [0-9]+ @[0-9.]+s' \
+    > "$output_file" || true
 
-    "${DOCKER_CMD[@]}" logs --since "$since_ts" --timestamps tcc_go_api 2>/dev/null \
+    if [ ! -s "$output_file" ]; then
+    "${DOCKER_CMD[@]}" logs --tail 1000 --timestamps tcc_go_api 2>&1 \
         | grep -E 'gc [0-9]+ @[0-9.]+s' \
-        > "$output_file" || true
+        > "$fallback_file" || true
+
+        if [ -s "$fallback_file" ]; then
+            mv "$fallback_file" "$output_file"
+            echo "  ✓ gctrace salvo via fallback recente em: $output_file ($(wc -l < "$output_file") linhas)"
+        else
+            rm -f "$fallback_file"
+        fi
+    fi
         
     if [ -s "$output_file" ]; then
         echo "  ✓ gctrace salvo em: $output_file ($(wc -l < "$output_file") linhas)"
     else
-        echo "  ⚠ nenhuma linha de gctrace capturada (esperado se GC não rodou nesta janela)"
+        echo "  ⚠ nenhuma linha de gctrace capturada (GC pode não ter rodado nesta janela)"
     fi
 }
 
@@ -284,6 +297,9 @@ run_scenario() {
     echo "[$lang] endpoint=$endpoint_path conexões=$connections"
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
+    local gctrace_start
+    gctrace_start=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
     # Warm-up descartado, específico desta combinação 
     run_warmup "$url" "$endpoint_path" "$connections"
 
@@ -301,9 +317,6 @@ run_scenario() {
         capture_pprof_snapshot "heap" "$run_dir/heap_before.pprof"
         capture_pprof_snapshot "goroutine" "$run_dir/goroutine_before.pprof"
     fi
-
-    local gctrace_start
-    gctrace_start=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
     local wrk_output
     wrk_output=$("${TASKSET_CMD[@]}" wrk -t"$WRK_THREADS" -c"$connections" -d"$DURATION" --latency -s "$PERCENTILES_SCRIPT" "${url}${endpoint_path}" 2>&1)
