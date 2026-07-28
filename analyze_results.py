@@ -188,9 +188,9 @@ def analyze_run(run_dir: Path, lang: str, connections: int) -> Dict:
         # parse_wrk_latency ainda funciona corretamente nesse caso, já
         # que cai no fallback de "tentar como número puro".
         if p95_val and p95_val != "0":
-            result['latency_p95_ms'] = parse_wrk_latency(p95_val)
+            result['latency_p95_ms'] = float(p95_val) / 1000
         if p99_val and p99_val != "0":
-            result['latency_p99_ms'] = parse_wrk_latency(p99_val)
+            result['latency_p99_ms'] = float(p99_val) / 1000
     
     # Parseia throughput
     if wrk_summary.get('requests_per_sec'):
