@@ -463,10 +463,10 @@ def _print_scenario_table(go_subset: List[Dict], rust_subset: List[Dict], title:
     print("\n" + "=" * 140)
     print(f"[{title}]")
     print("-" * 140)
-    print("{:^10} | {:^26} | {:^20} | {:^15} | {:^20}".format(
-        "Conexões", "Latência ms (avg/p95/p99)", "Throughput (req/s)", "Timeouts", "Mem. Antes→Depois (MB)"
+    print("{:^10} | {:^26} | {:^20} | {:^15} | {:^20} | {:^10}".format(
+        "Conexões", "Latência ms (avg/p95/p99)", "Throughput (req/s)", "Timeouts", "Mem. Antes→Depois (MB)", "CPU %"
     ))
-    print("-" * 140)
+    print("-" * 160)
 
     for go, rust in zip(go_subset, rust_subset):
         if go['connections'] != rust['connections']:
@@ -475,8 +475,8 @@ def _print_scenario_table(go_subset: List[Dict], rust_subset: List[Dict], title:
         conn = go['connections']
         go_lat = f"{go['latency_avg_ms']:.1f}/{go['latency_p95_ms']:.1f}/{go['latency_p99_ms']:.1f}"
         rust_lat = f"{rust['latency_avg_ms']:.1f}/{rust['latency_p95_ms']:.1f}/{rust['latency_p99_ms']:.1f}"
-        print(f"\n{conn:^10} | Go: {go_lat:>18}   | Go: {go['requests_per_sec']:>10.0f}      | Go: {go['timeouts']:>6}    | Go: {go['memory_before_mb']:>7.2f}→{go['memory_after_mb']:>7.2f}")
-        print(f"{'':^10} | Rust: {rust_lat:>16} | Rust: {rust['requests_per_sec']:>10.0f}    | Rust: {rust['timeouts']:>6}  | Rust: {rust['memory_before_mb']:>7.2f}→{rust['memory_after_mb']:>7.2f}")
+        print(f"\n{conn:^10} | Go: {go_lat:>18}   | Go: {go['requests_per_sec']:>10.0f}      | Go: {go['timeouts']:>6}    | Go: {go['memory_before_mb']:>7.2f}→{go['memory_after_mb']:>7.2f} | Go: {go['cpu_percent']:>5.1f}%")
+        print(f"{'':^10} | Rust: {rust_lat:>16} | Rust: {rust['requests_per_sec']:>10.0f}    | Rust: {rust['timeouts']:>6}  | Rust: {rust['memory_before_mb']:>7.2f}→{rust['memory_after_mb']:>7.2f} | Rust: {rust['cpu_percent']:>5.1f}%")
 
         if rust['latency_avg_ms'] > 0:
             lat_diff = ((go['latency_avg_ms'] - rust['latency_avg_ms']) / rust['latency_avg_ms']) * 100
@@ -560,7 +560,18 @@ def generate_insights(go_results: List[Dict], rust_results: List[Dict]):
                 print(f"  - Rust supera Go em {diff_pct:.1f}%")
         else:
             print(f"  - ⚠️  Dados insuficientes para comparação (valores zerados)")
-    
+
+        # CPU% médio e throughput normalizado por CPU, para distinguir
+        # "mais rápido" de "mais eficiente por unidade de CPU".
+        avg_go_cpu = statistics.mean([r['cpu_percent'] for r in go_moderate])
+        avg_rust_cpu = statistics.mean([r['cpu_percent'] for r in rust_moderate])
+        print(f"  - CPU% médio Go: {avg_go_cpu:.1f}%")
+        print(f"  - CPU% médio Rust: {avg_rust_cpu:.1f}%")
+        if avg_go_cpu > 0 and avg_rust_cpu > 0:
+            go_thr_per_cpu = avg_go_thr / avg_go_cpu
+            rust_thr_per_cpu = avg_rust_thr / avg_rust_cpu
+            print(f"  - Throughput por %CPU: Go={go_thr_per_cpu:.1f} req/s/%, Rust={rust_thr_per_cpu:.1f} req/s/%")   
+
     # H3: Ponto de saturação
     print("\n[H3] Escalabilidade e Ponto de Saturação:")
     
@@ -584,9 +595,18 @@ def generate_insights(go_results: List[Dict], rust_results: List[Dict]):
                     if final_thr > 0:
                         degradation = ((peak_thr - final_thr) / peak_thr) * 100
                         print(f"    → Degradação de {degradation:.1f}% no cenário mais pesado")
+
+                # Taxa de erro (timeouts/5xx) conforme definido em H3 no
+                total_errors = sum(r['errors'] + r['timeouts'] for r in results)
+                total_requests_sum = sum(r['total_requests'] for r in results)
+                if total_requests_sum > 0:
+                    error_rate_pct = (total_errors / total_requests_sum) * 100
+                    print(f"    → Taxa de erro agregada (errors+timeouts / total_requests): {error_rate_pct:.4f}%")
+                else:
+                    print(f"    → Taxa de erro: dados insuficientes (total_requests=0)")
             else:
-                print(f"  - {lang_name}: ⚠️  Todos os valores de throughput são zero")
-    
+                print(f"  - {lang_name}: ⚠️  Todos os valores de throughput são zero")    
+
     # H4: Uso de memória
     print("\n[H4] Uso de Memória e Crescimento:")
     
