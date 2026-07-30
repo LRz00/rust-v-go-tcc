@@ -502,145 +502,176 @@ def print_comparison_table(go_results: List[Dict], rust_results: List[Dict]):
         rust_subset = [r for r in rust_results if r['language'] == rust_lang]
         _print_scenario_table(go_subset, rust_subset, title)
 
-def generate_insights(go_results: List[Dict], rust_results: List[Dict]):
-    """Gera insights para a pesquisa"""
-    
-    print("\n" + "="*100)
-    print("INSIGHTS PARA ANÁLISE (relacionados às hipóteses H1-H4)")
-    print("="*100)
-    
-    # H1: Tail latency — usa p99, conforme definido em
-    # METODOLOGIA_CIENTIFICA.md (H1 é sobre p99 sob pressão de memória,
-    # não sobre latência média).
-    print("\n[H1] Tail Latency (p99) e Previsibilidade:")
-    go_p99s = [r['latency_p99_ms'] for r in go_results]
-    rust_p99s = [r['latency_p99_ms'] for r in rust_results]
+def _filter_by_type(results: List[Dict], base_lang: str, scenario_type: str) -> List[Dict]:
+    """Filtra resultados por linguagem base ('go'/'rust') e tipo de
+    cenário ('normal'/'heavy'/'mock'/'heavy_mock'), retornando lista
+    ordenada por connections. Nunca mistura tipos de cenário entre si."""
 
-    if go_p99s and rust_p99s:
+    suffix_map = {
+        'normal': base_lang,
+        'heavy': f'{base_lang}_heavy',
+        'mock': f'{base_lang}_mock',
+        'heavy_mock': f'{base_lang}_heavy_mock',
+    }
+    target_lang = suffix_map[scenario_type]
+    filtered = [r for r in results if r['language'] == target_lang]
+    filtered.sort(key=lambda x: x['connections'])
+    return filtered
+
+
+def generate_insights(go_results: List[Dict], rust_results: List[Dict]):
+    """Gera insights para a pesquisa. Cada hipótese é avaliada
+    separadamente por tipo de cenário (normal/heavy/mock/heavy_mock),
+    nunca misturando tipos incomparáveis na mesma estatística."""
+
+    print("\n" + "=" * 100)
+    print("INSIGHTS PARA ANÁLISE (relacionados às hipóteses H1-H5)")
+    print("=" * 100)
+
+    scenario_types = ['normal', 'heavy', 'mock', 'heavy_mock']
+    scenario_labels = {
+        'normal': 'Normal (com banco)',
+        'heavy': 'Allocation-Heavy (com banco)',
+        'mock': 'Mock (sem I/O)',
+        'heavy_mock': 'Mock Allocation-Heavy (sem I/O)',
+    }
+
+    # Pré-computa os subconjuntos filtrados, um por tipo de cenário.
+    by_type = {
+        t: (_filter_by_type(go_results, 'go', t), _filter_by_type(rust_results, 'rust', t))
+        for t in scenario_types
+    }
+
+    # --- H1: Tail latency (p99) ---
+    # Conforme METODOLOGIA_CIENTIFICA.md, H1 é sobre p99 sob pressão de
+    # alocação — o contraste mais direto é heavy vs normal, dentro de
+    # cada backend (real e mock), não uma média misturando tudo.
+    print("\n[H1] Tail Latency (p99) e Previsibilidade:")
+    for t in scenario_types:
+        go_sub, rust_sub = by_type[t]
+        go_p99s = [r['latency_p99_ms'] for r in go_sub]
+        rust_p99s = [r['latency_p99_ms'] for r in rust_sub]
+        if not go_p99s or not rust_p99s:
+            continue
+
         avg_go_p99 = statistics.mean(go_p99s)
         avg_rust_p99 = statistics.mean(rust_p99s)
         go_p99_var = statistics.stdev(go_p99s) if len(go_p99s) > 1 else 0
         rust_p99_var = statistics.stdev(rust_p99s) if len(rust_p99s) > 1 else 0
 
-        print(f"  - p99 médio Go: {avg_go_p99:.2f} ms (variação entre cenários: {go_p99_var:.2f} ms)")
-        print(f"  - p99 médio Rust: {avg_rust_p99:.2f} ms (variação entre cenários: {rust_p99_var:.2f} ms)")
-        print(f"  - Rust {'mantém' if rust_p99_var < go_p99_var else 'não mantém'} p99 mais estável entre cenários")
+        print(f"  [{scenario_labels[t]}]")
+        print(f"    - p99 médio Go: {avg_go_p99:.2f} ms (variação entre conexões: {go_p99_var:.2f} ms)")
+        print(f"    - p99 médio Rust: {avg_rust_p99:.2f} ms (variação entre conexões: {rust_p99_var:.2f} ms)")
+        if avg_rust_p99 > 0:
+            diff_pct = ((avg_go_p99 - avg_rust_p99) / avg_rust_p99) * 100
+            print(f"    - Diferença de p99 (Go vs Rust): {diff_pct:+.1f}%")
+        print(f"    - Rust {'mantém' if rust_p99_var < go_p99_var else 'não mantém'} p99 mais estável entre conexões")
 
-        # Foco específico no cenário allocation-heavy, onde H1 é mais
-        # diretamente testável (maior pressão de alocação/GC).
-        go_heavy_p99 = [r['latency_p99_ms'] for r in go_results if 'heavy' in r['language']]
-        rust_heavy_p99 = [r['latency_p99_ms'] for r in rust_results if 'heavy' in r['language']]
-        if go_heavy_p99 and rust_heavy_p99:
-            avg_go_heavy_p99 = statistics.mean(go_heavy_p99)
-            avg_rust_heavy_p99 = statistics.mean(rust_heavy_p99)
-            print(f"  - p99 médio Go (cenários heavy): {avg_go_heavy_p99:.2f} ms")
-            print(f"  - p99 médio Rust (cenários heavy): {avg_rust_heavy_p99:.2f} ms")
-            if avg_rust_heavy_p99 > 0:
-                diff_pct = ((avg_go_heavy_p99 - avg_rust_heavy_p99) / avg_rust_heavy_p99) * 100
-                print(f"  - Diferença de p99 sob pressão de alocação: {diff_pct:+.1f}% (Go vs Rust)")
-    
-    # H2: Throughput em carga moderada
+    # --- H2: Throughput em carga moderada (<=100 conexões) ---
+    # Reportado separadamente para real (normal) e mock, já que a Fase 3
+    # reclassificou mock como experimento primário para H2/H3
+    # (concorrência pura, sem gargalo de I/O externo).
     print("\n[H2] Throughput em Carga Moderada (até 100 conexões):")
-    go_moderate = [r for r in go_results if r['connections'] <= 100]
-    rust_moderate = [r for r in rust_results if r['connections'] <= 100]
-    
-    if go_moderate and rust_moderate:
+    for t in scenario_types:
+        go_sub_all, rust_sub_all = by_type[t]
+        go_moderate = [r for r in go_sub_all if r['connections'] <= 100]
+        rust_moderate = [r for r in rust_sub_all if r['connections'] <= 100]
+        if not go_moderate or not rust_moderate:
+            continue
+
         avg_go_thr = statistics.mean([r['requests_per_sec'] for r in go_moderate])
         avg_rust_thr = statistics.mean([r['requests_per_sec'] for r in rust_moderate])
-        
-        print(f"  - Throughput médio Go: {avg_go_thr:.0f} req/s")
-        print(f"  - Throughput médio Rust: {avg_rust_thr:.0f} req/s")
-        
+
+        print(f"  [{scenario_labels[t]}]")
+        print(f"    - Throughput médio Go: {avg_go_thr:.0f} req/s")
+        print(f"    - Throughput médio Rust: {avg_rust_thr:.0f} req/s")
+
         if avg_go_thr > 0 and avg_rust_thr > 0:
             if avg_go_thr > avg_rust_thr:
                 diff_pct = ((avg_go_thr - avg_rust_thr) / avg_rust_thr) * 100
-                print(f"  - Go supera Rust em {diff_pct:.1f}%")
+                print(f"    - Go supera Rust em {diff_pct:.1f}%")
             else:
                 diff_pct = ((avg_rust_thr - avg_go_thr) / avg_go_thr) * 100
-                print(f"  - Rust supera Go em {diff_pct:.1f}%")
-        else:
-            print(f"  - ⚠️  Dados insuficientes para comparação (valores zerados)")
+                print(f"    - Rust supera Go em {diff_pct:.1f}%")
 
-        # CPU% médio e throughput normalizado por CPU, para distinguir
-        # "mais rápido" de "mais eficiente por unidade de CPU".
         avg_go_cpu = statistics.mean([r['cpu_percent'] for r in go_moderate])
         avg_rust_cpu = statistics.mean([r['cpu_percent'] for r in rust_moderate])
-        print(f"  - CPU% médio Go: {avg_go_cpu:.1f}%")
-        print(f"  - CPU% médio Rust: {avg_rust_cpu:.1f}%")
+        print(f"    - CPU% médio Go: {avg_go_cpu:.1f}% | Rust: {avg_rust_cpu:.1f}%")
         if avg_go_cpu > 0 and avg_rust_cpu > 0:
             go_thr_per_cpu = avg_go_thr / avg_go_cpu
             rust_thr_per_cpu = avg_rust_thr / avg_rust_cpu
-            print(f"  - Throughput por %CPU: Go={go_thr_per_cpu:.1f} req/s/%, Rust={rust_thr_per_cpu:.1f} req/s/%")   
+            print(f"    - Throughput por %CPU: Go={go_thr_per_cpu:.1f} req/s/%, Rust={rust_thr_per_cpu:.1f} req/s/%")
 
-    # H3: Ponto de saturação
+    # --- H3: Ponto de saturação e taxa de erro ---
     print("\n[H3] Escalabilidade e Ponto de Saturação:")
-    
-    # Verifica degradação de throughput
-    for lang_name, results in [("Go", go_results), ("Rust", rust_results)]:
-        if len(results) >= 2:
-            throughputs = [r['requests_per_sec'] for r in results]
-            if all(t == 0 for t in throughputs):
-                print(f"  - {lang_name}: ⚠️  Dados indisponíveis (valores zerados)")
+    for t in scenario_types:
+        go_sub, rust_sub = by_type[t]
+        print(f"  [{scenario_labels[t]}]")
+        for lang_name, results in [("Go", go_sub), ("Rust", rust_sub)]:
+            if len(results) < 2:
+                print(f"    - {lang_name}: dados insuficientes (menos de 2 pontos de conexão)")
                 continue
-            
+
+            throughputs = [r['requests_per_sec'] for r in results]
+            if all(v == 0 for v in throughputs):
+                print(f"    - {lang_name}: ⚠️  Dados indisponíveis (valores zerados)")
+                continue
+
             peak_thr = max(throughputs)
             peak_idx = throughputs.index(peak_thr)
-            
-            if peak_thr > 0:
-                print(f"  - {lang_name}: pico de throughput em {results[peak_idx]['connections']} conexões ({peak_thr:.0f} req/s)")
-                
-                # Verifica degradação após o pico
-                if peak_idx < len(results) - 1:
-                    final_thr = throughputs[-1]
-                    if final_thr > 0:
-                        degradation = ((peak_thr - final_thr) / peak_thr) * 100
-                        print(f"    → Degradação de {degradation:.1f}% no cenário mais pesado")
+            print(f"    - {lang_name}: pico de throughput em {results[peak_idx]['connections']} conexões ({peak_thr:.0f} req/s)")
 
-                # Taxa de erro (timeouts/5xx) conforme definido em H3 no
-                total_errors = sum(r['errors'] + r['timeouts'] for r in results)
-                total_requests_sum = sum(r['total_requests'] for r in results)
-                if total_requests_sum > 0:
-                    error_rate_pct = (total_errors / total_requests_sum) * 100
-                    print(f"    → Taxa de erro agregada (errors+timeouts / total_requests): {error_rate_pct:.4f}%")
-                else:
-                    print(f"    → Taxa de erro: dados insuficientes (total_requests=0)")
-            else:
-                print(f"  - {lang_name}: ⚠️  Todos os valores de throughput são zero")    
+            if peak_idx < len(results) - 1:
+                final_thr = throughputs[-1]
+                if final_thr > 0:
+                    degradation = ((peak_thr - final_thr) / peak_thr) * 100
+                    print(f"      → Degradação até o cenário mais pesado ({results[-1]['connections']} conexões): {degradation:.1f}%")
 
-    # H4: Uso de memória
+            total_errors = sum(r['errors'] + r['timeouts'] for r in results)
+            total_requests_sum = sum(r['total_requests'] for r in results)
+            if total_requests_sum > 0:
+                error_rate_pct = (total_errors / total_requests_sum) * 100
+                print(f"      → Taxa de erro agregada: {error_rate_pct:.4f}%")
+
+    # --- H4: Uso de memória e crescimento ---
     print("\n[H4] Uso de Memória e Crescimento:")
-    
-    for lang_name, results in [("Go", go_results), ("Rust", rust_results)]:
-        if results:
-            total_growth = sum([r['memory_growth_mb'] for r in results])
+    for t in scenario_types:
+        go_sub, rust_sub = by_type[t]
+        if not go_sub and not rust_sub:
+            continue
+        print(f"  [{scenario_labels[t]}]")
+        for lang_name, results in [("Go", go_sub), ("Rust", rust_sub)]:
+            if not results:
+                continue
+            total_growth = sum(r['memory_growth_mb'] for r in results)
             avg_growth = statistics.mean([r['memory_growth_mb'] for r in results])
-            max_mem = max([r['memory_after_mb'] for r in results])
-            
-            print(f"  - {lang_name}:")
-            print(f"    → Crescimento total: {total_growth:.2f} MB")
-            print(f"    → Crescimento médio por cenário: {avg_growth:.2f} MB")
-            print(f"    → Pico de memória: {max_mem:.2f} MB")
-    
-    # Análise de Timeouts
+            max_mem = max(r['memory_after_mb'] for r in results)
+
+            print(f"    - {lang_name}: crescimento total {total_growth:+.2f} MB "
+                  f"| médio por cenário {avg_growth:+.2f} MB | pico {max_mem:.2f} MB")
+
+    # --- H5: Resiliência e timeouts ---
     print("\n[H5] Resiliência e Timeouts:")
-    
-    for lang_name, results in [("Go", go_results), ("Rust", rust_results)]:
-        if results:
-            total_timeouts = sum([r['timeouts'] for r in results])
+    for t in scenario_types:
+        go_sub, rust_sub = by_type[t]
+        if not go_sub and not rust_sub:
+            continue
+        print(f"  [{scenario_labels[t]}]")
+        for lang_name, results in [("Go", go_sub), ("Rust", rust_sub)]:
+            if not results:
+                continue
+            total_timeouts = sum(r['timeouts'] for r in results)
             results_with_timeouts = [r for r in results if r['timeouts'] > 0]
-            
-            print(f"  - {lang_name}:")
-            print(f"    → Total de timeouts: {total_timeouts}")
-            
+
             if results_with_timeouts:
                 avg_timeouts = statistics.mean([r['timeouts'] for r in results_with_timeouts])
-                max_timeouts = max([r['timeouts'] for r in results_with_timeouts])
-                max_timeout_conn = [r['connections'] for r in results_with_timeouts if r['timeouts'] == max_timeouts][0]
-                print(f"    → Cenários com timeouts: {len(results_with_timeouts)} de {len(results)}")
-                print(f"    → Média de timeouts (quando > 0): {avg_timeouts:.0f}")
-                print(f"    → Máximo: {max_timeouts} timeouts em {max_timeout_conn} conexões")
+                max_timeouts = max(r['timeouts'] for r in results_with_timeouts)
+                max_timeout_conn = next(r['connections'] for r in results_with_timeouts if r['timeouts'] == max_timeouts)
+                print(f"    - {lang_name}: {len(results_with_timeouts)}/{len(results)} cenários com timeouts "
+                      f"(total={total_timeouts}, média quando>0={avg_timeouts:.0f}, "
+                      f"máximo={max_timeouts} em {max_timeout_conn} conexões)")
             else:
-                print(f"    → Nenhum timeout registrado")
+                print(f"    - {lang_name}: nenhum timeout registrado (total_requests analisadas: {sum(r['total_requests'] for r in results)})")
 
 def print_legacy_memory_section(go_results: List[Dict], rust_results: List[Dict]):
     """Imprime, em seção separada, as métricas de memória complementares
