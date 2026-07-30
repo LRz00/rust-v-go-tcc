@@ -179,6 +179,25 @@ wait_stabilize() {
     sleep 10
 }
 
+restart_containers() {
+    echo "  [restart] reiniciando go-api e rust-api (baseline limpa)..."
+
+    "${DOCKER_CMD[@]}" compose restart go-api rust-api > /dev/null 2>&1
+
+    local max_attempts=20
+    local attempt=0
+    while [ "$attempt" -lt "$max_attempts" ]; do
+        if curl -s "$GO_URL/health" > /dev/null 2>&1 && curl -s "$RUST_URL/health" > /dev/null 2>&1; then
+            echo "  [restart] serviços online novamente."
+            return 0
+        fi
+        attempt=$((attempt + 1))
+        sleep 1
+    done
+
+    echo "  ⚠ AVISO: serviços não responderam após restart em ${max_attempts}s; prosseguindo mesmo assim."
+}
+
 # Função para parsear resultados do wrk
 parse_wrk_output() {
     local wrk_output=$1
@@ -297,8 +316,7 @@ run_scenario() {
     echo "[$lang] endpoint=$endpoint_path conexões=$connections"
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-    local gctrace_start
-    gctrace_start=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+    restart_containers
 
     # Warm-up descartado, específico desta combinação 
     run_warmup "$url" "$endpoint_path" "$connections"
@@ -317,6 +335,9 @@ run_scenario() {
         capture_pprof_snapshot "heap" "$run_dir/heap_before.pprof"
         capture_pprof_snapshot "goroutine" "$run_dir/goroutine_before.pprof"
     fi
+
+    local gctrace_start
+    gctrace_start=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
     local wrk_output
     wrk_output=$("${TASKSET_CMD[@]}" wrk -t"$WRK_THREADS" -c"$connections" -d"$DURATION" --latency -s "$PERCENTILES_SCRIPT" "${url}${endpoint_path}" 2>&1)
@@ -354,6 +375,7 @@ run_scenario() {
     "replicate_id": "$REPLICATE_ID",
     "gctrace_captured": $capture_pprof,
     "pprof_captured": $capture_pprof,
+    "container_restarted_before_scenario": true,
     "timestamp": "$(date --rfc-3339=seconds)"
 }
 EOF
