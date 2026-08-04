@@ -1,0 +1,15 @@
+{
+    "language": "go",
+    "endpoint_key": "normal",
+    "endpoint_path": "/days-since",
+    "url": "http://localhost:8080",
+    "connections": 400,
+    "threads": 4,
+    "duration": "60s",
+    "warmup_duration": "15s",
+    "replicate_id": "17",
+    "gctrace_captured": false,
+    "pprof_captured": false,
+    "container_restarted_before_scenario": true,
+    "timestamp": "2026-08-04 04:58:23-03:00"
+}

@@ -1,0 +1,15 @@
+Running 1m test @ http://localhost:8081/days-since
+  4 threads and 400 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    17.04ms  429.10us  24.22ms   82.75%
+    Req/Sec     5.89k   101.27     6.24k    86.92%
+  Latency Distribution
+     50%   17.02ms
+     75%   17.22ms
+     90%   17.43ms
+     99%   18.87ms
+  1407089 requests in 1.00m, 170.42MB read
+Requests/sec:  23440.54
+Transfer/sec:      2.84MB
+P95: 17582
+P99: 18874

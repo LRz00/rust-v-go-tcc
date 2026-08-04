@@ -1,0 +1,15 @@
+{
+    "language": "rust",
+    "endpoint_key": "mock",
+    "endpoint_path": "/days-since-mock",
+    "url": "http://localhost:8081",
+    "connections": 100,
+    "threads": 4,
+    "duration": "60s",
+    "warmup_duration": "15s",
+    "replicate_id": "8",
+    "gctrace_captured": false,
+    "pprof_captured": false,
+    "container_restarted_before_scenario": true,
+    "timestamp": "2026-08-03 18:06:15-03:00"
+}

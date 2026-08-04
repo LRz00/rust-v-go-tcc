@@ -1,0 +1,15 @@
+{
+    "language": "go",
+    "endpoint_key": "heavy_mock",
+    "endpoint_path": "/days-since-heavy-mock",
+    "url": "http://localhost:8080",
+    "connections": 100,
+    "threads": 4,
+    "duration": "60s",
+    "warmup_duration": "15s",
+    "replicate_id": "5",
+    "gctrace_captured": true,
+    "pprof_captured": true,
+    "container_restarted_before_scenario": true,
+    "timestamp": "2026-08-03 13:56:54-03:00"
+}
