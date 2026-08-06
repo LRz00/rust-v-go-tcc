@@ -36,7 +36,7 @@ if ! docker ps >/dev/null 2>&1; then
 fi
 
 # Cenários de carga progressivos (conexões simultâneas)
-SCENARIOS=(10)
+SCENARIOS=(10 25 50 100 200 400)
 
 REPLICATE_ID="${REPLICATE_ID:-1}"
 
@@ -420,6 +420,11 @@ main() {
     echo "╚════════════════════════════════════════════════╝"
     echo ""
     
+    local run_start_epoch
+    run_start_epoch=$(date +%s)
+    local run_start_iso
+    run_start_iso=$(date --rfc-3339=seconds)
+
     setup_results_dir
     check_services
     
@@ -449,10 +454,29 @@ main() {
     
     generate_summary
     
+    local run_end_epoch
+    run_end_epoch=$(date +%s)
+    local run_end_iso
+    run_end_iso=$(date --rfc-3339=seconds)
+    local elapsed_seconds=$((run_end_epoch - run_start_epoch))
+    local elapsed_human
+    elapsed_human=$(printf '%02dh %02dm %02ds' $((elapsed_seconds/3600)) $((elapsed_seconds%3600/60)) $((elapsed_seconds%60)))
+
+    # Persiste início/fim/duração em arquivo, para consulta posterior
+    # sem precisar vasculhar test_config.json de cada cenário.
+    cat > "$RESULTS_DIR/$TIMESTAMP/run_timing.json" <<EOF
+{
+    "start_time": "$run_start_iso",
+    "end_time": "$run_end_iso",
+    "elapsed_seconds": $elapsed_seconds,
+    "elapsed_human": "$elapsed_human"
+}
+EOF
+
     echo ""
-    echo "╔════════════════════════════════════════════════╗"
-    echo "║  Benchmark concluído!                          ║"
-    echo "╚════════════════════════════════════════════════╝"
+    echo "Início:  $run_start_iso"
+    echo "Fim:     $run_end_iso"
+    echo "Duração: $elapsed_human"
     echo ""
     echo "Resultados disponíveis em: $RESULTS_DIR/$TIMESTAMP"
     echo ""
