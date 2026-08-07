@@ -22,13 +22,13 @@ services:
     deploy:
       resources:
         limits:
-          memory: 512M
+          memory: 1024M
     cpuset: "0,1"
     build: ./go-api
     container_name: tcc_go_api
     environment:
       - GODEBUG=gctrace=1
-      - GOMEMLIMIT=480MiB
+      - GOMEMLIMIT=850MiB
     ports:
       - "8080:8080"
     depends_on:
@@ -39,7 +39,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 512M    
+          memory: 1024M    
     cpuset: "2,3"
     build: ./rust-api
     container_name: tcc_rust_api

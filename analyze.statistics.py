@@ -258,44 +258,10 @@ def apply_fdr_correction(all_results: List[Dict]) -> None:
 
     for metric_key, group in by_metric.items():
         p_values = [r['p_value'] for r in group]
-        rejected, p_adjusted, _, _ = _benjamini_hochberg(p_values, alpha=0.05)
-        for r, p_adj, rej in zip(group, p_adjusted, rejected):
+        p_adjusted = stats.false_discovery_control(p_values, method='bh')
+        for r, p_adj in zip(group, p_adjusted):
             r['p_value_adjusted'] = float(p_adj)
-            r['significant_fdr'] = bool(rej)
-
-
-def _benjamini_hochberg(p_values: List[float], alpha: float = 0.05):
-    """Implementação direta da correção de Benjamini-Hochberg (FDR),
-    evitando dependência de statsmodels (não garantido no ambiente)."""
-    p_values = np.array(p_values)
-    n = len(p_values)
-    order = np.argsort(p_values)
-    ranked_p = p_values[order]
-
-    thresholds = (np.arange(1, n + 1) / n) * alpha
-    below = ranked_p <= thresholds
-
-    if np.any(below):
-        max_rank = np.max(np.where(below)[0])
-        cutoff = ranked_p[max_rank]
-    else:
-        cutoff = -1.0
-
-    rejected_sorted = ranked_p <= cutoff if cutoff >= 0 else np.zeros(n, dtype=bool)
-
-    # p-valor ajustado (monotônico, método padrão de BH)
-    p_adjusted_sorted = np.minimum.accumulate(
-        (ranked_p * n / np.arange(n, 0, -1))[::-1]
-    )[::-1]
-    p_adjusted_sorted = np.clip(p_adjusted_sorted, 0, 1)
-
-    # Desfaz a ordenação
-    rejected = np.empty(n, dtype=bool)
-    p_adjusted = np.empty(n)
-    rejected[order] = rejected_sorted
-    p_adjusted[order] = p_adjusted_sorted
-
-    return rejected, p_adjusted, None, None
+            r['significant_fdr'] = bool(p_adj <= 0.05)
 
 
 def main():
