@@ -1,0 +1,24 @@
+{
+    "latency": {
+        "avg": "204.62us",
+        "stdev": "119.02us",
+        "max": "5.07ms",
+        "p95": "362",
+        "p99": "545"
+    },
+    "requests_per_sec": {
+        "avg": "38484.47",
+        "stdev": "316.28",
+        "max": "10.61k"
+    },
+    "total": {
+        "requests": "2312899",
+        "duration": "1.00m",
+        "transfer": "4.70MB"
+    },
+    "errors": "0",
+    "_audit": {
+        "non2xx_or_3xx": 0,
+        "socket_timeout_errors": 0
+    }
+}
