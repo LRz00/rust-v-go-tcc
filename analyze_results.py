@@ -132,7 +132,7 @@ def parse_wrk_output_for_timeouts(wrk_output_path: Path) -> int:
 def analyze_run(run_dir: Path, lang: str, connections: int) -> Dict:
     """Analisa resultados de uma execução específica"""
     
-    wrk_summary = load_json(run_dir / "wrk_summary.json")
+    wrk_summary = load_json(run_dir / "wrk_summary_fixed.json")
     metrics_before = load_json(run_dir / "metrics_before.json")
     metrics_after = load_json(run_dir / "metrics_after.json")
     
